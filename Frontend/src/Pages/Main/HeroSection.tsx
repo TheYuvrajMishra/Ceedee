@@ -121,7 +121,7 @@ export default function HeroSection() {
               className="group inline-flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-3 rounded-lg font-medium border border-white/20 hover:border-white/30 cursor-pointer transition-all duration-300"
             >
               Visit Now
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+              <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform duration-300" />
             </button>
           </div>
         </div>
@@ -182,7 +182,7 @@ export default function HeroSection() {
               className="group inline-flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-3 rounded-lg font-medium border border-white/20 hover:border-white/30 cursor-pointer transition-all duration-300"
             >
               Visit Site
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+              <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform duration-300" />
             </button>
           </div>
         </div>
