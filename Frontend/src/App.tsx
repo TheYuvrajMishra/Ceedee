@@ -1,12 +1,12 @@
 import { BrowserRouter,Routes, Route } from "react-router"
-import HeroSection from "./Pages/Main/HeroSection"
 import Navbar from "./Components/Navbar"
+import MainPage from "./Pages/Main/MainPage"
 function App() {
   return (
     <BrowserRouter>
       <Navbar/>
       <Routes>
-        <Route path="/" element={<HeroSection/>}></Route>
+        <Route path="/" element={<MainPage/>}></Route>
       </Routes>
     </BrowserRouter>
   )
