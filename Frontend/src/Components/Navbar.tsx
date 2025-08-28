@@ -15,7 +15,7 @@ const FloatingNavbar = () => {
   return (
     <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-6xl">
       {/* Main navbar container */}
-      <div className="bg-neutral-100 border-1 border-black px-6 py-4 relative overflow-hidden">
+      <div className="bg-neutral-100 border-1 border-black px-6 py-4 relative overflow-hidden rounded-4xl">
         {/* Noise texture overlay */}
         <div className="absolute inset-0" 
              style={{
@@ -31,7 +31,7 @@ const FloatingNavbar = () => {
               alt="CD Group Logo" 
               className="w-8 h-8 object-contain"
             />
-            <h1 className="tasa text-2xl font-bold text-black tracking-tight">
+            <h1 className="tasa text-2xl font-bold text-orange-600 tracking-tight">
               CD Group
             </h1>
           </div>
@@ -83,7 +83,7 @@ const FloatingNavbar = () => {
       </div>
 
       {/* Floating effect shadow */}
-      <div className="absolute inset-0 bg-black blur-sm -z-10 transform translate-y-1"></div>
+      <div className="absolute inset-0 bg-black blur-sm -z-10 transform translate-y-1 rounded-4xl"></div>
     </nav>
   );
 };
