@@ -1,192 +1,121 @@
-import { useState, useEffect, useRef } from 'react'
-import { ArrowRight, Factory, Wrench } from 'lucide-react'
+import React, { useState, useEffect } from 'react';
+import { ChevronRight } from 'lucide-react';
 
-export default function HeroSection() {
-  const [hoveredSide, setHoveredSide] = useState<string | null>(null)
-  const [scrollY, setScrollY] = useState(0)
-  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
+const HeroSection: React.FC = () => {
+  const slides = [
+    'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    '/3.jpg'
+  ];
 
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return
-
-    const rect = containerRef.current.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const containerWidth = rect.width
-    const centerZone = containerWidth * 0.1 // 10% dead zone in center
-    const leftBoundary = (containerWidth / 2) - (centerZone / 2)
-    const rightBoundary = (containerWidth / 2) + (centerZone / 2)
-    
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current)
-    }
-
-    let newHoveredSide: string | null = null
-    
-    if (x < leftBoundary) {
-      newHoveredSide = 'left'
-    } else if (x > rightBoundary) {
-      newHoveredSide = 'right'
-    }
-    
-    if (newHoveredSide !== hoveredSide) {
-      hoverTimeoutRef.current = setTimeout(() => {
-        setHoveredSide(newHoveredSide)
-      }, 50)
-    }
-  }
-
-  const handleMouseLeave = () => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current)
-    }
-    
-    // Smooth reset: go to "resetting" first, then null
-    hoverTimeoutRef.current = setTimeout(() => {
-      setHoveredSide("resetting")
-      setTimeout(() => setHoveredSide(null), 600) // after transition duration
-    }, 150)
-  }
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
-    return () => {
-      if (hoverTimeoutRef.current) {
-        clearTimeout(hoverTimeoutRef.current)
-      }
-    }
-  }, [])
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-slate-50">
-      <div 
-        ref={containerRef}
-        className="h-screen flex"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-      >
-        {/* Left Section - Venbro Polymers */}
-        <div 
-          className={`relative flex items-center justify-center transition-all duration-700 ease-in-out ${
-            hoveredSide === 'right'
-              ? 'flex-[0.33]'
-              : hoveredSide === 'left'
-              ? 'flex-[0.67]'
-              : hoveredSide === 'resetting'
-              ? 'flex-[0.5]'
-              : 'flex-1'
-          }`}
-        >
-          {/* Parallax Background Image */}
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')",
-              transform: `translateY(${scrollY * 0.5}px)`
-            }}
-          ></div>
-          
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-slate-800/80 to-slate-900/85"></div>
-          
-          {/* Content */}
-          <div className={`relative z-10 max-w-lg text-center px-8 transform transition-all duration-700 ease-in-out ${
-            hoveredSide === 'right' ? 'scale-90 opacity-75' : 'scale-100 opacity-100'
-          }`}>
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 backdrop-blur-sm rounded-xl mb-8 border border-white/20 hover:bg-white/15 transition-colors duration-300">
-              <Factory className="w-8 h-8 text-white" />
-            </div>
-
-            <h1 className="text-5xl font-light text-white mb-4 tracking-wide">
-              Venbro
-            </h1>
-            
-            <h2 className="text-xl font-normal text-slate-300 mb-8 tracking-wider uppercase">
-              Polymers
-            </h2>
-            
-            <p className={`text-lg text-slate-400 mb-10 leading-relaxed font-light transition-opacity duration-500 ${
-              hoveredSide === 'right' ? 'opacity-0' : 'opacity-100'
-            }`}>
-              Advanced polymer solutions for industrial applications. Delivering quality materials and innovative manufacturing processes.
-            </p>
-
-            <button 
-              onClick={() => window.open('https://venbro.com', '_blank')}
-              className="group inline-flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-3 rounded-lg font-medium border border-white/20 hover:border-white/30 cursor-pointer transition-all duration-300"
-            >
-              Visit Now
-              <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform duration-300" />
-            </button>
+    <div className="relative h-screen bg-white overflow-hidden">
+      {/* Full Background Image Slideshow */}
+      <div className="absolute inset-0">
+        {slides.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentSlide ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <img
+              src={slide}
+              alt={`Slide ${index + 1}`}
+              className="w-full h-full object-cover"
+            />
           </div>
-        </div>
+        ))}
+      </div>
 
-        {/* Divider */}
-        <div className="relative w-px bg-gradient-to-b from-transparent via-slate-300 to-transparent z-20">
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-slate-400 rounded-full"></div>
-        </div>
-
-        {/* Right Section - Shri Krishna Automobile */}
-        <div 
-          className={`relative flex items-center justify-center transition-all duration-700 ease-in-out ${
-            hoveredSide === 'left'
-              ? 'flex-[0.33]'
-              : hoveredSide === 'right'
-              ? 'flex-[0.67]'
-              : hoveredSide === 'resetting'
-              ? 'flex-[0.5]'
-              : 'flex-1'
-          }`}
-        >
-          {/* Parallax Background Image */}
+      {/* Creamy Noise Overlay - Half of the screen */}
+      <div className="absolute inset-0">
+        <div className="w-1/2 h-full bg-amber-50/95 backdrop-blur-sm">
+          {/* Noise texture overlay */}
           <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2132&q=80')",
-              transform: `translateY(${scrollY * 0.3}px)`
+            className="w-full h-full opacity-30"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E")`,
+              backgroundSize: '200px 200px'
             }}
-          ></div>
-          
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-slate-800/80 to-slate-900/85"></div>
-          
-          {/* Content */}
-          <div className={`relative z-10 max-w-lg text-center px-8 transform transition-all duration-700 ease-in-out ${
-            hoveredSide === 'left' ? 'scale-90 opacity-75' : 'scale-100 opacity-100'
-          }`}>
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 backdrop-blur-sm rounded-xl mb-8 border border-white/20 hover:bg-white/15 transition-colors duration-300">
-              <Wrench className="w-8 h-8 text-white" />
-            </div>
-
-            <h1 className="text-4xl font-light text-white mb-2 tracking-wide leading-tight">
-              Shri Krishna
-            </h1>
-            
-            <h2 className="text-xl font-normal text-slate-300 mb-8 tracking-wider uppercase">
-              Automobile Enterprise
-            </h2>
-            
-            <p className={`text-lg text-slate-400 mb-10 leading-relaxed font-light transition-opacity duration-500 ${
-              hoveredSide === 'left' ? 'opacity-0' : 'opacity-100'
-            }`}>
-              Professional automotive services and maintenance solutions. Trusted expertise for commercial and personal vehicles.
-            </p>
-
-            <button 
-              onClick={() => window.open('https://shrikrishnaautomobile.com', '_blank')}
-              className="group inline-flex items-center gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-3 rounded-lg font-medium border border-white/20 hover:border-white/30 cursor-pointer transition-all duration-300"
-            >
-              Visit Site
-              <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform duration-300" />
-            </button>
-          </div>
+          />
         </div>
       </div>
+
+      {/* Content Container */}
+      <div className="relative z-10 h-full flex items-center justify-start p-4 pt-20">
+        <div className="max-w-7xl w-full">
+          
+          {/* Left Side - Content without background */}
+          <div className="max-w-2xl">
+            <div className="p-6 lg:p-8">
+              <div className="text-amber-900 space-y-4">
+                <h1 className="text-2xl lg:text-4xl xl:text-5xl font-bold leading-tight drop-shadow-lg">
+                  Ceedee's Group: A Legacy of 
+                  <span className="block text-amber-800">Innovation.</span>
+                </h1>
+                
+                <p className="text-base lg:text-lg font-medium text-amber-700 leading-relaxed drop-shadow-md">
+                  Pioneering Diverse Industries with Vision and Integrity since 1950. From the foundational vision of Late Shri Doraisamy Chinnappa Gounder, Ceedee's Group has grown into a leading force in manufacturing and trading. Rooted in Erode and expanding globally, we proudly foster entrepreneurship through Venbro Polymers and Sri Krishna Automobiles.
+                </p>
+                
+                <div className="pt-2">
+                  <button className="bg-amber-800 text-amber-50 px-6 py-3 rounded-full font-semibold text-base hover:bg-amber-900 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-3 group">
+                    Learn About Our Legacy
+                    <div className="w-5 h-5 bg-amber-200 rounded-full flex items-center justify-center group-hover:rotate-45 transition-transform duration-300">
+                      <ChevronRight className="w-3 h-3 text-amber-800" />
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Slide Indicators */}
+      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToSlide(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              index === currentSlide 
+                ? 'bg-white/90 backdrop-blur-sm scale-125 shadow-lg' 
+                : 'bg-white/50 backdrop-blur-sm hover:bg-white/75 hover:scale-110 shadow-md'
+            }`}
+          />
+        ))}
+      </div>
+
+      {/* Overlay Content */}
+      {/* <div className="absolute top-24 right-6 bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium z-20 border border-white/30 shadow-lg">
+        75+ Years of Excellence
+      </div> */}
+
+      {/* <div className="absolute bottom-12 right-6 text-white z-20">
+        <div className="bg-white/20 backdrop-blur-sm px-4 py-3 rounded-2xl border border-white/30 shadow-lg">
+          <p className="text-lg font-semibold mb-1">Est. 1950</p>
+          <p className="text-sm opacity-90">Manufacturing & Trading Excellence</p>
+        </div>
+      </div> */}
     </div>
-  )
-}
+  );
+};
+
+export default HeroSection;
