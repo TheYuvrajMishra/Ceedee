@@ -1,211 +1,176 @@
-import { useState, useRef, useEffect } from 'react';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 
-const FloatingNavbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isAboutDropdownOpen, setIsAboutDropdownOpen] = useState(false);
+const Navbar: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const hoverTimeoutRef = useRef<number | null>(null);
-
-  const navLinks = [
+  
+  const navItems = [
+    'Home',
     'About Us',
-    'Career',
-    'News & Events',
-    'Venbro Polymers',
-    'Sri Krishna Automobiles'
+    'Philosophy',
+    'Business Practises',
+    'CSR Activities',
+    'News & Events', 
+    'Careers'
   ];
 
-  const aboutSubLinks = [
-    'Dot Philosophy',
-    'Business Practices',
-    'CSR Activities'
-  ];
-
-  // Handle scroll detection
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 50); // Show navbar after scrolling 50px
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleDropdownEnter = () => {
-    // Clear any existing timeout
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-    }
-    setIsAboutDropdownOpen(true);
-  };
-
-  const handleDropdownLeave = () => {
-    // Add a delay to prevent flickering when moving between elements
-    hoverTimeoutRef.current = setTimeout(() => {
-      setIsAboutDropdownOpen(false);
-    }, 150);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
-    <nav className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-[98%] max-w-7xl">
-      {/* Main navbar container */}
-      <div className={`px-6 py-4 relative overflow-visible rounded-4xl transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-neutral-100' 
-          : 'bg-transparent'
-      }`}>
-        <div className="flex items-center justify-between relative z-10">
-          {/* Logo and Company Name */}
-          <div className="flex items-center space-x-3">
-            <img 
-              src="/logo.png" 
-              alt="CD Group Logo" 
-              className="w-8 h-8 object-contain"
-            />
-            <h1 className={`tasa text-2xl font-bold tracking-tight transition-colors duration-300 ${
-              isScrolled ? 'text-orange-600' : 'text-orange-600'
-            }`}>
-              CD Group
-            </h1>
-          </div>
-
-          {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center space-x-8 relative">
-            {navLinks.map((link, index) => (
-              <div key={index} className="relative">
-                {link === 'About Us' ? (
-                  <div
-                    className="relative"
-                    onMouseEnter={handleDropdownEnter}
-                    onMouseLeave={handleDropdownLeave}
-                  >
-                    <a
-                      href="#"
-                      className={`tasa font-replica font-bold text-sm transition-all duration-300 relative group pb-1 flex items-center gap-1 ${
-                        isScrolled 
-                          ? 'text-black hover:text-gray-700' 
-                          : 'text-white hover:text-gray-200'
-                      }`}
-                    >
-                      {link}
-                      <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isAboutDropdownOpen ? 'rotate-180' : ''}`} />
-                      <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
-                        isScrolled ? 'bg-black' : 'bg-white'
-                      }`}></span>
-                    </a>
-                  </div>
-                ) : (
-                  <a
-                    href="#"
-                    className={`tasa font-replica font-bold text-sm transition-all duration-300 relative group pb-1 flex items-center ${
-                      isScrolled 
-                        ? 'text-black hover:text-gray-700' 
-                        : 'text-white hover:text-gray-200'
-                    }`}
-                  >
-                    {link}
-                    <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${
-                      isScrolled ? 'bg-black' : 'bg-white'
-                    }`}></span>
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Mobile menu button */}
+    <>
+      <nav 
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between transition-all duration-300"
+        style={{ 
+          backgroundColor: isScrolled ? 'rgba(0, 0, 0, 0.1)' : 'transparent',
+          backdropFilter: isScrolled ? 'blur(10px)' : 'none',
+          WebkitBackdropFilter: isScrolled ? 'blur(10px)' : 'none',
+          borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
+          padding: '16px 80px'
+        }}
+      >
+        {/* Menu Icon - Left */}
+        <div className="flex items-center">
           <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 bg-black border-2 border-black hover:bg-gray-800 transition-all duration-300"
+            onClick={toggleMenu}
+            className="text-white hover:text-orange-400 transition-colors duration-300"
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           >
-            {isMobileMenuOpen ? (
-              <X className="w-5 h-5 text-yellow-400" />
-            ) : (
-              <Menu className="w-5 h-5 text-yellow-400" />
-            )}
+            <svg
+              className="w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
           </button>
         </div>
 
-        {/* Mobile Navigation Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pt-4 border-t-2 border-black relative z-10">
-            <div className="flex flex-col space-y-3">
-              {navLinks.map((link, index) => (
-                <div key={index}>
-                  {link === 'About Us' ? (
-                    <div>
-                      <button
-                        onClick={() => setIsAboutDropdownOpen(!isAboutDropdownOpen)}
-                        className="text-black font-bold text-sm hover:text-gray-700 transition-all duration-300 py-2 px-3 hover:bg-black/10 w-full text-left flex items-center justify-between"
-                      >
-                        {link}
-                        <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isAboutDropdownOpen ? 'rotate-180' : ''}`} />
-                      </button>
-                      {isAboutDropdownOpen && (
-                        <div className="ml-4 mt-2 space-y-2">
-                          {aboutSubLinks.map((subLink, subIndex) => (
-                            <a
-                              key={subIndex}
-                              href="#"
-                              className="text-gray-600 font-medium text-sm hover:text-black transition-all duration-300 py-2 px-3 hover:bg-black/10 block"
-                              onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                              {subLink}
-                            </a>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <a
-                      href="#"
-                      className="text-black font-bold text-sm hover:text-gray-700 transition-all duration-300 py-2 px-3 hover:bg-black/10"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {link}
-                    </a>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Logo - Center */}
+        <div className="flex items-center justify-center flex-1">
+          <img 
+            src="/logo.png" 
+            alt="Ceedee's Group Logo" 
+            className="h-12 w-auto"
+          />
+        </div>
+
+        {/* CTA Contact Button - Right */}
+        <div className="flex items-center">
+          <button 
+            className="text-white font-bold rounded-4xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            onClick={() => window.location.href = '#contact'}
+            style={{
+              backgroundColor: '#ea5e21',
+              border: 'none',
+              letterSpacing: '1px',
+              fontSize: '16px',
+              fontWeight: '700',
+              padding: '12px 32px'
+            }}
+          >
+            CONTACT
+          </button>
+        </div>
+      </nav>
+
+      {/* Left Sidebar Menu */}
+      <div
+        className={`fixed top-0 left-0 h-full transform transition-transform duration-300 ease-in-out ${
+          isMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+        style={{
+          width: '350px',
+          backgroundColor: 'rgba(0, 0, 0, 0.95)',
+          backdropFilter: 'blur(10px)',
+          zIndex: 60
+        }}
+      >
+        {/* Menu Header - Just Close Button */}
+        <div className="flex items-center justify-end p-6">
+          <button
+            onClick={toggleMenu}
+            className="text-white hover:text-orange-400 transition-colors duration-300"
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        {/* Navigation Links - Centered Vertically */}
+        <div className="flex flex-col justify-center items-center h-full" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
+          {navItems.map((item, index) => (
+            <a
+              key={index}
+              href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+              className="block text-white hover:text-orange-400 hover:bg-white/5 transition-all duration-300 relative group text-center"
+              style={{
+                textDecoration: 'none',
+                fontSize: '20px',
+                fontWeight: '500',
+                padding: '20px 32px',
+                margin: '8px 0',
+                borderRadius: '8px',
+                minWidth: '200px'
+              }}
+              onClick={() => setIsMenuOpen(false)}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(234, 116, 39, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
+            >
+              {item}
+            </a>
+          ))}
+        </div>
       </div>
 
-      {/* Desktop Dropdown Menu - positioned outside navbar container */}
-      {isAboutDropdownOpen && (
-        <div className="relative">
-          <div 
-            className="absolute top-full left-0 right-0 bg-neutral-100 rounded-4xl shadow-lg z-40"
-            onMouseEnter={handleDropdownEnter}
-            onMouseLeave={handleDropdownLeave}
-          >
-            <div className="relative z-10 px-6 py-4">
-              <div className="grid grid-cols-3 gap-6">
-                {aboutSubLinks.map((subLink, subIndex) => (
-                  <a
-                    key={subIndex}
-                    href="#"
-                    className="tasa text-black font-replica font-bold text-sm hover:text-gray-700 transition-all duration-300 py-3 px-4 hover:bg-black/10 rounded-lg block text-center"
-                  >
-                    {subLink}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-          {/* Floating effect shadow for dropdown */}
-          <div className="absolute top-full left-0 right-0 bg-black blur-sm -z-10 transform translate-y-1 rounded-4xl"></div>
-        </div>
+      {/* Overlay with Blur Effect */}
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0"
+          style={{ 
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            zIndex: 55
+          }}
+          onClick={toggleMenu}
+        />
       )}
-
-      {/* Floating effect shadow - only when scrolled */}
-      {/* {isScrolled && (
-        <div className="absolute inset-0 bg-black blur-sm -z-10 transform translate-y-1 rounded-4xl"></div>
-      )} */}
-    </nav>
+    </>
   );
 };
 
-export default FloatingNavbar;
+export default Navbar;

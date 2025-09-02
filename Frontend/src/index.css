@@ -1,13 +1,54 @@
 @import "tailwindcss";
 
+/* Global reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  background-color: #F4F6F8;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  background-color: #F4F6F8;
+}
+
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-.tasa {
-  font-family: "TASA Orbiter", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 600;
+.prata-regular {
+  font-family: "Prata", serif;
+  font-weight: 400;
   font-style: normal;
+}
+
+
+.inter-tight-black {
+  font-family: "Inter Tight", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.fira-sans-black {
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.noto-sans-medium {
+  font-family: "Noto Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
 }

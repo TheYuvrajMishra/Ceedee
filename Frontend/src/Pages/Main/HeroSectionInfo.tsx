@@ -2,7 +2,7 @@ import React from 'react';
 
 const HeroSectionInfo: React.FC = () => {
   return (
-    <div className="relative h-[50vh] bg-amber-50 overflow-hidden">
+    <div className="relative h-[50vh] overflow-hidden">
       {/* Noise texture overlay */}
       <div 
         className="absolute inset-0 opacity-30"
@@ -15,7 +15,10 @@ const HeroSectionInfo: React.FC = () => {
       {/* Content Container */}
       <div className="relative z-10 h-full flex items-center justify-center p-4">
         <div className="max-w-6xl w-full text-center">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight text-amber-900 drop-shadow-lg">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight"
+            style={{ 
+              color: '#343A40'          
+         }}>
             Ceedee's Group of companies is an industry leader in providing a range of services in the sphere of various manufacturing and trading enterprises worldwide!
           </h2>
         </div>
