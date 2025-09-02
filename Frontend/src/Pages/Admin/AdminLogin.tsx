@@ -1,34 +1,36 @@
 import { useState } from 'react';
 
 const AdminLogin = () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(''); // Reset error on new submission
+        setError('');
 
         try {
-            const response = await fetch('http://localhost:5000/api/admin/login', {
+            const response = await fetch('http://localhost:5000/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ email, password }),
             });
 
             if (!response.ok) {
-                // Throws an error to be caught by the catch block
                 throw new Error('Login failed');
             }
 
             const data = await response.json();
             localStorage.setItem('token', data.token);
-            alert('Login successful!'); // Placeholder for redirection
-            // e.g., window.location.href = '/admin/dashboard';
+            
+            // REDIRECT: Force a page reload to ensure the token is available
+            // on the admin pages. Redirects to the admin career page by default.
+            window.location.href = '/admin/career'; 
+
         } catch (err) {
-            setError('Invalid username or password. Please try again.');
+            setError('Invalid email or password. Please try again.');
         }
     };
 
@@ -53,19 +55,19 @@ const AdminLogin = () => {
 
                     <div>
                         <label
-                            htmlFor="username"
+                            htmlFor="email"
                             className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
                         >
-                            Username
+                            Email
                         </label>
                         <input
-                            id="username"
-                            type="text"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            id="email"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             required
                             className="w-full px-3 py-2 placeholder-gray-500 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                            placeholder="your-username"
+                            placeholder="your-email@example.com"
                         />
                     </div>
 

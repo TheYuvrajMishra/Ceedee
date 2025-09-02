@@ -2,11 +2,13 @@ require("dotenv").config();
 const express = require("express");
 const connectDB = require("./db/config");
 const loadModels = require("./models"); // auto-register models
+const cors = require("cors");
 
 const app = express();
 
 // Core middlewares
 app.use(express.json());
+app.use(cors());
 
 // DB + models
 connectDB();

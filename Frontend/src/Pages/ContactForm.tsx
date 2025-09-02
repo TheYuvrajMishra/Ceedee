@@ -1,95 +1,121 @@
 import { useState } from 'react';
 
+// Define the structure for our form data
+interface FormData {
+    name: string;
+    email: string;
+    phone: string;
+    company: string;
+    query: string;
+    contactPreference: "Email" | "Phone" | "WhatsApp" | "Any";
+}
+
 const ContactForm = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [message, setMessage] = useState('');
+    const [formData, setFormData] = useState<FormData>({
+        name: '',
+        email: '',
+        phone: '',
+        company: '',
+        query: '',
+        contactPreference: 'Any',
+    });
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
         setSuccess(false);
+        setLoading(true);
 
         try {
-            const response = await fetch('http://localhost:5000/api/queries', {
+            const response = await fetch('http://localhost:5000/api/clients', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ name, email, message }),
+                body: JSON.stringify(formData),
             });
 
             if (!response.ok) {
-                throw new Error('Something went wrong. Please try again.');
+                 const errorData = await response.json();
+                throw new Error(errorData.message || 'Something went wrong. Please try again.');
             }
 
             setSuccess(true);
-            setName('');
-            setEmail('');
-            setMessage('');
+            setFormData({
+                name: '',
+                email: '',
+                phone: '',
+                company: '',
+                query: '',
+                contactPreference: 'Any',
+            });
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="max-w-2xl mx-auto p-8 bg-white shadow-lg rounded-lg my-10">
-            <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Contact Us 📬</h2>
+        <div className="max-w-3xl mx-auto p-6 md:p-8 bg-white shadow-2xl rounded-xl my-10 border border-gray-100">
+            <h2 className="text-3xl font-bold text-center text-gray-800 mb-2">Get in Touch</h2>
+            <p className="text-center text-gray-500 mb-8">We'd love to hear from you. Please fill out the form below.</p>
             
             {success && (
-                <p className="p-4 text-center text-green-800 bg-green-100 rounded-lg">
+                <p className="p-4 my-4 text-center text-green-800 bg-green-50 rounded-lg border border-green-200">
                     Thank you for your message! We'll get back to you soon.
                 </p>
             )}
 
             {error && (
-                 <p className="p-4 text-center text-red-800 bg-red-100 rounded-lg">
+                <p className="p-4 my-4 text-center text-red-800 bg-red-50 rounded-lg border border-red-200">
                     {error}
                 </p>
             )}
 
             {!success && (
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
-                        <input 
-                            id="name"
-                            type="text" 
-                            value={name} 
-                            onChange={(e) => setName(e.target.value)} 
-                            required
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                        />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                            <input id="name" name="name" type="text" value={formData.name} onChange={handleInputChange} required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+                        </div>
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+                        </div>
+                        <div>
+                            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                            <input id="phone" name="phone" type="text" value={formData.phone} onChange={handleInputChange} className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+                        </div>
+                        <div>
+                            <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">Company</label>
+                            <input id="company" name="company" type="text" value={formData.company} onChange={handleInputChange} className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+                        </div>
+                         <div className="md:col-span-2">
+                            <label htmlFor="contactPreference" className="block text-sm font-medium text-gray-700 mb-1">How should we contact you?</label>
+                            <select id="contactPreference" name="contactPreference" value={formData.contactPreference} onChange={handleInputChange} className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white">
+                                <option>Any</option>
+                                <option>Email</option>
+                                <option>Phone</option>
+                                <option>WhatsApp</option>
+                            </select>
+                        </div>
+                        <div className="md:col-span-2">
+                            <label htmlFor="query" className="block text-sm font-medium text-gray-700 mb-1">Your Query</label>
+                            <textarea id="query" name="query" value={formData.query} onChange={handleInputChange} required rows={5} className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                        </div>
                     </div>
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                        <input 
-                            id="email"
-                            type="email" 
-                            value={email} 
-                            onChange={(e) => setEmail(e.target.value)} 
-                            required
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="message" className="block text-sm font-medium text-gray-700">Message</label>
-                        <textarea 
-                            id="message"
-                            value={message} 
-                            onChange={(e) => setMessage(e.target.value)} 
-                            required
-                            rows={5}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                        ></textarea>
-                    </div>
-                    <button 
-                        type="submit"
-                        className="w-full px-4 py-2 text-white bg-indigo-600 font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Send Message
+                    <button type="submit" disabled={loading} className="w-full px-4 py-3 text-white bg-indigo-600 font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition duration-150">
+                        {loading ? 'Sending...' : 'Send Message'}
                     </button>
                 </form>
             )}
