@@ -45,11 +45,6 @@ const HeroSection: React.FC = () => {
         className="absolute inset-0 bg-black opacity-50"
         style={{ zIndex: 1 }}
       ></div>
-      
-      {/* <div 
-        className="absolute top-0 left-0 h-full opacity-100"
-        style={{ backgroundColor: '#243354',width: '25%', zIndex: 1 }}
-      ></div> */}
 
       {/* Left translucent white line */}
       <div 
@@ -57,7 +52,7 @@ const HeroSection: React.FC = () => {
         style={{ 
           width: '1px', 
           backgroundColor: 'rgba(255, 255, 255, 0.3)', 
-          marginLeft: '64px',
+          marginLeft: 'clamp(16px, 5vw, 64px)',
           zIndex: 3 
         }}
       ></div>
@@ -68,7 +63,7 @@ const HeroSection: React.FC = () => {
         style={{ 
           width: '1px', 
           backgroundColor: 'rgba(255, 255, 255, 0.3)', 
-          marginRight: '64px',
+          marginRight: 'clamp(16px, 5vw, 64px)',
           zIndex: 3 
         }}
       ></div>
@@ -79,9 +74,7 @@ const HeroSection: React.FC = () => {
         style={{ 
           height: '1px', 
           backgroundColor: 'rgba(255, 255, 255, 0.3)', 
-          top: '80px',
-          // marginLeft: '64px',
-          // marginRight: '64px',
+          top: 'clamp(60px, 10vw, 80px)',          
           zIndex: 3 
         }}
       ></div>
@@ -92,32 +85,78 @@ const HeroSection: React.FC = () => {
         style={{ 
           height: '1px', 
           backgroundColor: 'rgba(255, 255, 255, 0.3)', 
-          bottom: '64px',
-          // marginLeft: '64px',
-          // marginRight: '64px',
+          bottom: 'clamp(32px, 8vw, 64px)',
           zIndex: 3 
         }}
       ></div>
+
+      {/* Scroll Indicator - Bottom center aligned with navbar logo */}
+      <div 
+        className="absolute flex flex-col items-center"
+        style={{ 
+          left: '50%',
+          transform: 'translateX(-50%)',
+          bottom: '24px',
+          zIndex: 4,
+          gap: '8px'
+        }}
+      >
+        {/* SCROLL text above the line */}
+        <div 
+          className="noto-sans-medium text-white text-md tracking-wider"
+          style={{ 
+            opacity: '0.8',            
+          }}
+        >
+          SCROLL
+        </div>
+        
+        {/* Pointer below the line */}
+        <div 
+          className="text-white"
+          style={{ 
+            opacity: '0.8',
+          }}
+        >
+          <svg 
+            className="w-12 h-12" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M19 14l-7 7m0 0l-7-7" 
+            />
+          </svg>
+        </div>
+      </div>
 
       {/* Vertical Status Dots - Left side outside the line */}
       <div 
         className="absolute left-0 top-1/2 transform -translate-y-1/2 flex flex-col"
         style={{ 
-          marginLeft: '24px',
+          marginLeft: 'clamp(8px, 2vw, 24px)',
           zIndex: 4,
-          gap: '24px'
+          gap: 'clamp(16px, 4vw, 24px)'
         }}
       >
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => handleDotClick(index)}
-            className={`w-3 h-3 rounded-full border-2 transition-all duration-300 ${
+            className={`rounded-full border-2 transition-all duration-300 ${
               index === currentSlide 
                 ? 'bg-white border-white' 
                 : 'bg-transparent border-white hover:bg-white/30'
             }`}
-            style={{ cursor: 'pointer' }}
+            style={{ 
+              cursor: 'pointer',
+              width: 'clamp(10px, 2.5vw, 12px)',
+              height: 'clamp(10px, 2.5vw, 12px)'
+            }}
           />
         ))}
       </div>
@@ -125,28 +164,33 @@ const HeroSection: React.FC = () => {
       {/* Hero content */}
       <div className="relative h-full flex items-center justify-start" style={{ zIndex: 2 }}>
         {/* Main Title */}
-        <div className="text-left" style={{ paddingLeft: '80px', paddingBottom: '140px' }}>
-          <div className="mb-12">
-            <h1 
-              className="text-white inter-tight-black leading-tight"
+        <div className="text-left flex flex-col px-4 sm:px-8 md:px-16 lg:px-20" style={{ paddingLeft: 'clamp(20px, 8vw, 100px)', gap: 'clamp(24px, 6vw, 46px)' }}>
+          <div>
+            <h2
+              className="noto-sans-medium text-white text-xs sm:text-sm md:text-base"
               style={{
-                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-                // fontWeight: '300',
-                // letterSpacing: '2px',
-                // textShadow: '2px 2px 4px rgba(0, 0, 0, 0.7)'
+                opacity: '0.8',
+                fontSize: 'clamp(10px, 2.5vw, 16px)'
               }}
             >
-              Ceedee's Group A Legacy of Innovation
+              "PIONEERING DIVERSE INDUSTRIES WITH VISION AND INTEGRITY SINCE 1950"
+            </h2>
+            <h1 
+              className="text-white fira-sans-black leading-tight"
+              style={{
+                fontSize: 'clamp(1.8rem, 6vw, 4rem)',
+              }}
+            >
+              <span style={{ color: '#ea5e21' }}>Ceedee's Group</span> A Legacy of <br className="hidden sm:block" />Innovation
             </h1>
           </div>
-          <div className="mt-4">
+          <div>
             <p 
-              className="text-white leading-relaxed"
+              className="noto-sans-medium text-white leading-tight"
               style={{
-                fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
-                fontWeight: '300',
-                maxWidth: '600px',
-                opacity: '0.9'
+                fontSize: 'clamp(0.875rem, 2.5vw, 1.2rem)',
+                maxWidth: 'clamp(280px, 80vw, 600px)',
+                opacity: '0.6'                
               }}
             >
               From the foundational vision of Late Shri Doraisamy Chinnappa Gounder, Ceedee's Group has grown into a leading force in manufacturing and trading. Rooted in Erode and expanding globally, we proudly foster entrepreneurship through Venbro Polymers and Sri Krishna Automobiles.
