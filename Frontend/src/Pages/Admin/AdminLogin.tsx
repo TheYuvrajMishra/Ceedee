@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 
 const AdminLogin = () => {
     const [username, setUsername] = useState('');
@@ -9,18 +8,31 @@ const AdminLogin = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(''); // Reset error on new submission
+
         try {
-            const response = await axios.post('/api/admin/login', { username, password });
-            localStorage.setItem('token', response.data.token);
-            // Redirect to admin dashboard, e.g., window.location.href = '/admin/dashboard';
+            const response = await fetch('http://localhost:5000/api/admin/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            if (!response.ok) {
+                // Throws an error to be caught by the catch block
+                throw new Error('Login failed');
+            }
+
+            const data = await response.json();
+            localStorage.setItem('token', data.token);
             alert('Login successful!'); // Placeholder for redirection
+            // e.g., window.location.href = '/admin/dashboard';
         } catch (err) {
             setError('Invalid username or password. Please try again.');
         }
     };
 
     return (
-        // Main container to center the form
         <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
             <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <div className="text-center">
@@ -33,14 +45,12 @@ const AdminLogin = () => {
                 </div>
 
                 <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-                    {/* Display error message if it exists */}
                     {error && (
                         <p className="p-3 text-sm text-center text-red-800 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-900">
                             {error}
                         </p>
                     )}
 
-                    {/* Username Input */}
                     <div>
                         <label
                             htmlFor="username"
@@ -59,7 +69,6 @@ const AdminLogin = () => {
                         />
                     </div>
 
-                    {/* Password Input */}
                     <div>
                         <label
                             htmlFor="password"
@@ -78,7 +87,6 @@ const AdminLogin = () => {
                         />
                     </div>
 
-                    {/* Submit Button */}
                     <div>
                         <button
                             type="submit"

@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './Components/Navbar';
 import AdminLogin from './Pages/Admin/AdminLogin';
-import AdminCareer from './Pages/Admin/Career';
+import AdminCareer from './Pages/Admin/AdminCareer';
 import AdminClientQueryViewer from './Pages/Admin/ClientQuery';
 import AdminCSR from './Pages/Admin/CSRPage';
 import AdminNewsAndEvents from './Pages/Admin/News&Event';
