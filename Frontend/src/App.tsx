@@ -23,7 +23,7 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      <main className="pt-16"> {/* Add padding-top to avoid content being hidden by a fixed navbar */}
+      <main className=""> {/* Add padding-top to avoid content being hidden by a fixed navbar */}
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<MainPage />} />
