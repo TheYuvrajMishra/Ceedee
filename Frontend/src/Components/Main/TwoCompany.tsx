@@ -3,15 +3,8 @@ import { ArrowRight, Factory, Wrench } from "lucide-react";
 
 export default function TwoCompany() {
   const [hoveredSide, setHoveredSide] = useState<string | null>(null);
-  const [scrollY, setScrollY] = useState(0);
   const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
@@ -60,32 +53,34 @@ export default function TwoCompany() {
   }, []);
 
   return (
-    <div className="min-h-screen relative overflow-hidden bg-slate-50">
+    <div id="ExploreServices" className="min-h-screen relative overflow-hidden bg-slate-50">
       <div
-  ref={containerRef}
-  className="min-h-screen flex flex-col lg:flex-row"
-  onMouseMove={handleMouseMove}
-  onMouseLeave={handleMouseLeave}
->
-  {/* Left Section */}
-  <div
-    className={`relative flex items-center justify-center transition-all duration-700 ease-in-out
-    ${hoveredSide === "right"
-        ? "lg:flex-[0.33]"
-        : hoveredSide === "left"
-        ? "lg:flex-[0.67]"
-        : hoveredSide === "resetting"
-        ? "lg:flex-[0.5]"
-        : "lg:flex-1 flex-[unset]"} 
-    h-[60vh] lg:h-auto
-    `}
-  >
+        ref={containerRef}
+        className="min-h-screen flex flex-col lg:flex-row"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+      >
+        {/* Left Section */}
+        <div
+          className={`relative flex items-center justify-center transition-all duration-700 ease-in-out
+          ${
+            hoveredSide === "right"
+              ? "lg:flex-[0.33]"
+              : hoveredSide === "left"
+              ? "lg:flex-[0.67]"
+              : hoveredSide === "resetting"
+              ? "lg:flex-[0.5]"
+              : "lg:flex-1 flex-[unset]"
+          } 
+           h-[60vh] lg:h-auto to min-h-[50vh] lg:min-h-screen
+          `}
+        >
           <div
-            className="absolute inset-0 bg-repeat bg-center"
+            className="absolute inset-0 h-full bg-cover bg-center bg-fixed"
             style={{
               backgroundImage:
                 "url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')",
-              transform: `translateY(${scrollY * 0.5}px)`,
+
             }}
           ></div>
 
@@ -93,7 +88,11 @@ export default function TwoCompany() {
 
           <div
             className={`relative z-10 max-w-lg text-center px-6 sm:px-8 py-12 lg:py-0 transform transition-all duration-700 ease-in-out
-            ${hoveredSide === "right" ? "scale-95 opacity-80" : "scale-100 opacity-100"}
+            ${
+              hoveredSide === "right"
+                ? "scale-95 opacity-80"
+                : "scale-100 opacity-100"
+            }
           `}
           >
             <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-white/10 backdrop-blur-sm rounded-xl mb-6 sm:mb-8 border border-white/20">
@@ -118,7 +117,7 @@ export default function TwoCompany() {
 
             <button
               onClick={() => window.open("https://venbro.com", "_blank")}
-              className="group inline-flex items-center gap-2 sm:gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-medium border border-white/20 hover:border-white/30 transition-all duration-300"
+              className="group inline-flex items-center gap-2 sm:gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-medium border border-white/20 hover:border-white/30 cursor-pointer transition-all duration-300"
             >
               Visit Now
               <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform duration-300" />
@@ -128,28 +127,30 @@ export default function TwoCompany() {
 
         {/* Divider (hidden on mobile) */}
         <div className="hidden lg:block relative md:w-px z-20">
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-slate-400 rounded-full"></div>
-  </div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-slate-400 rounded-full"></div>
+        </div>
 
         {/* Right Section */}
-  <div
-    className={`relative flex items-center justify-center transition-all duration-700 ease-in-out
-    ${hoveredSide === "left"
-        ? "lg:flex-[0.33]"
-        : hoveredSide === "right"
-        ? "lg:flex-[0.67]"
-        : hoveredSide === "resetting"
-        ? "lg:flex-[0.5]"
-        : "lg:flex-1 flex-[unset]"} 
-    h-[60vh] lg:h-auto  // 👈 same here
-    `}
-  >
+        <div
+          className={`relative flex items-center justify-center transition-all duration-700 ease-in-out
+          ${
+            hoveredSide === "left"
+              ? "lg:flex-[0.33]"
+              : hoveredSide === "right"
+              ? "lg:flex-[0.67]"
+              : hoveredSide === "resetting"
+              ? "lg:flex-[0.5]"
+              : "lg:flex-1 flex-[unset]"
+          } 
+          h-[60vh] lg:h-auto to min-h-[50vh] lg:min-h-screen
+          `}
+        >
           <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            className="absolute inset-0 h-full bg-cover bg-center bg-fixed"
             style={{
               backgroundImage:
                 "url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2132&q=80')",
-              transform: `translateY(${scrollY * 0.3}px)`,
+
             }}
           ></div>
 
@@ -157,7 +158,11 @@ export default function TwoCompany() {
 
           <div
             className={`relative z-10 max-w-lg text-center px-6 sm:px-8 py-12 lg:py-0 transform transition-all duration-700 ease-in-out
-            ${hoveredSide === "left" ? "scale-95 opacity-80" : "scale-100 opacity-100"}
+            ${
+              hoveredSide === "left"
+                ? "scale-95 opacity-80"
+                : "scale-100 opacity-100"
+            }
           `}
           >
             <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-white/10 backdrop-blur-sm rounded-xl mb-6 sm:mb-8 border border-white/20">
@@ -176,15 +181,15 @@ export default function TwoCompany() {
               className={`text-base sm:text-lg text-slate-400 mb-8 sm:mb-10 leading-relaxed font-light transition-opacity duration-500 
               ${hoveredSide === "left" ? "opacity-0" : "opacity-100"}`}
             >
-              Professional automotive services and maintenance solutions. Trusted
-              expertise for commercial and personal vehicles.
+              Professional automotive services and maintenance solutions.
+              Trusted expertise for commercial and personal vehicles.
             </p>
 
             <button
               onClick={() =>
                 window.open("https://shrikrishnaautomobile.com", "_blank")
               }
-              className="group inline-flex items-center gap-2 sm:gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-medium border border-white/20 hover:border-white/30 transition-all duration-300"
+              className="group inline-flex items-center gap-2 sm:gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-medium border border-white/20 hover:border-white/30 cursor-pointer transition-all duration-300"
             >
               Visit Site
               <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform duration-300" />
