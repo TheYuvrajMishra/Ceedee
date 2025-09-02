@@ -1,6 +1,6 @@
 import { BrowserRouter,Routes, Route } from "react-router"
 import HeroSection from "./Pages/Main/HeroSection.tsx"
-import HeroSectionInfo from "./Pages/Main/HeroSectionInfo.tsx"
+import HeroSectionInfo from "./Pages/Main/BusinessInfo.tsx"
 import Navbar from "./Components/Navbar.tsx"
 // import LogoNav from "./Components/LogoNav.tsx"
 // import FloatingLogo from "./Components/FloatingLogo.tsx"
