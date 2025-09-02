@@ -31,13 +31,14 @@ const Navbar: React.FC = () => {
   return (
     <>
       <nav 
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between transition-all duration-300"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center transition-all duration-300"
         style={{ 
           backgroundColor: isScrolled ? 'rgba(0, 0, 0, 0.1)' : 'transparent',
           backdropFilter: isScrolled ? 'blur(10px)' : 'none',
           WebkitBackdropFilter: isScrolled ? 'blur(10px)' : 'none',
           borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.1)' : 'none',
-          padding: '16px 80px'
+          padding: '16px clamp(16px, 5vw, 80px)',
+          height: 'clamp(60px, 10vw, 80px)'
         }}
       >
         {/* Menu Icon - Left */}
@@ -48,7 +49,7 @@ const Navbar: React.FC = () => {
             style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           >
             <svg
-              className="w-8 h-8"
+              className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -63,27 +64,31 @@ const Navbar: React.FC = () => {
           </button>
         </div>
 
-        {/* Logo - Center */}
-        <div className="flex items-center justify-center flex-1">
+        {/* Logo - Absolutely Centered within navbar */}
+        <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
           <img 
             src="/logo.png" 
             alt="Ceedee's Group Logo" 
-            className="h-12 w-auto"
+            className="h-8 w-auto sm:h-10 md:h-12"
           />
         </div>
+
+        {/* Spacer to push contact button to right */}
+        <div className="flex-1"></div>
 
         {/* CTA Contact Button - Right */}
         <div className="flex items-center">
           <button 
-            className="text-white font-bold rounded-4xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            className="text-white noto-sans-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-xs sm:text-sm md:text-base"
             onClick={() => window.location.href = '#contact'}
             style={{
-              backgroundColor: '#ea5e21',
-              border: 'none',
+              // backgroundColor: '#ea5e21',
+              border: '2px solid #ea5e21',
+              borderColor: '#ea5e21',
               letterSpacing: '1px',
-              fontSize: '16px',
+              fontSize: 'clamp(12px, 2.5vw, 16px)',
               fontWeight: '700',
-              padding: '12px 32px'
+              padding: 'clamp(8px, 2vw, 12px) clamp(16px, 4vw, 32px)'
             }}
           >
             CONTACT
@@ -97,21 +102,21 @@ const Navbar: React.FC = () => {
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         style={{
-          width: '350px',
+          width: 'clamp(280px, 80vw, 350px)',
           backgroundColor: 'rgba(0, 0, 0, 0.95)',
           backdropFilter: 'blur(10px)',
           zIndex: 60
         }}
       >
         {/* Menu Header - Just Close Button */}
-        <div className="flex items-center justify-end p-6">
+        <div className="flex items-center justify-end p-4 sm:p-6">
           <button
             onClick={toggleMenu}
             className="text-white hover:text-orange-400 transition-colors duration-300"
             style={{ background: 'none', border: 'none', cursor: 'pointer' }}
           >
             <svg
-              className="w-6 h-6"
+              className="w-5 h-5 sm:w-6 sm:h-6"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -127,20 +132,20 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Navigation Links - Centered Vertically */}
-        <div className="flex flex-col justify-center items-center h-full" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
+        <div className="flex flex-col justify-center items-center h-full px-4" style={{ paddingTop: 'clamp(60px, 15vw, 80px)', paddingBottom: 'clamp(60px, 15vw, 80px)' }}>
           {navItems.map((item, index) => (
             <a
               key={index}
               href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-              className="block text-white hover:text-orange-400 hover:bg-white/5 transition-all duration-300 relative group text-center"
+              className="block text-white hover:text-orange-400 hover:bg-white/5 transition-all duration-300 relative group text-center w-full"
               style={{
                 textDecoration: 'none',
-                fontSize: '20px',
+                fontSize: 'clamp(16px, 4vw, 20px)',
                 fontWeight: '500',
-                padding: '20px 32px',
-                margin: '8px 0',
+                padding: 'clamp(12px, 3vw, 20px) clamp(16px, 4vw, 32px)',
+                margin: 'clamp(4px, 1vw, 8px) 0',
                 borderRadius: '8px',
-                minWidth: '200px'
+                maxWidth: '250px'
               }}
               onClick={() => setIsMenuOpen(false)}
               onMouseEnter={(e) => {
