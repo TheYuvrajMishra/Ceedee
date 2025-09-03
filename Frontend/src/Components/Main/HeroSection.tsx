@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback, type FC } from 'react';
+import React, { useState, useEffect, useCallback, type FC, useRef } from 'react';
 
 // Icon imports from Lucide
-import { ChevronRight, Play, Briefcase, Users, TrendingUp } from 'lucide-react';
+import { ChevronRight, Play} from 'lucide-react';
 import Headers from '../Navbar';
+import { SLIDES_DATA, STATS_DATA } from './data/hero-data';
 // ============================================================================
 // DATA, TYPES, AND HOOKS
 // ============================================================================
@@ -32,66 +33,23 @@ export interface CarouselControlsProps extends CarouselProps {
 }
 
 
-// 2. DATA
-const SLIDES_DATA: Slide[] = [
-  {
-    url: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop',
-    alt: 'Team collaborating in a modern office',
-    eyebrow: 'Innovate & Excel',
-    headline: 'Next-Generation Tech Solutions',
-    subheadline: 'Driving business growth with cutting-edge technology and unparalleled expertise.',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop',
-    alt: 'Computer screen with data charts and graphs',
-    eyebrow: 'Data-Driven Insights',
-    headline: 'Unlock Your Data Potential',
-    subheadline: 'Leverage the power of analytics to make smarter decisions and outperform the competition.',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop',
-    alt: 'People working together on laptops',
-    eyebrow: 'Seamless Integration',
-    headline: 'Connecting Your Digital World',
-    subheadline: 'Our solutions integrate flawlessly with your existing infrastructure for a streamlined workflow.',
-  },
-];
-
-const STATS_DATA: Stat[] = [
-  {
-    icon: Briefcase,
-    number: '150+',
-    label: 'Projects Completed',
-  },
-  {
-    icon: Users,
-    number: '85+',
-    label: 'Satisfied Clients',
-  },
-  {
-    icon: TrendingUp,
-    number: '300%',
-    label: 'Average ROI',
-  },
-];
-
 
 // 3. HOOKS
-const useMousePosition = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+// const useMousePosition = () => {
+//   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  useEffect(() => {
-    const updateMousePosition = (ev: MouseEvent) => {
-      setMousePosition({ x: ev.clientX, y: ev.clientY });
-    };
-    window.addEventListener('mousemove', updateMousePosition);
-    return () => {
-      window.removeEventListener('mousemove', updateMousePosition);
-    };
-  }, []);
+//   useEffect(() => {
+//     const updateMousePosition = (ev: MouseEvent) => {
+//       setMousePosition({ x: ev.clientX, y: ev.clientY });
+//     };
+//     window.addEventListener('mousemove', updateMousePosition);
+//     return () => {
+//       window.removeEventListener('mousemove', updateMousePosition);
+//     };
+//   }, []);
 
-  return mousePosition;
-};
+//   return mousePosition;
+// };
 
 const useCarousel = (length: number, interval = 5000) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -117,23 +75,6 @@ const useCarousel = (length: number, interval = 5000) => {
 // UI SUB-COMPONENTS
 // ============================================================================
 
-
-const AnimatedGradient: FC = () => {
-  const mousePosition = useMousePosition();
-  const circleSize = 30;
-  return (
-    <div
-      className="pointer-events-none fixed z-[9999] hidden rounded-full lg:block"
-      style={{
-        width: `${circleSize}px`,
-        height: `${circleSize}px`,
-        backgroundColor: 'white',
-        mixBlendMode: 'difference',
-        transform: `translate(${mousePosition.x - circleSize / 2}px, ${mousePosition.y - circleSize / 2}px)`,
-      }}
-    />
-  );
-};
 
 const BackgroundCarousel: FC<CarouselProps> = ({ slides, currentIndex }) => (
   <>
@@ -221,33 +162,36 @@ const CarouselControls: FC<CarouselControlsProps> = ({ slides, currentIndex, goT
 // ============================================================================
 
 const CeeDeeHeroSection = () => {
-    const { currentIndex, goToSlide } = useCarousel(SLIDES_DATA.length);
+  const { currentIndex, goToSlide } = useCarousel(SLIDES_DATA.length);
+  const heroRef = useRef<HTMLDivElement>(null); // Create a ref for the hero section
 
-    return (
-        <div className="relative">
-            {/* Background color layer */}
-            <div className='absolute inset-0 bg-yellow-200/10'></div>
-            
-            {/* Main content container */}
-            <div className="relative z-10 w-full overflow-hidden bg-transparent font-sans text-white md:rounded-b-full">
-                {/* Background carousel and overlay */}
-                <BackgroundCarousel slides={SLIDES_DATA} currentIndex={currentIndex} />
-                <div className="absolute inset-0 bg-black/80" />
-                <AnimatedGradient />
+  return (
+    // The main container needs the ref and event handlers
+    <div
+      ref={heroRef}
+      className="relative"
+    >
+      {/* Background color layer */}
+      <div className='absolute inset-0'></div>
+      
+      {/* Main content container */}
+      <div className="relative z-10 w-full overflow-hidden bg-transparent font-sans text-white ">
+        {/* Background carousel and overlay */}
+        <BackgroundCarousel slides={SLIDES_DATA} currentIndex={currentIndex} />
+        <div className="absolute inset-0 bg-black/80" />
 
-                <Headers />
+        <Headers />
 
-                {/* Main content area with responsive padding for flexible height */}
-                <main className="relative z-10 flex flex-col items-center gap-12 pt-28 pb-20 md:gap-16 md:pt-5 md:pb-28">
-                    <HeroContent slides={SLIDES_DATA} currentIndex={currentIndex} />
-                    <Stats stats={STATS_DATA} />
-                </main>
+        {/* Main content area */}
+        <main className="relative z-10 flex flex-col items-center gap-12 pt-28 pb-20 md:gap-16 md:pt-5 md:pb-28">
+          <HeroContent slides={SLIDES_DATA} currentIndex={currentIndex} />
+          <Stats stats={STATS_DATA} />
+        </main>
 
-                <CarouselControls slides={SLIDES_DATA} currentIndex={currentIndex} goToSlide={goToSlide} />
-            </div>
-        </div>
-    );
+        <CarouselControls slides={SLIDES_DATA} currentIndex={currentIndex} goToSlide={goToSlide} />
+      </div>
+    </div>
+  );
 };
 
 export default CeeDeeHeroSection;
-
