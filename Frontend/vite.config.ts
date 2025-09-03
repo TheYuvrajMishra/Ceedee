@@ -5,6 +5,6 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(),tailwindcss()],
   server: {
-    host: "192.168.31.34"
+    // host: "192.168.31.34"
   },
 })

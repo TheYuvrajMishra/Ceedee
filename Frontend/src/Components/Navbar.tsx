@@ -36,93 +36,106 @@ const Header: FC = () => {
         }
       )}
     >
-      <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="flex items-center space-x-4 -py-1">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg">
-            <img src="/logo_base.png" alt="Company Logo Base" />
+      <div className="container mx-auto flex items-center">
+        {/* Hamburger Menu - Left Side with consistent positioning */}
+        <div className="flex-1">
+          <div className="ml-6 sm:ml-8 md:ml-10 lg:ml-12">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={clsx(
+                'p-2 rounded-lg transition-colors duration-300',
+                {
+                  'text-slate-800 hover:bg-slate-200/50': isScrolled,
+                  'text-white hover:bg-white/10': !isScrolled,
+                }
+              )}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Logo - Center */}
+        <Link to="/" className="flex items-center space-x-4 -py-1 absolute left-1/2 transform -translate-x-1/2">
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+            <img src="/logo.png" alt="Company Logo Base" />
           </div>
           <img src="/logo_title.png" alt="Company Name" className="w-30" />
         </Link>
 
-        <nav className="hidden md:flex items-center space-x-8">
-          {NAV_LINKS.map((link) => (
+        {/* Contact Button */}
+        <div className="flex items-center space-x-4 flex-1 justify-end">
+          <div className="mr-6 sm:mr-8 md:mr-10 lg:mr-12">
             <Link
-              key={link.label}
-              to={link.to}
-              className={clsx(
-                'transition-colors duration-300 relative group',
-                {
-                  'text-slate-700 hover:text-blue-600': isScrolled,
-                  'text-white hover:text-blue-300': !isScrolled,
-                }
-              )}
+              to="/contact"
+              className="
+                sm:inline-block font-semibold py-3 px-6 rounded-xl shadow-lg 
+                relative overflow-hidden 
+                border-2 border-amber-600 text-amber-600                 
+                transition-all duration-600
+                before:absolute before:inset-0 before:-z-10
+                before:bg-amber-600
+                before:w-0 before:transition-[width]
+                hover:text-white hover:before:w-full"
             >
-              {link.label}
-              <span
-                className={clsx(
-                  'absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full'
-                )}
-              ></span>
+              Contact Us
             </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center space-x-4">
-          <Link
-            to="/contact"
-            className="hidden sm:inline-block bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-blue-500/30"
-          >
-            Contact Us
-          </Link>
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={clsx(
-              'md:hidden p-2 rounded-lg transition-colors duration-300',
-              {
-                'text-slate-800 hover:bg-slate-200/50': isScrolled,
-                'text-white hover:bg-white/10': !isScrolled,
-              }
-            )}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
+          </div>
         </div>
       </div>
 
+      {/* Blur Background Overlay */}
       <div
         className={clsx(
-          'md:hidden overflow-hidden transition-all duration-500 ease-in-out',
+          'fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300',
           {
-            'max-h-96 opacity-100 mt-4': isMenuOpen,
-            'max-h-0 opacity-0': !isMenuOpen,
+            'opacity-100 pointer-events-auto': isMenuOpen,
+            'opacity-0 pointer-events-none': !isMenuOpen,
+          }
+        )}
+        onClick={() => setIsMenuOpen(false)}
+      />
+
+      {/* Side Navigation */}
+      <div
+        className={clsx(
+          'fixed top-0 left-0 h-full w-1/4 min-w-[280px] bg-slate-900/95 backdrop-blur-xl z-50 transition-transform duration-300 ease-in-out',
+          {
+            'translate-x-0': isMenuOpen,
+            '-translate-x-full': !isMenuOpen,
           }
         )}
       >
-        <div className="bg-slate-800/90 backdrop-blur-xl rounded-2xl p-6 border border-white/10">
-          <nav className="flex flex-col space-y-4">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                to={link.to}
-                className="text-white hover:text-blue-300 py-2 px-4 rounded-lg hover:bg-white/5 transition-all duration-300 text-center text-lg"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="border-t border-white/10 pt-4 mt-2">
-              <Link
-                to="/contact"
-                className="bg-transparent border border-blue-700 text-white font-semibold py-3 px-6 rounded-xl w-full text-center block"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Contact Us
-              </Link>
+        <div className="flex flex-col h-full">
+          {/* Close Button */}
+          <div className="flex justify-end p-6">
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="p-2 rounded-lg text-white hover:bg-white/10 transition-colors duration-300"
+              aria-label="Close menu"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Navigation Links - Centered */}
+          <nav className="flex-1 flex flex-col justify-center px-6">
+            <div className="space-y-6">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.label}
+                  to={link.to}
+                  className="block text-white hover:text-blue-300 py-3 px-4 rounded-lg hover:bg-white/5 transition-all duration-300 text-center text-lg font-medium"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
           </nav>
         </div>

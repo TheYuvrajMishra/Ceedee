@@ -1,6 +1,6 @@
 
 import TwoCompany from '../../Components/Main/TwoCompany'
-import HeroSection from '../../Components/Main/Herosection'
+import HeroSection from '../../Components/Main/HeroSection'
 import ServicesSection from '../../Components/Main/Services'
 
 function MainPage() {
