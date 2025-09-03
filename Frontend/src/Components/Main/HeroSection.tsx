@@ -105,21 +105,64 @@ const explore = () => {
 
 const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
   <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div className="relative flex min-h-[200px] items-center justify-center text-center sm:min-h-[250px] md:min-h-[300px] lg:min-h-[350px]">
-      {slides.map((slide, index) => (
-        <div
-          key={slide.url}
-          className={`absolute w-full transition-all duration-1500 ease-out
-            ${currentIndex === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`
-          }
-        >
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-indigo-300 sm:mb-4 sm:text-sm md:text-base">{slide.eyebrow}</p>
-          <h1 className="text-3xl font-bold leading-tight tracking-tight text-slate-100 [text-shadow:0_2px_4px_rgba(0,0,0,0.5)] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">{slide.headline}</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-base text-slate-300 sm:mt-6 sm:max-w-3xl sm:text-lg md:text-xl lg:max-w-4xl">{slide.subheadline}</p>
+    <div className="relative flex flex-col items-center justify-center text-center">
+      {/* Fixed space containers for each text type */}
+      <div className="flex flex-col items-center space-y-4 sm:space-y-6">
+        {/* Eyebrow container - fixed height */}
+        <div className="h-[16px] sm:h-[20px] md:h-[24px] flex items-center justify-center">
+          {slides.map((slide, index) => (
+            <p
+              key={`eyebrow-${slide.url}`}
+              className={`absolute text-xs noto-sans-medium uppercase tracking-wider text-indigo-300 sm:text-sm md:text-base transition-all duration-1000 ease-in-out
+                ${currentIndex === index 
+                  ? 'opacity-100 blur-0 scale-100' 
+                  : 'opacity-0 blur-md scale-95 pointer-events-none'
+                }`
+              }
+            >
+              {slide.eyebrow}
+            </p>
+          ))}
         </div>
-      ))}
+
+        {/* Headline container - fixed height for largest possible text */}
+        <div className="h-[72px] sm:h-[96px] md:h-[120px] lg:h-[144px] xl:h-[168px] flex items-center justify-center">
+          {slides.map((slide, index) => (
+            <h1
+              key={`headline-${slide.url}`}
+              className={`absolute text-3xl fira-sans-black leading-tight tracking-tight text-slate-100 [text-shadow:0_2px_4px_rgba(0,0,0,0.5)] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl transition-all duration-1000 ease-in-out
+                ${currentIndex === index 
+                  ? 'opacity-100 blur-0 scale-100' 
+                  : 'opacity-0 blur-md scale-95 pointer-events-none'
+                }`
+              }
+            >
+              {slide.headline}
+            </h1>
+          ))}
+        </div>
+
+        {/* Subheadline container - fixed height */}
+        <div className="h-[48px] sm:h-[56px] md:h-[64px] mx-auto max-w-2xl sm:max-w-3xl lg:max-w-4xl flex items-center justify-center">
+          {slides.map((slide, index) => (
+            <p
+              key={`subheadline-${slide.url}`}
+              className={`absolute noto-sans-medium text-slate-300 sm:text-lg md:text-xl transition-all duration-1000 ease-in-out px-4
+                ${currentIndex === index 
+                  ? 'opacity-100 blur-0 scale-100' 
+                  : 'opacity-0 blur-md scale-95 pointer-events-none'
+                }`
+              }
+            >
+              {slide.subheadline}
+            </p>
+          ))}
+        </div>
+      </div>
     </div>
-    <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:mt-8 sm:flex-row sm:gap-4 md:mt-10">
+    
+    {/* Buttons with proper spacing */}
+    <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-12 sm:flex-row sm:gap-4 md:mt-16">
       <button onClick={explore} className="group flex w-full min-h-[48px] cursor-pointer items-center justify-center gap-2 rounded-lg bg-slate-100 px-6 py-3 font-bold text-slate-900 transition-all duration-300 hover:bg-white sm:w-auto sm:px-8 sm:py-3.5 touch-manipulation">
         <span className="text-sm sm:text-base">Explore Our Solutions</span>
         <ChevronRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 sm:h-5 sm:w-5" />
@@ -191,10 +234,12 @@ const CeeDeeHeroSection = () => {
 
         <Headers />
 
-        {/* Main content area - uses flexbox to distribute space */}
-        <main className="relative z-10 flex h-full flex-col items-center justify-center gap-6 px-2 pt-16 pb-16 xs:px-4 sm:gap-8 sm:pt-20 sm:pb-20 md:gap-12 lg:gap-16">
-          <HeroContent slides={SLIDES_DATA} currentIndex={currentIndex} />
-          <Stats stats={STATS_DATA} />
+        {/* Main content area - optimized layout to prevent overflow */}
+        <main className="relative z-10 flex h-full flex-col items-center justify-center px-2 pt-20 pb-8 xs:px-4 sm:pt-24 sm:pb-12 md:pt-28 md:pb-16">
+          <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 md:gap-8 flex-1 min-h-0">
+            <HeroContent slides={SLIDES_DATA} currentIndex={currentIndex} />
+            <Stats stats={STATS_DATA} />
+          </div>
         </main>
 
         <CarouselControls slides={SLIDES_DATA} currentIndex={currentIndex} goToSlide={goToSlide} />

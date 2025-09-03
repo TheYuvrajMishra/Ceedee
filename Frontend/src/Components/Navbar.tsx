@@ -74,7 +74,7 @@ const Header: FC = () => {
             <Link
               to="/contact"
               className="
-                sm:inline-block font-semibold py-3 px-6 rounded-xl shadow-lg 
+                sm:inline-block fira-sans-black py-3 px-6 rounded-xl shadow-lg 
                 relative overflow-hidden 
                 border-2 border-amber-600 text-amber-600                 
                 transition-all duration-600
