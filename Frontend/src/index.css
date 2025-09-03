@@ -19,3 +19,11 @@
   font-variation-settings:
     "wdth" 100;
 }
+
+
+.inter-tight-black {
+  font-family: "Inter Tight", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+}

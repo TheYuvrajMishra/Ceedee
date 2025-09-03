@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, type FC, useRef } from 'react';
 
 // Icon imports from Lucide
-import { ChevronRight, Play} from 'lucide-react';
+import { ChevronRight} from 'lucide-react';
 import Headers from '../Navbar';
 import { SLIDES_DATA, STATS_DATA } from './data/hero-data';
 // ============================================================================
@@ -113,7 +113,7 @@ const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
           {slides.map((slide, index) => (
             <p
               key={`eyebrow-${slide.url}`}
-              className={`absolute text-xs noto-sans-medium uppercase tracking-wider text-indigo-300 sm:text-sm md:text-base transition-all duration-1000 ease-in-out
+              className={`absolute text-xs noto-sans-medium uppercase tracking-wider text-blue-900 sm:text-sm md:text-base transition-all duration-1000 ease-in-out
                 ${currentIndex === index 
                   ? 'opacity-100 blur-0 scale-100' 
                   : 'opacity-0 blur-md scale-95 pointer-events-none'
@@ -164,13 +164,9 @@ const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
     {/* Buttons with proper spacing */}
     <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-12 sm:flex-row sm:gap-4 md:mt-16">
       <button onClick={explore} className="group flex w-full min-h-[48px] cursor-pointer items-center justify-center gap-2 rounded-lg bg-slate-100 px-6 py-3 font-bold text-slate-900 transition-all duration-300 hover:bg-white sm:w-auto sm:px-8 sm:py-3.5 touch-manipulation">
-        <span className="text-sm sm:text-base">Explore Our Solutions</span>
+        <span className="inter-tight-balck text-sm sm:text-base">Explore Our Solutions</span>
         <ChevronRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 sm:h-5 sm:w-5" />
-      </button>
-      <button className="group flex w-full min-h-[48px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/10 px-6 py-3 font-bold text-slate-100 backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:bg-white/20 sm:w-auto sm:px-8 sm:py-3.5 touch-manipulation">
-        <Play className="h-4 w-4 transition-transform group-hover:scale-110 sm:h-5 sm:w-5" />
-        <span className="text-sm sm:text-base">Watch Demo</span>
-      </button>
+      </button>      
     </div>
   </div>
 );
@@ -191,7 +187,7 @@ const Stats: FC<{ stats: Stat[] }> = ({ stats }) => (
 
 const CarouselControls: FC<CarouselControlsProps> = ({ slides, currentIndex, goToSlide }) => (
   <div className="absolute bottom-6 left-6 z-20 sm:bottom-8 sm:left-8 md:bottom-10 md:left-10 lg:bottom-12 lg:left-12">
-    <div className="flex flex-col items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-2 py-4 backdrop-blur-sm">
+    <div className="flex flex-col items-center justify-center gap-3 rounded-full border border-white/10 bg-white/5 px-2 py-4 backdrop-blur-sm">
       {slides.map((_, slideIndex) => (
         <button
           key={slideIndex}
