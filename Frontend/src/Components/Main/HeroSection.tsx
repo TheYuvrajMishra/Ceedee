@@ -226,7 +226,9 @@ const CeeDeeHeroSection = () => {
       <div className="relative z-10 h-full w-full overflow-hidden bg-transparent font-sans text-white">
         {/* Background carousel and overlay */}
         <BackgroundCarousel slides={SLIDES_DATA} currentIndex={currentIndex} />
-        <div className="absolute inset-0 bg-black/60 sm:bg-black/70 md:bg-black/80" />
+        <div className="absolute inset-0 bg-black/20 sm:bg-black/70 md:bg-black/80" />
+        {/* Middle section dark overlay - only covers center content area */}
+        <div className="absolute inset-y-0 left-1/2 transform -translate-x-1/2 w-full max-w-5xl bg-black/20 sm:bg-black/70 md:bg-black/80" />
 
         <Headers />
 
