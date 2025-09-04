@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, type FC, useRef } from 'react'
 // Icon imports from Lucide
 import { ChevronRight} from 'lucide-react';
 import Headers from '../Navbar';
-import { SLIDES_DATA, STATS_DATA } from './data/hero-data';
+import { SLIDES_DATA /* STATS_DATA */ } from './data/hero-data';
 // ============================================================================
 // DATA, TYPES, AND HOOKS
 // ============================================================================
@@ -113,7 +113,7 @@ const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
           {slides.map((slide, index) => (
             <p
               key={`eyebrow-${slide.url}`}
-              className={`absolute text-xs noto-sans-medium uppercase tracking-wider text-blue-900 sm:text-sm md:text-base transition-all duration-1000 ease-in-out
+              className={`absolute text-xs noto-sans-medium uppercase tracking-wider text-amber-600 sm:text-sm md:text-base transition-all duration-1000 ease-in-out
                 ${currentIndex === index 
                   ? 'opacity-100 blur-0 scale-100' 
                   : 'opacity-0 blur-md scale-95 pointer-events-none'
@@ -171,23 +171,23 @@ const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
   </div>
 );
 
-const Stats: FC<{ stats: Stat[] }> = ({ stats }) => (
-  <div className="grid w-full max-w-6xl grid-cols-1 gap-3 px-4 sm:grid-cols-3 sm:gap-4 md:gap-6 lg:px-8">
-    {stats.map((stat) => (
-      <div key={stat.label} className="rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-center backdrop-blur-md transition-all duration-300 hover:bg-white/10 sm:px-3 sm:py-5 md:px-4 md:py-6">
-        <div className="flex justify-center">
-          <stat.icon className="mb-2 h-4 w-4 text-indigo-300 sm:mb-3 sm:h-5 sm:w-5 md:h-6 md:w-6" />
-        </div>
-        <div className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">{stat.number}</div>
-        <p className="text-xs text-slate-300 sm:text-sm md:text-base">{stat.label}</p>
-      </div>
-    ))}
-  </div>
-);
+// const Stats: FC<{ stats: Stat[] }> = ({ stats }) => (
+//   <div className="grid w-full max-w-6xl grid-cols-1 gap-3 px-4 sm:grid-cols-3 sm:gap-4 md:gap-6 lg:px-8">
+//     {stats.map((stat) => (
+//       <div key={stat.label} className="rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-center backdrop-blur-md transition-all duration-300 hover:bg-white/10 sm:px-3 sm:py-5 md:px-4 md:py-6">
+//         <div className="flex justify-center">
+//           <stat.icon className="mb-2 h-4 w-4 text-indigo-300 sm:mb-3 sm:h-5 sm:w-5 md:h-6 md:w-6" />
+//         </div>
+//         <div className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">{stat.number}</div>
+//         <p className="text-xs text-slate-300 sm:text-sm md:text-base">{stat.label}</p>
+//       </div>
+//     ))}
+//   </div>
+// );
 
 const CarouselControls: FC<CarouselControlsProps> = ({ slides, currentIndex, goToSlide }) => (
-  <div className="absolute bottom-6 left-6 z-20 sm:bottom-8 sm:left-8 md:bottom-10 md:left-10 lg:bottom-12 lg:left-12">
-    <div className="flex flex-col items-center justify-center gap-3 rounded-full border border-white/10 bg-white/5 px-2 py-4 backdrop-blur-sm">
+  <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 sm:bottom-8 md:bottom-10 lg:bottom-12">
+    <div className="flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-sm">
       {slides.map((_, slideIndex) => (
         <button
           key={slideIndex}
@@ -224,19 +224,30 @@ const CeeDeeHeroSection = () => {
       
       {/* Main content container */}
       <div className="relative z-10 h-full w-full overflow-hidden bg-transparent font-sans text-white">
-        {/* Background carousel and overlay */}
+        {/* Background carousel */}
         <BackgroundCarousel slides={SLIDES_DATA} currentIndex={currentIndex} />
-        <div className="absolute inset-0 bg-black/20 sm:bg-black/70 md:bg-black/80" />
-        {/* Middle section dark overlay - only covers center content area */}
-        <div className="absolute inset-y-0 left-1/2 transform -translate-x-1/2 w-full max-w-5xl bg-black/20 sm:bg-black/70 md:bg-black/80" />
+        
+        {/* Black overlay for entire background */}
+        <div className="absolute inset-0 bg-black/60" />
 
         <Headers />
 
         {/* Main content area - optimized layout to prevent overflow */}
-        <main className="relative z-10 flex h-full flex-col items-center justify-center px-2 pt-20 pb-8 xs:px-4 sm:pt-24 sm:pb-12 md:pt-28 md:pb-16">
-          <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 md:gap-8 flex-1 min-h-0">
-            <HeroContent slides={SLIDES_DATA} currentIndex={currentIndex} />
-            <Stats stats={STATS_DATA} />
+        <main className="relative z-10 flex h-full flex-col items-center justify-center pt-20 pb-8 sm:pt-24 sm:pb-12 md:pt-28 md:pb-16">
+          <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 md:gap-8 flex-1 min-h-0 w-full max-w-7xl mx-auto">
+            {/* Dark background container for text content - aligned with navbar elements */}
+            <div 
+              className="bg-white/5 backdrop-blur-sm rounded-2xl py-8 sm:py-10 md:py-12 border border-white/10 mx-auto"
+              style={{
+                width: 'calc(100% - clamp(48px, 4vw, 96px))', // Accounts for both left and right margins
+                maxWidth: 'calc(100vw - clamp(48px, 4vw, 96px))', // Responsive max width
+                paddingLeft: 'clamp(24px, 4vw, 48px)',
+                paddingRight: 'clamp(24px, 4vw, 48px)'
+              }}
+            >
+              <HeroContent slides={SLIDES_DATA} currentIndex={currentIndex} />
+            </div>
+            {/* <Stats stats={STATS_DATA} /> */}
           </div>
         </main>
 
