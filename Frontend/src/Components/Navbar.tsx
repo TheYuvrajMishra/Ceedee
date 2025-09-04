@@ -122,7 +122,7 @@ const Header: FC = () => {
               left: 0,
               width: '320px',
               height: '100vh',
-              backgroundColor: '#1e293b',
+              backgroundColor: '#FCFCFC',
               zIndex: 105,
               transform: isMenuOpen ? 'translateX(0)' : 'translateX(-100%)',
               transition: 'transform 300ms ease-in-out',
@@ -134,8 +134,7 @@ const Header: FC = () => {
               style={{
                 height: '100%',
                 display: 'flex',
-                flexDirection: 'column',
-                backgroundColor: '#1e293b'
+                flexDirection: 'column'
               }}
             >
               {/* Close Button */}
@@ -143,8 +142,7 @@ const Header: FC = () => {
                 style={{
                   display: 'flex',
                   justifyContent: 'flex-end',
-                  padding: '24px',
-                  backgroundColor: '#1e293b'
+                  padding: '24px'
                 }}
               >
                 <button
@@ -154,12 +152,12 @@ const Header: FC = () => {
                     borderRadius: '8px',
                     border: 'none',
                     backgroundColor: 'transparent',
-                    color: 'white',
+                    color: 'black',
                     cursor: 'pointer',
                     transition: 'background-color 300ms ease'
                   }}
                   onMouseEnter={(e) => {
-                    (e.target as HTMLButtonElement).style.backgroundColor = '#475569';
+                    (e.target as HTMLButtonElement).style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
                   }}
                   onMouseLeave={(e) => {
                     (e.target as HTMLButtonElement).style.backgroundColor = 'transparent';
@@ -177,8 +175,7 @@ const Header: FC = () => {
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
-                  padding: '0 24px',
-                  backgroundColor: '#1e293b'
+                  padding: '0 24px'
                 }}
               >
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -190,22 +187,18 @@ const Header: FC = () => {
                         display: 'block',
                         padding: '12px 16px',
                         borderRadius: '8px',
-                        color: 'white',
+                        color: 'black',
                         textDecoration: 'none',
                         textAlign: 'center',
                         fontSize: '18px',
                         fontWeight: '500',
                         backgroundColor: 'transparent',
-                        transition: 'all 300ms ease',
-                        border: 'none',
-                        outline: 'none'
+                        transition: 'all 300ms ease'
                       }}
                       onMouseEnter={(e) => {
-                        (e.target as HTMLAnchorElement).style.color = '#93c5fd';
-                        (e.target as HTMLAnchorElement).style.backgroundColor = '#475569';
+                        (e.target as HTMLAnchorElement).style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
                       }}
                       onMouseLeave={(e) => {
-                        (e.target as HTMLAnchorElement).style.color = 'white';
                         (e.target as HTMLAnchorElement).style.backgroundColor = 'transparent';
                       }}
                       onClick={() => setIsMenuOpen(false)}

@@ -75,7 +75,15 @@ const useCarousel = (length: number, interval = 5000) => {
 // UI SUB-COMPONENTS
 // ============================================================================
 
-
+const SandyTextureOverlay: FC = () => (
+  <div
+    className="absolute inset-0 pointer-events-none"
+    style={{
+      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08' /%3E%3C/svg%3E")`,
+      zIndex: 0,
+    }}
+  />
+);
 const BackgroundCarousel: FC<CarouselProps> = ({ slides, currentIndex }) => (
   <>
     {slides.map((slide, index) => (
@@ -187,7 +195,7 @@ const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
 
 const CarouselControls: FC<CarouselControlsProps> = ({ slides, currentIndex, goToSlide }) => (
   <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 sm:bottom-8 md:bottom-10 lg:bottom-12">
-    <div className="flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-sm">
+    <div className="flex items-center justify-center gap-3 rounded-full bg-black/20 border border-white/20 px-4 py-2 backdrop-blur-sm">
       {slides.map((_, slideIndex) => (
         <button
           key={slideIndex}
@@ -237,20 +245,21 @@ const CeeDeeHeroSection = () => {
           <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 md:gap-8 flex-1 min-h-0 w-full max-w-7xl mx-auto">
             {/* Dark background container for text content - aligned with navbar elements */}
             <div 
-              className="bg-white/5 backdrop-blur-sm rounded-2xl py-8 sm:py-10 md:py-12 border border-white/10 mx-auto"
+              className="backdrop-blur-sm rounded-2xl py-8 sm:py-10 md:py-12 bg-black/20 border border-white/20 mx-auto"
               style={{
-                width: 'calc(100% - clamp(48px, 4vw, 96px))', // Accounts for both left and right margins
-                maxWidth: 'calc(100vw - clamp(48px, 4vw, 96px))', // Responsive max width
+                width: 'calc(100% - clamp(48px, 4vw, 96px))', 
+                maxWidth: 'calc(100vw - clamp(48px, 4vw, 96px))', 
                 paddingLeft: 'clamp(24px, 4vw, 48px)',
                 paddingRight: 'clamp(24px, 4vw, 48px)'
               }}
             >
+              <SandyTextureOverlay />   
               <HeroContent slides={SLIDES_DATA} currentIndex={currentIndex} />
             </div>
             {/* <Stats stats={STATS_DATA} /> */}
           </div>
         </main>
-
+        
         <CarouselControls slides={SLIDES_DATA} currentIndex={currentIndex} goToSlide={goToSlide} />
       </div>
     </div>

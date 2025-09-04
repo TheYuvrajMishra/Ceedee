@@ -3,7 +3,7 @@ import React from 'react';
 const PartnerSection: React.FC = () => {
   return (
     // The main container
-    <section className="h-[50vh] bg-stone-900 relative overflow-hidden">
+    <section className="h-[50vh] bg-gray-950 relative overflow-hidden">
       
       {/* Sandy Texture Overlay. */}
       <div 
@@ -22,7 +22,7 @@ const PartnerSection: React.FC = () => {
                <h2 className="text-3xl fira-sans-black text-stone-100 sm:text-4xl md:text-5xl mb-6 leading-tight">
                  Our Partners
                </h2>
-               <p className="text-lg text-stone-300 leading-relaxed">
+               <p className="text-lg text-stone-300 noto-sans-medium leading-relaxed">
                  Collaborating with industry leaders to deliver exceptional solutions and drive innovation across multiple sectors.
                </p>
              </div>

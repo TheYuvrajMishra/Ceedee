@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, type SetStateAction } from 'react';
+import { useState, useEffect, useCallback, useRef, type SetStateAction } from 'react';
 
 /**
  * Tracks the mouse position on the screen.
@@ -13,6 +13,52 @@ export const useMousePosition = () => {
   }, []);
 
   return position;
+};
+
+/**
+ * Provides scroll-based animation values for an element.
+ * Returns a progress value (0-1) based on how much the element has been scrolled through the viewport.
+ * @param startOffset The point in the viewport where the animation starts (0 = bottom, 1 = top)
+ * @param endOffset The point in the viewport where the animation ends
+ */
+export const useScrollAnimation = (startOffset = 0, endOffset = 0.6) => {
+  const [progress, setProgress] = useState(0);
+  const elementRef = useRef<HTMLElement>(null);
+
+  const handleScroll = useCallback(() => {
+    if (!elementRef.current) return;
+
+    const rect = elementRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+
+    // Calculate the distance the element needs to travel for the animation to complete.
+    // This is based on the element's height and the viewport offsets.
+    const animationDistance = (endOffset - startOffset) * viewportHeight + rect.height;
+    
+    // Calculate how far the top of the element is from the animation start trigger point.
+    const scrollDistance = (1 - startOffset) * viewportHeight - rect.top;
+
+    // Calculate and clamp the progress value between 0 and 1.
+    const currentProgress = Math.max(0, Math.min(1, scrollDistance / animationDistance));
+    
+    setProgress(currentProgress);
+  }, [startOffset, endOffset]);
+
+  useEffect(() => {
+    // Initial calculation
+    handleScroll();
+    
+    // Add scroll listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, [handleScroll]);
+
+  return { progress, elementRef };
 };
 
 /**
