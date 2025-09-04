@@ -52,15 +52,15 @@ const Header: FC = () => {
               className={clsx(
                 'transition-colors duration-300 relative group',
                 {
-                  'text-slate-700 hover:text-blue-600': isScrolled,
-                  'text-white hover:text-blue-300': !isScrolled,
+                  'text-slate-700 hover:text-amber-600': isScrolled,
+                  'text-white hover:text-amber-300': !isScrolled,
                 }
               )}
             >
               {link.label}
               <span
                 className={clsx(
-                  'absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-300 group-hover:w-full'
+                  'absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-500 transition-all duration-300 group-hover:w-full'
                 )}
               ></span>
             </Link>
@@ -70,7 +70,7 @@ const Header: FC = () => {
         <div className="flex items-center space-x-4">
           <Link
             to="/contact"
-            className="hidden sm:inline-block bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-blue-500/30"
+            className="hidden sm:inline-block bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-100 shadow-lg hover:shadow-amber-500/30"
           >
             Contact Us
           </Link>
@@ -109,7 +109,7 @@ const Header: FC = () => {
               <Link
                 key={link.label}
                 to={link.to}
-                className="text-white hover:text-blue-300 py-2 px-4 rounded-lg hover:bg-white/5 transition-all duration-300 text-center text-lg"
+                className="text-white hover:text-amber-300 py-2 px-4 rounded-lg hover:bg-white/5 transition-all duration-300 text-center text-lg"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
@@ -118,7 +118,7 @@ const Header: FC = () => {
             <div className="border-t border-white/10 pt-4 mt-2">
               <Link
                 to="/contact"
-                className="bg-transparent border border-blue-700 text-white font-semibold py-3 px-6 rounded-xl w-full text-center block"
+                className="bg-transparent border border-amber-700 text-white font-semibold py-3 px-6 rounded-xl w-full text-center block"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Contact Us
