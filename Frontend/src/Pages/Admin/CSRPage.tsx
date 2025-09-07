@@ -63,7 +63,10 @@ const AdminCSR = () => {
             const response = await fetch(API_URL);
             if (!response.ok) throw new Error('Failed to fetch CSR initiatives');
             const data = await response.json();
-            setCsrs(data);
+            // Extract CSRs array from API response structure
+            // Backend returns: { data: { projects } }
+            const csrArray = data.data?.projects || data.projects || data.data?.csrs || data.csrs || [];
+            setCsrs(Array.isArray(csrArray) ? csrArray : []);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An unknown error occurred.');
         } finally {
@@ -123,21 +126,42 @@ const AdminCSR = () => {
         e.preventDefault();
         setError('');
 
+        // Frontend validation to match backend requirements
+        if (formData.title.trim().length < 5 || formData.title.trim().length > 300) {
+            setError('Title must be between 5 and 300 characters');
+            return;
+        }
+        
+        if (formData.description.trim().length < 20 || formData.description.trim().length > 5000) {
+            setError('Description must be between 20 and 5000 characters');
+            return;
+        }
+
+        if (formData.location && formData.location.length > 200) {
+            setError('Location must not exceed 200 characters');
+            return;
+        }
+
+        if (formData.impact && formData.impact.length > 1000) {
+            setError('Impact description must not exceed 1000 characters');
+            return;
+        }
+
         const csrData = {
-            title: formData.title,
-            description: formData.description,
+            title: formData.title.trim(),
+            description: formData.description.trim(),
             category: formData.category,
-            location: formData.location,
+            location: formData.location.trim() || undefined,
             startDate: formData.startDate || undefined,
             endDate: formData.endDate || undefined,
             budget: formData.budget ? Number(formData.budget) : undefined,
-            implementedBy: formData.implementedBy,
+            implementedBy: formData.implementedBy.trim() || undefined,
             contactPerson: {
-                name: formData.contactPersonName,
-                email: formData.contactPersonEmail,
-                phone: formData.contactPersonPhone,
+                name: formData.contactPersonName.trim() || undefined,
+                email: formData.contactPersonEmail.trim() || undefined,
+                phone: formData.contactPersonPhone.trim() || undefined,
             },
-            impact: formData.impact,
+            impact: formData.impact.trim() || undefined,
             status: formData.status,
         };
 

@@ -23,11 +23,11 @@ const AdminLogin = () => {
             }
 
             const data = await response.json();
-            localStorage.setItem('token', data.token);
+            localStorage.setItem('token', data.data.token);
             
             // REDIRECT: Force a page reload to ensure the token is available
-            // on the admin pages. Redirects to the admin career page by default.
-            window.location.href = '/admin/career'; 
+            // and redirect to the admin dashboard.
+            window.location.href = '/admin/dashboard'; 
 
         } catch (err) {
             setError('Invalid email or password. Please try again.');

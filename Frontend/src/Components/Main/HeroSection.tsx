@@ -195,7 +195,7 @@ const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
 
 const CarouselControls: FC<CarouselControlsProps> = ({ slides, currentIndex, goToSlide }) => (
   <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 sm:bottom-8 md:bottom-10 lg:bottom-12">
-    <div className="flex items-center justify-center gap-3 rounded-full bg-black/20 border border-white/20 px-4 py-2 backdrop-blur-sm">
+    <div className="flex items-center justify-center gap-3 rounded-full bg-white/5 border border-white/50 px-4 py-2 backdrop-blur-sm">
       {slides.map((_, slideIndex) => (
         <button
           key={slideIndex}
@@ -245,7 +245,7 @@ const CeeDeeHeroSection = () => {
           <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 md:gap-8 flex-1 min-h-0 w-full max-w-7xl mx-auto">
             {/* Dark background container for text content - aligned with navbar elements */}
             <div 
-              className="backdrop-blur-sm rounded-2xl py-8 sm:py-10 md:py-12 bg-black/20 border border-white/20 mx-auto"
+              className="backdrop-blur-sm rounded-2xl py-8 sm:py-10 md:py-12 bg-transparent border-1 border-white/50 mx-auto"
               style={{
                 width: 'calc(100% - clamp(48px, 4vw, 96px))', 
                 maxWidth: 'calc(100vw - clamp(48px, 4vw, 96px))', 

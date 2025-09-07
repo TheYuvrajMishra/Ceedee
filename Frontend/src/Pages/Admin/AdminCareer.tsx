@@ -54,7 +54,8 @@ const AdminCareer = () => {
             const response = await fetch(API_URL);
             if (!response.ok) throw new Error('Failed to fetch jobs. Please check the network connection.');
             const data = await response.json();
-            setJobs(data);
+            // Extract jobs array from API response structure
+            setJobs(data.data?.jobs || []);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An unknown error occurred.');
         } finally {
@@ -125,17 +126,44 @@ const AdminCareer = () => {
         e.preventDefault();
         setError('');
 
+        // Frontend validation to match backend requirements
+        if (formData.title.trim().length < 5 || formData.title.trim().length > 200) {
+            setError('Job title must be between 5 and 200 characters');
+            return;
+        }
+        
+        if (formData.description.trim().length < 50 || formData.description.trim().length > 5000) {
+            setError('Job description must be between 50 and 5000 characters');
+            return;
+        }
+
+        if (formData.location && formData.location.length > 100) {
+            setError('Location must not exceed 100 characters');
+            return;
+        }
+
+        if (formData.requirements.join('').length > 2000) {
+            setError('Requirements must not exceed 2000 characters total');
+            return;
+        }
+
+        // Clean up salary range - remove undefined values to avoid validation issues
+        const salaryRange: any = {};
+        if (formData.salaryMin && !isNaN(Number(formData.salaryMin))) {
+            salaryRange.min = Number(formData.salaryMin);
+        }
+        if (formData.salaryMax && !isNaN(Number(formData.salaryMax))) {
+            salaryRange.max = Number(formData.salaryMax);
+        }
+
         const careerData = {
-            title: formData.title,
-            department: formData.department,
-            location: formData.location,
+            title: formData.title.trim(),
+            department: formData.department.trim() || undefined,
+            location: formData.location.trim() || undefined,
             type: formData.type,
-            description: formData.description,
-            requirements: formData.requirements,
-            salaryRange: {
-                min: formData.salaryMin ? Number(formData.salaryMin) : undefined,
-                max: formData.salaryMax ? Number(formData.salaryMax) : undefined,
-            },
+            description: formData.description.trim(),
+            requirements: formData.requirements.filter(req => req.trim() !== ''),
+            ...(Object.keys(salaryRange).length > 0 && { salaryRange }),
         };
 
         const url = editingJob ? `${API_URL}/${editingJob._id}` : API_URL;
@@ -153,6 +181,17 @@ const AdminCareer = () => {
             });
             if (!response.ok) {
                  const errorData = await response.json();
+                 console.error('Career API Error:', errorData);
+                 console.error('Sent data:', careerData);
+                 
+                 // Show detailed validation errors if available
+                 if (errorData.details && Array.isArray(errorData.details)) {
+                     const validationErrors = errorData.details.map((err: any) => 
+                         `${err.field}: ${err.message}`
+                     ).join(', ');
+                     throw new Error(validationErrors);
+                 }
+                 
                  throw new Error(errorData.message || `Failed to ${editingJob ? 'update' : 'add'} job`);
             }
 
