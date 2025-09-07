@@ -7,85 +7,108 @@ const {
   validateUserLogin, 
   sanitizeInput 
 } = require("../middleware/validation");
+const { catchAsync, AppError } = require("../middleware/errorHandler");
 
 const router = express.Router();
 const User = mongoose.model("User");
 
 // POST /api/auth/register
-router.post("/register", sanitizeInput, validateUserRegistration, async (req, res) => {
-  try {
-    const { name, email, password } = req.body; // REMOVED role from destructuring
+router.post("/register", sanitizeInput, validateUserRegistration, catchAsync(async (req, res) => {
+  const { name, email, password } = req.body;
 
-    const exists = await User.findOne({ email });
-    if (exists) return res.status(400).json({ message: "Email already registered" });
-
-    // SECURITY FIX: Force role to 'user' - no admin creation via public registration
-    const user = await User.create({ 
-      name, 
-      email, 
-      password, 
-      role: 'user' // HARDCODED to 'user' - prevents admin escalation
-    });
-    
-    const token = signToken({ id: user._id, role: user.role });
-
-    res.status(201).json({
-      user: { id: user._id, name: user.name, email: user.email, role: user.role },
-      token,
-    });
-  } catch (err) {
-    console.error('Registration error:', err);
-    res.status(500).json({ message: "Registration failed" }); // Don't expose error details
+  // Check if user already exists
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    throw new AppError("Email already registered", 400, "EMAIL_EXISTS");
   }
-});
+
+  // Create new user with 'user' role. Admin creation is handled by a separate endpoint.
+  const user = await User.create({ 
+    name, 
+    email, 
+    password, 
+    role: 'user' // Explicitly set role to 'user' for security
+  });
+  
+  // Sign token without the 'source' field
+  const token = signToken({ id: user._id, role: user.role });
+
+  res.status(201).json({
+    status: 'success',
+    message: 'User registered successfully',
+    data: {
+      user: { id: user._id, name: user.name, email: user.email, role: user.role },
+      token
+    }
+  });
+}));
 
 // POST /api/auth/login
-router.post("/login", sanitizeInput, validateUserLogin, async (req, res) => {
-  try {
-    const { email, password } = req.body;
+router.post("/login", sanitizeInput, validateUserLogin, catchAsync(async (req, res) => {
+  const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
-
-    const ok = await user.matchPassword(password);
-    if (!ok) return res.status(400).json({ message: "Invalid credentials" });
-
-    const token = signToken({ id: user._id, role: user.role });
-
-    res.json({
-      user: { id: user._id, name: user.name, email: user.email, role: user.role },
-      token,
-    });
-  } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).json({ message: "Login failed" }); // Don't expose error details
+  // Find user by email
+  const user = await User.findOne({ email, isActive: true });
+  if (!user) {
+    throw new AppError("Invalid credentials", 401, "INVALID_CREDENTIALS");
   }
-});
+
+  // Check password
+  const isPasswordValid = await user.matchPassword(password);
+  if (!isPasswordValid) {
+    throw new AppError("Invalid credentials", 401, "INVALID_CREDENTIALS");
+  }
+
+  // Sign token without the 'source' field
+  const token = signToken({ id: user._id, role: user.role });
+
+  res.json({
+    status: 'success',
+    message: 'Login successful',
+    data: {
+      user: { id: user._id, name: user.name, email: user.email, role: user.role },
+      token
+    }
+  });
+}));
 
 // POST /api/auth/create-admin - SECURE admin creation (admin-only)
-router.post("/create-admin", verifyToken, requireAdmin, sanitizeInput, validateUserRegistration, async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
+router.post("/create-admin", verifyToken, requireAdmin, sanitizeInput, validateUserRegistration, catchAsync(async (req, res) => {
+  const { name, email, password } = req.body;
 
-    const exists = await User.findOne({ email });
-    if (exists) return res.status(400).json({ message: "Email already registered" });
-
-    // Only existing admins can create new admin accounts
-    const newAdmin = await User.create({ 
-      name, 
-      email, 
-      password, 
-      role: 'admin' // Only accessible via this protected endpoint
-    });
-    
-    res.status(201).json({
-      message: "Admin created successfully",
-      admin: { id: newAdmin._id, name: newAdmin.name, email: newAdmin.email, role: newAdmin.role }
-    });
-  } catch (err) {
-    console.error('Admin creation error:', err);
-    res.status(500).json({ message: "Admin creation failed" });
+  // Check if email already exists
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    throw new AppError("Email already registered", 400, "EMAIL_EXISTS");
   }
-});
+
+  // Create a new user with the 'admin' role
+  const newAdmin = await User.create({ 
+    name, 
+    email, 
+    password, 
+    role: 'admin' 
+  });
+  
+  res.status(201).json({
+    status: 'success',
+    message: "Admin created successfully",
+    data: {
+      admin: { id: newAdmin._id, name: newAdmin.name, email: newAdmin.email, role: newAdmin.role }
+    }
+  });
+}));
+
+// POST /api/auth/logout
+router.post("/logout", catchAsync(async (req, res) => {
+  // Instruct the client to clear authentication tokens and related data.
+  // For security, the client-side should handle the actual removal of the token.
+  res.setHeader('Clear-Site-Data', '"cookies", "storage"');
+  
+  res.json({
+    status: 'success',
+    message: 'Logout successful. Please clear your token.'
+  });
+}));
 
 module.exports = router;

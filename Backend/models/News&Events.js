@@ -29,7 +29,7 @@ const NewsEventsSchema = new mongoose.Schema({
     },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Admin" // Reference to admin who posted it
+        ref: "User" // Reference to the user (admin) who posted it
     },
     status: {
         type: String,

@@ -6,25 +6,45 @@
 const { body, param, query, validationResult } = require('express-validator');
 
 /**
- * Handle validation errors
+ * Handle validation errors with enhanced error handling
  */
 const handleValidationErrors = (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const errorMessages = errors.array().map(error => ({
-      field: error.path,
-      message: error.msg,
-      value: error.value
-    }));
-    
-    console.warn(`⚠️  Validation failed for ${req.method} ${req.path} from ${req.ip}:`, errorMessages);
-    
-    return res.status(400).json({
-      error: 'Validation failed',
-      details: errorMessages
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const errorMessages = errors.array().map(error => {
+        // Safely handle error properties
+        const errorObj = {
+          field: error.path || error.param || 'unknown',
+          message: error.msg || 'Validation error',
+        };
+        
+        // Only include value if it's safe to do so (not passwords)
+        if (error.path !== 'password' && error.path !== 'currentPassword' && error.path !== 'newPassword') {
+          errorObj.value = error.value;
+        }
+        
+        return errorObj;
+      });
+      
+      console.warn(`⚠️  Validation failed for ${req.method} ${req.path} from ${req.ip}:`, errorMessages);
+      
+      return res.status(400).json({
+        status: 'error',
+        message: 'Validation failed',
+        code: 'VALIDATION_ERROR',
+        details: errorMessages
+      });
+    }
+    next();
+  } catch (error) {
+    console.error('Error in validation middleware:', error);
+    return res.status(500).json({
+      status: 'error',
+      message: 'Internal validation error',
+      code: 'VALIDATION_MIDDLEWARE_ERROR'
     });
   }
-  next();
 };
 
 /**
@@ -152,7 +172,7 @@ const validateCareerPosting = [
   
   body('type')
     .optional()
-    .isIn(['Full-time', 'Part-time', 'Contract', 'Internship'])
+    .isIn(['Full-Time', 'Part-Time', 'Contract', 'Internship'])
     .withMessage('Invalid job type'),
   
   body('salary')
@@ -164,10 +184,37 @@ const validateCareerPosting = [
   
   body('requirements')
     .optional()
+    .isArray()
+    .withMessage('Requirements must be an array'),
+  
+  body('requirements.*')
+    .optional()
     .trim()
-    .isLength({ max: 2000 })
-    .withMessage('Requirements must not exceed 2000 characters')
+    .isLength({ max: 500 })
+    .withMessage('Each requirement must not exceed 500 characters')
     .escape(),
+    
+  body('department')
+    .optional()
+    .trim()
+    .isLength({ max: 100 })
+    .withMessage('Department must not exceed 100 characters')
+    .escape(),
+    
+  body('salaryRange')
+    .optional()
+    .isObject()
+    .withMessage('Salary range must be an object'),
+    
+  body('salaryRange.min')
+    .optional()
+    .isNumeric()
+    .withMessage('Minimum salary must be a number'),
+    
+  body('salaryRange.max')
+    .optional()
+    .isNumeric()
+    .withMessage('Maximum salary must be a number'),
   
   handleValidationErrors
 ];
@@ -178,26 +225,31 @@ const validateCareerPosting = [
 const validateNewsEvent = [
   body('title')
     .trim()
+    .notEmpty()
+    .withMessage('Title is required')
     .isLength({ min: 5, max: 300 })
     .withMessage('Title must be between 5 and 300 characters')
     .escape(),
   
-  body('content')
+  body('description')
     .trim()
+    .notEmpty()
+    .withMessage('Description is required')
     .isLength({ min: 20, max: 10000 })
-    .withMessage('Content must be between 20 and 10000 characters')
+    .withMessage('Description must be between 20 and 10000 characters')
     .escape(),
+
+  body('type')
+    .notEmpty()
+    .withMessage('Type is required')
+    .isIn(['News', 'Event'])
+    .withMessage('Type must be either News or Event'),
   
   body('date')
     .optional()
     .isISO8601()
     .withMessage('Date must be in valid ISO format')
     .toDate(),
-  
-  body('category')
-    .optional()
-    .isIn(['News', 'Event', 'Announcement', 'Update'])
-    .withMessage('Invalid category'),
   
   body('author')
     .optional()

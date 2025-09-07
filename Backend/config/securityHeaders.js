@@ -36,7 +36,8 @@ const helmetConfig = {
       ],
       connectSrc: [
         "'self'",
-        process.env.FRONTEND_URL || "http://localhost:3000"
+        process.env.FRONTEND_URL || "http://localhost:3000",
+        "https://api.example.com"
       ],
       mediaSrc: ["'self'", "https:"],
       objectSrc: ["'none'"],
@@ -45,13 +46,13 @@ const helmetConfig = {
       formAction: ["'self'"],
       upgradeInsecureRequests: [],
     },
-    reportOnly: process.env.CSP_REPORT_ONLY === 'true'
+    reportOnly: false
   },
 
-  // Cross-Origin Policies
-  crossOriginEmbedderPolicy: { policy: "unsafe-none" },
-  crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
-  crossOriginResourcePolicy: { policy: "cross-origin" },
+  // Cross-Origin Policies - We set these manually for more control
+  crossOriginEmbedderPolicy: false,
+  crossOriginOpenerPolicy: false,
+  crossOriginResourcePolicy: false,
 
   // DNS and CT
   dnsPrefetchControl: { allow: false },
@@ -101,10 +102,10 @@ const helmetConfig = {
   },
 
   // Referrer control
-  referrerPolicy: { policy: ["strict-origin-when-cross-origin"] },
+  referrerPolicy: { policy: "strict-origin-when-cross-origin" },
 
-  // XSS protection
-  xssFilter: true
+  // XSS protection (Deprecated header, disabled)
+  xssFilter: false
 };
 
 /**
@@ -124,10 +125,12 @@ const customSecurityHeaders = (req, res, next) => {
   // Additional security
   res.setHeader('X-Download-Options', 'noopen');
   res.setHeader('X-Permitted-Cross-Domain-Policies', 'none');
-  res.setHeader('Clear-Site-Data', '"cache", "cookies", "storage"');
-  res.setHeader('Cross-Origin-Embedder-Policy-Report-Only', 'require-corp');
-  res.setHeader('Cross-Origin-Opener-Policy-Report-Only', 'same-origin');
   
+  // Set Cross-Origin policies explicitly
+  res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+
   // Server identification
   res.setHeader('Server', 'CeedeeAPI/1.0');
   res.removeHeader('X-Powered-By');
@@ -135,7 +138,6 @@ const customSecurityHeaders = (req, res, next) => {
   // Production-only headers
   if (process.env.NODE_ENV === 'production') {
     res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-    // Note: Update HPKP pins with your actual certificate pins
     if (process.env.HPKP_PRIMARY_PIN && process.env.HPKP_BACKUP_PIN) {
       res.setHeader(
         'Public-Key-Pins-Report-Only', 
