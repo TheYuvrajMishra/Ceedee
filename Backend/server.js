@@ -4,13 +4,15 @@ const connectDB = require("./db/config");
 const loadModels = require("./models"); // auto-register models
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
 
 const app = express();
 
 // SECURITY: Rate limiting middleware
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  limit: 100, // Limit each IP to 100 requests per windowMs
+  max: 100, // Limit each IP to 100 requests per windowMs (Express 4 uses 'max' instead of 'limit')
   message: {
     error: "Too many requests from this IP, please try again later.",
     retryAfter: "15 minutes"
@@ -27,7 +29,7 @@ const globalLimiter = rateLimit({
 // SECURITY: Stricter rate limiting for authentication endpoints
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  limit: 5, // Limit each IP to 5 auth requests per windowMs
+  max: 5, // Limit each IP to 5 auth requests per windowMs (Express 4 uses 'max')
   message: {
     error: "Too many authentication attempts, please try again later.",
     retryAfter: "15 minutes"
@@ -41,7 +43,7 @@ const authLimiter = rateLimit({
 // SECURITY: Rate limiting for client contact forms to prevent spam
 const contactLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  limit: 3, // Limit each IP to 3 contact form submissions per hour
+  max: 3, // Limit each IP to 3 contact form submissions per hour (Express 4 uses 'max')
   message: {
     error: "Too many contact form submissions, please try again later.",
     retryAfter: "1 hour"
@@ -50,11 +52,34 @@ const contactLimiter = rateLimit({
   legacyHeaders: false
 });
 
+// SECURITY: Apply security headers (helmet)
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+    },
+  },
+  crossOriginEmbedderPolicy: false // Allow embedding if needed
+}));
+
+// SECURITY: Sanitize MongoDB queries to prevent NoSQL injection
+app.use(mongoSanitize({
+  replaceWith: '_', // Replace prohibited characters with underscore
+  allowDots: false, // Don't allow dots in keys
+  onSanitize: ({ req, key }) => {
+    console.warn(`⚠️  Sanitized key: ${key} in request from ${req.ip}`);
+  }
+}));
+
 // Apply global rate limiting to all requests
 app.use(globalLimiter);
 
 // Core middlewares
 app.use(express.json({ limit: "10mb" })); // Added size limit for security
+app.use(express.urlencoded({ extended: true, limit: "10mb" })); // Added URL encoding support
 app.use(cors());
 
 // DB + models

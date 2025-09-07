@@ -3,14 +3,16 @@ const express = require("express");
 const router = express.Router();
 const Client = require("../models/Clients");
 const { verifyToken, requireAdmin } = require("../middleware/auth");
+const { validateClientInquiry, sanitizeInput } = require("../middleware/validation");
 
-router.post("/", async (req, res) => {
+router.post("/", sanitizeInput, validateClientInquiry, async (req, res) => {
   try {
     const newClient = new Client(req.body);
     await newClient.save();
     res.status(201).json({ message: "Client query submitted successfully", client: newClient });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    console.error('Client submission error:', err);
+    res.status(500).json({ error: "Failed to submit client query" });
   }
 });
 
