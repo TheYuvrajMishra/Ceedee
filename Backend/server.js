@@ -52,18 +52,164 @@ const contactLimiter = rateLimit({
   legacyHeaders: false
 });
 
-// SECURITY: Apply security headers (helmet)
+// SECURITY: Comprehensive security headers configuration
 app.use(helmet({
+  // Content Security Policy - Prevents XSS attacks
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'"],
-      imgSrc: ["'self'", "data:", "https:"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'", // Only for development - remove in production
+        "https://cdnjs.cloudflare.com", // Allow trusted CDNs
+        "https://unpkg.com"
+      ],
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'", // Allow inline styles for frameworks
+        "https://fonts.googleapis.com",
+        "https://cdnjs.cloudflare.com"
+      ],
+      imgSrc: [
+        "'self'",
+        "data:", // Allow data URLs for images
+        "https:", // Allow HTTPS images
+        "blob:" // Allow blob URLs
+      ],
+      fontSrc: [
+        "'self'",
+        "https://fonts.gstatic.com",
+        "https://cdnjs.cloudflare.com"
+      ],
+      connectSrc: [
+        "'self'",
+        process.env.FRONTEND_URL || "http://localhost:3000", // Allow frontend connections
+        "https://api.example.com" // Add your API endpoints
+      ],
+      mediaSrc: ["'self'", "https:"],
+      objectSrc: ["'none'"], // Prevent embedding objects
+      frameSrc: ["'none'"], // Prevent framing except from self
+      baseUri: ["'self'"], // Restrict base tag
+      formAction: ["'self'"], // Restrict form submissions
+      upgradeInsecureRequests: [], // Upgrade HTTP to HTTPS
     },
+    reportOnly: false // Set to true for testing, false for enforcement
   },
-  crossOriginEmbedderPolicy: false // Allow embedding if needed
+
+  // Cross-Origin Embedder Policy - Controls resource loading
+  crossOriginEmbedderPolicy: false, // We'll set this manually
+
+  // Cross-Origin Opener Policy - Prevents cross-origin attacks  
+  crossOriginOpenerPolicy: false, // We'll set this manually
+
+  // Cross-Origin Resource Policy - Controls cross-origin resource sharing
+  crossOriginResourcePolicy: false, // We'll set this manually
+
+  // DNS Prefetch Control - Controls browser DNS prefetching
+  dnsPrefetchControl: {
+    allow: false
+  },
+
+  // Expect Certificate Transparency - Requires CT for certificates
+  expectCt: {
+    enforce: true,
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    reportUri: process.env.CT_REPORT_URI || undefined
+  },
+
+  // X-Frame-Options - Prevents clickjacking
+  frameguard: {
+    action: "deny" // Force DENY instead of SAMEORIGIN
+  },
+
+  // Hide X-Powered-By header
+  hidePoweredBy: true,
+
+  // HTTP Strict Transport Security - Forces HTTPS
+  hsts: {
+    maxAge: 31536000, // 1 year
+    includeSubDomains: true,
+    preload: true
+  },
+
+  // IE No Open - Prevents IE from executing downloads
+  ieNoOpen: true,
+
+  // X-Content-Type-Options - Prevents MIME sniffing
+  noSniff: true,
+
+  // Origin Agent Cluster - Isolate origins
+  originAgentCluster: true,
+
+  // Permissions Policy - Controls browser features
+  permissionsPolicy: {
+    camera: [], // Disable camera
+    microphone: [], // Disable microphone
+    geolocation: [], // Disable geolocation
+    payment: [], // Disable payment API
+    usb: [], // Disable USB
+    magnetometer: [], // Disable magnetometer
+    gyroscope: [], // Disable gyroscope
+    accelerometer: [], // Disable accelerometer
+    autoplay: [], // Disable autoplay
+    "display-capture": [], // Disable screen capture
+    "encrypted-media": [], // Disable encrypted media
+    fullscreen: ["'self'"], // Allow fullscreen only from same origin
+    "picture-in-picture": [], // Disable picture-in-picture
+  },
+
+  // Referrer Policy - Controls referrer information
+  referrerPolicy: {
+    policy: "strict-origin-when-cross-origin" // Fixed: removed array wrapper
+  },
+
+  // X-XSS-Protection - XSS filter (force enable with block mode)
+  xssFilter: false // Disable helmet's default, we'll set it manually
 }));
+
+// SECURITY: Additional custom security headers (MUST come after helmet)
+app.use((req, res, next) => {
+  // Security headers not covered by helmet or need manual setting
+  res.setHeader('X-Request-ID', req.headers['x-request-id'] || 'server-' + Date.now());
+  res.setHeader('X-API-Version', '1.0.0');
+  
+  // Cache control headers (critical for security)
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.setHeader('Surrogate-Control', 'no-store');
+  
+  // XSS Protection - Manual setting for proper configuration
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  
+  // Override/set Cross-Origin policies explicitly
+  res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  
+  // Additional security headers
+  res.setHeader('X-Download-Options', 'noopen'); // IE8+ download security
+  res.setHeader('X-Permitted-Cross-Domain-Policies', 'none'); // Adobe Flash/PDF policy
+  res.setHeader('Clear-Site-Data', '"cache", "cookies", "storage"'); // Clear data on logout
+  res.setHeader('Cross-Origin-Embedder-Policy-Report-Only', 'require-corp'); // Report embedder policy
+  res.setHeader('Cross-Origin-Opener-Policy-Report-Only', 'same-origin'); // Report opener policy
+  
+  // Server identification (hide real server technology)
+  res.setHeader('Server', 'CeedeeAPI/1.0');
+  res.removeHeader('X-Powered-By'); // Additional removal (helmet also does this)
+  
+  // Environment-specific headers
+  if (process.env.NODE_ENV === 'production') {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+    if (process.env.HPKP_PRIMARY_PIN && process.env.HPKP_BACKUP_PIN) {
+      res.setHeader('Public-Key-Pins-Report-Only', 
+        `pin-sha256="${process.env.HPKP_PRIMARY_PIN}"; pin-sha256="${process.env.HPKP_BACKUP_PIN}"; max-age=5184000; includeSubDomains; report-uri="${process.env.HPKP_REPORT_URI || 'https://example.com/hpkp-report'}"`
+      );
+    }
+  }
+  
+  next();
+});
 
 // SECURITY: Sanitize MongoDB queries to prevent NoSQL injection
 app.use(mongoSanitize({
