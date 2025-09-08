@@ -4,6 +4,7 @@ import HeroSection from '../../Components/Main/HeroSection'
 import PartnerSection from '../../Components/Main/PartnerSection'
 import ServicesSection from '../../Components/Main/Services'
 import CompInfo from '../../Components/Main/CompInfo'
+import VentureText from '../../Components/Main/VentureText'
 
 function MainPage() {
   return (
@@ -14,6 +15,7 @@ function MainPage() {
       <CompInfo/>
       <PartnerSection/>
       <ServicesSection/>
+      <VentureText/>
       <TwoCompany/>
     </div>
   )
