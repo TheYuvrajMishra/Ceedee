@@ -3,9 +3,59 @@ import { ChevronRight, Play } from 'lucide-react';
 import Headers from '../Navbar'; // Assuming this is your Navbar component
 import { SLIDES_DATA } from './data/hero-data'; // Assuming this is your data file
 
-// Main Hero Component
-const CeeDeeHeroSection = () => {
-  // --- Carousel Logic (from useCarousel hook) ---
+
+// Icon imports from Lucide
+import { ChevronRight} from 'lucide-react';
+import Headers from '../Navbar';
+import { SLIDES_DATA /* STATS_DATA */ } from './data/hero-data';
+// ============================================================================
+// DATA, TYPES, AND HOOKS
+// ============================================================================
+
+// 1. TYPES
+export type Stat = {
+  icon: React.ElementType;
+  number: string;
+  label: string;
+};
+
+export type Slide = {
+  url: string;
+  alt: string;
+  eyebrow: string;
+  headline: string;
+  subheadline: string;
+};
+
+export interface CarouselProps {
+  slides: Slide[];
+  currentIndex: number;
+}
+
+export interface CarouselControlsProps extends CarouselProps {
+  goToSlide: (index: number) => void;
+}
+
+
+
+// 3. HOOKS
+// const useMousePosition = () => {
+//   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+//   useEffect(() => {
+//     const updateMousePosition = (ev: MouseEvent) => {
+//       setMousePosition({ x: ev.clientX, y: ev.clientY });
+//     };
+//     window.addEventListener('mousemove', updateMousePosition);
+//     return () => {
+//       window.removeEventListener('mousemove', updateMousePosition);
+//     };
+//   }, []);
+
+//   return mousePosition;
+// };
+
+const useCarousel = (length: number, interval = 5000) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const goToNext = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % SLIDES_DATA.length);
@@ -20,90 +70,202 @@ const CeeDeeHeroSection = () => {
     return () => clearInterval(slideInterval);
   }, [goToNext]);
 
-  // --- Button Click Handler (inlined) ---
-  const handleExploreClick = () => {
+
+// ============================================================================
+// UI SUB-COMPONENTS
+// ============================================================================
+
+const SandyTextureOverlay: FC = () => (
+  <div
+    className="absolute inset-0 pointer-events-none"
+    style={{
+      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08' /%3E%3C/svg%3E")`,
+      zIndex: 0,
+    }}
+  />
+);
+const BackgroundCarousel: FC<CarouselProps> = ({ slides, currentIndex }) => (
+  <>
+    {slides.map((slide, index) => (
+      <div
+        key={slide.url}
+        className={`absolute inset-0 h-full w-full transition-all duration-[3000ms] ease-in-out
+          ${index === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`
+        }
+      >
+        <img 
+          src={slide.url} 
+          alt={slide.alt} 
+          className="h-full w-full object-cover object-center" 
+          loading="lazy"
+        />
+      </div>
+    ))}
+  </>
+);
+
+const explore = () => {
     const element = document.getElementById("ExploreServices");
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
-  };
+
+}
+
+const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
+  <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="relative flex flex-col items-center justify-center text-center">
+      {/* Fixed space containers for each text type */}
+      <div className="flex flex-col items-center space-y-4 sm:space-y-6">
+        {/* Eyebrow container - fixed height */}
+        <div className="h-[16px] sm:h-[20px] md:h-[24px] flex items-center justify-center">
+          {slides.map((slide, index) => (
+            <p
+              key={`eyebrow-${slide.url}`}
+              className={`absolute text-xs noto-sans-medium uppercase tracking-wider text-amber-600 sm:text-sm md:text-base transition-all duration-1000 ease-in-out
+                ${currentIndex === index 
+                  ? 'opacity-100 blur-0 scale-100' 
+                  : 'opacity-0 blur-md scale-95 pointer-events-none'
+                }`
+              }
+            >
+              {slide.eyebrow}
+            </p>
+          ))}
+        </div>
+
+        {/* Headline container - fixed height for largest possible text */}
+        <div className="h-[72px] sm:h-[96px] md:h-[120px] lg:h-[144px] xl:h-[168px] flex items-center justify-center">
+          {slides.map((slide, index) => (
+            <h1
+              key={`headline-${slide.url}`}
+              className={`absolute text-3xl fira-sans-black leading-tight tracking-tight text-slate-100 [text-shadow:0_2px_4px_rgba(0,0,0,0.5)] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl transition-all duration-1000 ease-in-out
+                ${currentIndex === index 
+                  ? 'opacity-100 blur-0 scale-100' 
+                  : 'opacity-0 blur-md scale-95 pointer-events-none'
+                }`
+              }
+            >
+              {slide.headline}
+            </h1>
+          ))}
+        </div>
+
+        {/* Subheadline container - fixed height */}
+        <div className="h-[48px] sm:h-[56px] md:h-[64px] mx-auto max-w-2xl sm:max-w-3xl lg:max-w-4xl flex items-center justify-center">
+          {slides.map((slide, index) => (
+            <p
+              key={`subheadline-${slide.url}`}
+              className={`absolute noto-sans-medium text-slate-300 sm:text-lg md:text-xl transition-all duration-1000 ease-in-out px-4
+                ${currentIndex === index 
+                  ? 'opacity-100 blur-0 scale-100' 
+                  : 'opacity-0 blur-md scale-95 pointer-events-none'
+                }`
+              }
+            >
+              {slide.subheadline}
+            </p>
+          ))}
+        </div>
+      </div>
+    </div>
+    
+    {/* Buttons with proper spacing */}
+    <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-12 sm:flex-row sm:gap-4 md:mt-16">
+      <button onClick={explore} className="group flex w-full min-h-[48px] cursor-pointer items-center justify-center gap-2 rounded-lg bg-slate-100 px-6 py-3 font-bold text-slate-900 transition-all duration-300 hover:bg-white sm:w-auto sm:px-8 sm:py-3.5 touch-manipulation">
+        <span className="inter-tight-balck text-sm sm:text-base">Explore Our Solutions</span>
+        <ChevronRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 sm:h-5 sm:w-5" />
+      </button>      
+    </div>
+  </div>
+);
+
+// const Stats: FC<{ stats: Stat[] }> = ({ stats }) => (
+//   <div className="grid w-full max-w-6xl grid-cols-1 gap-3 px-4 sm:grid-cols-3 sm:gap-4 md:gap-6 lg:px-8">
+//     {stats.map((stat) => (
+//       <div key={stat.label} className="rounded-xl border border-white/10 bg-white/5 px-4 py-4 text-center backdrop-blur-md transition-all duration-300 hover:bg-white/10 sm:px-3 sm:py-5 md:px-4 md:py-6">
+//         <div className="flex justify-center">
+//           <stat.icon className="mb-2 h-4 w-4 text-indigo-300 sm:mb-3 sm:h-5 sm:w-5 md:h-6 md:w-6" />
+//         </div>
+//         <div className="text-2xl font-bold text-white sm:text-3xl md:text-4xl">{stat.number}</div>
+//         <p className="text-xs text-slate-300 sm:text-sm md:text-base">{stat.label}</p>
+//       </div>
+//     ))}
+//   </div>
+// );
+
+const CarouselControls: FC<CarouselControlsProps> = ({ slides, currentIndex, goToSlide }) => (
+  <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 sm:bottom-8 md:bottom-10 lg:bottom-12">
+    <div className="flex items-center justify-center gap-3 rounded-full bg-white/5 border border-white/50 px-4 py-2 backdrop-blur-sm">
+      {slides.map((_, slideIndex) => (
+        <button
+          key={slideIndex}
+          onClick={() => goToSlide(slideIndex)}
+          aria-label={`Go to slide ${slideIndex + 1}`}
+          className="flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 touch-manipulation"
+        >
+          <div className={`h-2.5 w-2.5 rounded-full transition-all duration-300
+            ${currentIndex === slideIndex ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/70'}`
+          } />
+        </button>
+      ))}
+    </div>
+  </div>
+);
+
+
+// ============================================================================
+// MAIN HERO COMPONENT
+// ============================================================================
+
+const CeeDeeHeroSection = () => {
+  const { currentIndex, goToSlide } = useCarousel(SLIDES_DATA.length);
+  const heroRef = useRef<HTMLDivElement>(null); // Create a ref for the hero section
 
   return (
-    <section className="relative font-sans text-white">
-      <div className="relative z-10 h-screen w-full overflow-hidden">
-        {/* --- Background Videos (from BackgroundCarousel) --- */}
-        {SLIDES_DATA.map((slide, index) => (
-          <div
-            key={slide.url}
-            className={`absolute inset-0 h-full w-full transition-all duration-[3000ms] ease-in-out ${
-              index === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
-            }`}
-          >
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              src={slide.url}
-              className="h-full w-full object-cover"
-            />
-          </div>
-        ))}
-        <div className="absolute inset-0 bg-black/80" />
+    // The main container uses full viewport height and width
+    <div
+      ref={heroRef}
+      className="relative h-screen w-full"
+    >
+      {/* Background color layer */}
+      <div className='absolute inset-0'></div>
+      
+      {/* Main content container */}
+      <div className="relative z-10 h-full w-full overflow-hidden bg-transparent font-sans text-white">
+        {/* Background carousel */}
+        <BackgroundCarousel slides={SLIDES_DATA} currentIndex={currentIndex} />
+        
+        {/* Black overlay for entire background */}
+        <div className="absolute inset-0 bg-black/60" />
 
         {/* --- Decorative Frame --- */}
         <div className="pointer-events-none absolute opacity-0 md:opacity-100 inset-0 z-1 rounded-lg border border-white/20 bg-black/5 backdrop-blur-sm md:inset-20" />
 
         <Headers />
 
-        <main className="relative z-10 flex h-full flex-col items-center justify-center">
-          {/* --- Animated Text Content (from HeroContent) --- */}
-          <div className="relative flex h-72 w-full max-w-6xl items-center justify-center px-4 text-center sm:h-80 sm:px-6">
-            {SLIDES_DATA.map((slide, index) => (
-              <div
-                key={slide.headline}
-                className={`absolute transition-opacity duration-1000 ease-in-out ${
-                  currentIndex === index ? 'opacity-100' : 'opacity-0'
-                }`}
-              >
-                <p className={`mb-2 text-sm font-semibold uppercase tracking-wider text-indigo-300 transition-transform duration-1000 ease-in-out ${
-                    currentIndex === index ? 'translate-y-0' : '-translate-y-4'
-                  }`}>{slide.eyebrow}</p>
-                <h1 className={`text-4xl font-bold tracking-tight text-slate-100 [text-shadow:0_2px_4px_rgba(0,0,0,0.5)] transition-transform duration-1000 ease-in-out delay-150 sm:text-5xl md:text-6xl lg:text-7xl ${
-                    currentIndex === index ? 'translate-y-0' : '-translate-y-4'
-                  }`}>{slide.headline}</h1>
-                <p className={`mx-auto mt-3 md:mt-6 max-w-3xl text-lg font-light text-slate-300 transition-transform duration-1000 ease-in-out delay-300 md:text-xl ${
-                    currentIndex === index ? 'translate-y-0' : '-translate-y-4'
-                  }`}>{slide.subheadline}</p>
-              </div>
-            ))}
-          </div>
-          {/* --- Action Buttons --- */}
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <button onClick={handleExploreClick} className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-slate-100 px-8 py-3.5 font-bold text-slate-900 transition-all duration-300 hover:bg-white sm:w-auto">
-              Explore Our Solutions <ChevronRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
-            <button className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-white/20 bg-white/10 px-8 py-3.5 font-bold text-slate-100 backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:bg-white/20 sm:w-auto">
-              <Play className="h-5 w-5 transition-transform group-hover:scale-110" /> Watch Demo
-            </button>
+
+        {/* Main content area - optimized layout to prevent overflow */}
+        <main className="relative z-10 flex h-full flex-col items-center justify-center pt-20 pb-8 sm:pt-24 sm:pb-12 md:pt-28 md:pb-16">
+          <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 md:gap-8 flex-1 min-h-0 w-full max-w-7xl mx-auto">
+            {/* Dark background container for text content - aligned with navbar elements */}
+            <div 
+              className="backdrop-blur-sm rounded-2xl py-8 sm:py-10 md:py-12 bg-transparent border-1 border-white/50 mx-auto"
+              style={{
+                width: 'calc(100% - clamp(48px, 4vw, 96px))', 
+                maxWidth: 'calc(100vw - clamp(48px, 4vw, 96px))', 
+                paddingLeft: 'clamp(24px, 4vw, 48px)',
+                paddingRight: 'clamp(24px, 4vw, 48px)'
+              }}
+            >
+              <SandyTextureOverlay />   
+              <HeroContent slides={SLIDES_DATA} currentIndex={currentIndex} />
+            </div>
+            {/* <Stats stats={STATS_DATA} /> */}
           </div>
         </main>
-
-        {/* --- Carousel Controls --- */}
-        <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 sm:bottom-10">
-          <div className="flex items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 backdrop-blur-sm">
-            {SLIDES_DATA.map((_, slideIndex) => (
-              <button
-                key={slideIndex}
-                onClick={() => goToSlide(slideIndex)}
-                aria-label={`Go to slide ${slideIndex + 1}`}
-                className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
-                  currentIndex === slideIndex ? 'scale-125 bg-white' : 'bg-white/40 hover:bg-white/70'
-                }`}
-              />
-            ))}
-          </div>
-        </div>
+        
+        <CarouselControls slides={SLIDES_DATA} currentIndex={currentIndex} goToSlide={goToSlide} />
       </div>
     </section>
   );

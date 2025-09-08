@@ -32,7 +32,7 @@ const AdminClientQueryViewer = () => {
                 }
                 
                 const data = await response.json();
-                setQueries(data);
+                setQueries(data.data?.clients || data.data || []);
             } catch (err) {
                  setError(err instanceof Error ? err.message : 'An unknown error occurred.');
             } finally {

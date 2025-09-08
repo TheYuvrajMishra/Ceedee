@@ -50,7 +50,7 @@ const AdminNewsAndEvents = () => {
             const response = await fetch(API_URL);
             if (!response.ok) throw new Error('Failed to fetch news and events');
             const data = await response.json();
-            setNewsAndEvents(data);
+            setNewsAndEvents(data.data?.newsEvents || data.data || []);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An unknown error occurred.');
         } finally {
@@ -100,10 +100,26 @@ const AdminNewsAndEvents = () => {
         e.preventDefault();
         setError('');
 
+        // Frontend validation to match backend requirements
+        if (formData.title.trim().length < 5 || formData.title.trim().length > 300) {
+            setError('Title must be between 5 and 300 characters');
+            return;
+        }
+        
+        if (formData.description.trim().length < 20 || formData.description.trim().length > 10000) {
+            setError('Description must be between 20 and 10000 characters');
+            return;
+        }
+
         const itemData = {
-            ...formData,
-            tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag), // Convert string to array
+            title: formData.title.trim(),
+            type: formData.type,
+            content: formData.description.trim(), // Backend expects 'content', not 'description'
             date: formData.date || undefined,
+            location: formData.location.trim() || undefined,
+            image: formData.image.trim() || undefined,
+            status: formData.status,
+            tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag), // Convert string to array
         };
 
         const url = editingItem ? `${API_URL}/${editingItem._id}` : API_URL;

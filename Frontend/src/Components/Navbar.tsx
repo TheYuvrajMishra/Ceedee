@@ -2,6 +2,7 @@ import { Menu, X } from 'lucide-react';
 import { useState, useEffect, type FC } from 'react';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 
 const NAV_LINKS = [
   { to: '/about', label: 'About Us' },
@@ -36,48 +37,14 @@ const Header: FC = () => {
         }
       )}
     >
-      <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="flex items-center space-x-4 -py-1">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg">
-            <img src="/logo_base.png" alt="Company Logo Base" />
-          </div>
-          <img src="/logo_title.png" alt="Company Name" className="w-30" />
-        </Link>
-
-        <nav className="hidden md:flex items-center space-x-8">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.label}
-              to={link.to}
+      <div className="container mx-auto flex items-center">
+        {/* Hamburger Menu - Left Side with consistent positioning */}
+        <div className="flex-1">
+          <div className="ml-6 sm:ml-8 md:ml-10 lg:ml-12">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={clsx(
-                'transition-colors duration-300 relative group',
-                {
-                  'text-slate-700 hover:text-amber-600': isScrolled,
-                  'text-white hover:text-amber-300': !isScrolled,
-                }
-              )}
-            >
-              {link.label}
-              <span
-                className={clsx(
-                  'absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-500 transition-all duration-300 group-hover:w-full'
-                )}
-              ></span>
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center space-x-4">
-          <Link
-            to="/contact"
-            className="hidden sm:inline-block bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:scale-100 shadow-lg hover:shadow-amber-500/30"
-          >
-            Contact Us
-          </Link>
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={clsx(
-              'md:hidden p-2 rounded-lg transition-colors duration-300',
+                'p-2 rounded-lg transition-colors duration-300',
               {
                 'text-slate-800 hover:bg-slate-200/50': isScrolled,
                 'text-white hover:bg-white/10': !isScrolled,
@@ -93,40 +60,157 @@ const Header: FC = () => {
           </button>
         </div>
       </div>
+        {/* Logo - Center */}
+        <Link to="/" className="flex items-center space-x-4 -py-1 absolute left-1/2 transform -translate-x-1/2">
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center">
+            <img src="/logo.png" alt="Company Logo Base" />
+          </div>
+          <img src="/logo_title.png" alt="Company Name" className="w-30" />
+        </Link>
 
-      <div
-        className={clsx(
-          'md:hidden overflow-hidden transition-all duration-500 ease-in-out',
-          {
-            'max-h-96 opacity-100 mt-4': isMenuOpen,
-            'max-h-0 opacity-0': !isMenuOpen,
-          }
-        )}
-      >
-        <div className="bg-slate-800/90 backdrop-blur-xl rounded-2xl p-6 border border-white/10">
-          <nav className="flex flex-col space-y-4">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                to={link.to}
-                className="text-white hover:text-amber-300 py-2 px-4 rounded-lg hover:bg-white/5 transition-all duration-300 text-center text-lg"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="border-t border-white/10 pt-4 mt-2">
-              <Link
-                to="/contact"
-                className="bg-transparent border border-amber-700 text-white font-semibold py-3 px-6 rounded-xl w-full text-center block"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Contact Us
-              </Link>
-            </div>
-          </nav>
+        {/* Contact Button */}
+        <div className="flex items-center space-x-4 flex-1 justify-end">
+          <div className="mr-6 sm:mr-8 md:mr-10 lg:mr-12">
+            <Link
+              to="/contact"
+              className="
+                sm:inline-block noto-sans-medium py-3 px-6 rounded-xl
+                relative overflow-hidden 
+                border-2 border-amber-600 text-amber-600                 
+                transition-all duration-600
+                before:absolute before:inset-0 before:-z-10
+                before:bg-amber-600
+                before:w-0 before:transition-[width]
+                hover:text-white hover:before:w-full"
+            >
+              Contact Us
+            </Link>
+          </div>
         </div>
       </div>
+
+      {/* Portal-based overlay and sidebar */}
+      {isMenuOpen && typeof document !== 'undefined' && createPortal(
+        <>
+          {/* Blur Background Overlay */}
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              width: '100vw',
+              height: '100vh',
+              backgroundColor: 'rgba(0, 0, 0, 0.2)',
+              backdropFilter: 'blur(10px) saturate(110%)',
+              WebkitBackdropFilter: 'blur(10px) saturate(110%)',
+              zIndex: 100,
+              transition: 'all 300ms ease-in-out',
+              pointerEvents: 'auto',
+              isolation: 'isolate'
+            }}
+            onClick={() => setIsMenuOpen(false)}
+          />
+
+          {/* Side Navigation Panel */}
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: '320px',
+              height: '100vh',
+              backgroundColor: '#FCFCFC',
+              zIndex: 105,
+              transform: isMenuOpen ? 'translateX(0)' : 'translateX(-100%)',
+              transition: 'transform 300ms ease-in-out',
+              pointerEvents: 'auto'
+            }}
+          >
+            {/* Navigation Content */}
+            <div
+              style={{
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column'
+              }}
+            >
+              {/* Close Button */}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  padding: '24px'
+                }}
+              >
+                <button
+                  onClick={() => setIsMenuOpen(false)}
+                  style={{
+                    padding: '8px',
+                    borderRadius: '8px',
+                    border: 'none',
+                    backgroundColor: 'transparent',
+                    color: 'black',
+                    cursor: 'pointer',
+                    transition: 'background-color 300ms ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLButtonElement).style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLButtonElement).style.backgroundColor = 'transparent';
+                  }}
+                  aria-label="Close menu"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              {/* Navigation Links */}
+              <nav
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  padding: '0 24px'
+                }}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                  {NAV_LINKS.map((link) => (
+                    <Link
+                      key={link.label}
+                      to={link.to}
+                      style={{
+                        display: 'block',
+                        padding: '12px 16px',
+                        borderRadius: '8px',
+                        color: 'black',
+                        textDecoration: 'none',
+                        textAlign: 'center',
+                        fontSize: '18px',
+                        fontWeight: '500',
+                        backgroundColor: 'transparent',
+                        transition: 'all 300ms ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.target as HTMLAnchorElement).style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.target as HTMLAnchorElement).style.backgroundColor = 'transparent';
+                      }}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              </nav>
+            </div>
+          </div>
+        </>,
+        document.body
+      )}
     </header>
   );
 };
