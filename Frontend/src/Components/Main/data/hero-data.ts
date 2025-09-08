@@ -43,21 +43,21 @@ export interface CarouselControlsProps extends CarouselProps {
 
 export const SLIDES_DATA: Slide[] = [
   { 
-    url: 'https://images.unsplash.com/photo-1518152006812-edab29b069ac?q=80&w=2070&auto=format&fit=crop', 
+    url: '/video1.mp4', 
     alt: 'Abstract network of glowing blue polymer chains', 
     eyebrow: 'A Venbro Polymers Initiative',
     headline: 'Engineering Excellence in Every Molecule', 
     subheadline: "We design high-performance polymers for the world's most demanding applications." 
   },
   { 
-    url: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?q=80&w=2070&auto=format&fit=crop', 
+    url: '/video2.mp4', 
     alt: 'Scientist working in a modern polymer research laboratory', 
     eyebrow: 'Advanced Research & Development',
     headline: 'Innovation Driven by Science', 
     subheadline: 'Our state-of-the-art facilities are dedicated to pushing the boundaries of material science.' 
   },
   { 
-    url: 'https://i.ytimg.com/vi/UGXKaH9k75M/maxresdefault.jpg', 
+    url: '/video3.mp4', 
     alt: 'Eco-friendly product made from recycled polymers', 
     eyebrow: 'Commitment to Sustainability',
     headline: 'Sustainable Solutions for Tomorrow', 

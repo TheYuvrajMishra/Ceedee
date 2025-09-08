@@ -60,7 +60,6 @@ const Header: FC = () => {
           </button>
         </div>
       </div>
-
         {/* Logo - Center */}
         <Link to="/" className="flex items-center space-x-4 -py-1 absolute left-1/2 transform -translate-x-1/2">
           <div className="w-10 h-10 rounded-lg flex items-center justify-center">
@@ -177,7 +176,6 @@ const Header: FC = () => {
                   justifyContent: 'center',
                   padding: '0 24px'
                 }}
-              >
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   {NAV_LINKS.map((link) => (
                     <Link

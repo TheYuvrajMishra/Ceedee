@@ -1,4 +1,8 @@
-import React, { useState, useEffect, useCallback, type FC, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { ChevronRight, Play } from 'lucide-react';
+import Headers from '../Navbar'; // Assuming this is your Navbar component
+import { SLIDES_DATA } from './data/hero-data'; // Assuming this is your data file
+
 
 // Icon imports from Lucide
 import { ChevronRight} from 'lucide-react';
@@ -53,22 +57,18 @@ export interface CarouselControlsProps extends CarouselProps {
 
 const useCarousel = (length: number, interval = 5000) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const goToNext = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % length);
-  }, [length]);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % SLIDES_DATA.length);
+  }, []);
 
   const goToSlide = (slideIndex: number) => {
     setCurrentIndex(slideIndex);
   };
 
   useEffect(() => {
-    const slideInterval = setInterval(goToNext, interval);
+    const slideInterval = setInterval(goToNext, 7000); // 7-second interval
     return () => clearInterval(slideInterval);
-  }, [goToNext, interval]);
-
-  return { currentIndex, goToSlide };
-};
+  }, [goToNext]);
 
 
 // ============================================================================
@@ -107,8 +107,9 @@ const BackgroundCarousel: FC<CarouselProps> = ({ slides, currentIndex }) => (
 const explore = () => {
     const element = document.getElementById("ExploreServices");
     if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+      element.scrollIntoView({ behavior: "smooth" });
     }
+
 }
 
 const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
@@ -238,7 +239,11 @@ const CeeDeeHeroSection = () => {
         {/* Black overlay for entire background */}
         <div className="absolute inset-0 bg-black/60" />
 
+        {/* --- Decorative Frame --- */}
+        <div className="pointer-events-none absolute opacity-0 md:opacity-100 inset-0 z-1 rounded-lg border border-white/20 bg-black/5 backdrop-blur-sm md:inset-20" />
+
         <Headers />
+
 
         {/* Main content area - optimized layout to prevent overflow */}
         <main className="relative z-10 flex h-full flex-col items-center justify-center pt-20 pb-8 sm:pt-24 sm:pb-12 md:pt-28 md:pb-16">
@@ -262,7 +267,7 @@ const CeeDeeHeroSection = () => {
         
         <CarouselControls slides={SLIDES_DATA} currentIndex={currentIndex} goToSlide={goToSlide} />
       </div>
-    </div>
+    </section>
   );
 };
 
