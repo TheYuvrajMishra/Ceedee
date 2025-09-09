@@ -1,13 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
-import { ChevronRight, Play } from 'lucide-react';
-import Headers from '../Navbar'; // Assuming this is your Navbar component
-import { SLIDES_DATA } from './data/hero-data'; // Assuming this is your data file
+import { useState, useEffect, useCallback, useRef, type FC } from "react";
+import { ChevronRight, Play } from "lucide-react";
+import Headers from "../Navbar"; // Assuming this is your Navbar component
+import { SLIDES_DATA } from "./data/hero-data"; // Assuming this is your data file
 
-
-// Icon imports from Lucide
-import { ChevronRight} from 'lucide-react';
-import Headers from '../Navbar';
-import { SLIDES_DATA /* STATS_DATA */ } from './data/hero-data';
 // ============================================================================
 // DATA, TYPES, AND HOOKS
 // ============================================================================
@@ -35,8 +30,6 @@ export interface CarouselProps {
 export interface CarouselControlsProps extends CarouselProps {
   goToSlide: (index: number) => void;
 }
-
-
 
 // 3. HOOKS
 // const useMousePosition = () => {
@@ -70,6 +63,8 @@ const useCarousel = (length: number, interval = 5000) => {
     return () => clearInterval(slideInterval);
   }, [goToNext]);
 
+  return { currentIndex, goToSlide };
+};
 
 // ============================================================================
 // UI SUB-COMPONENTS
@@ -84,33 +79,39 @@ const SandyTextureOverlay: FC = () => (
     }}
   />
 );
-const BackgroundCarousel: FC<CarouselProps> = ({ slides, currentIndex }) => (
+const BackgroundCarousel = ({ slides, currentIndex }: CarouselProps) => (
   <>
     {slides.map((slide, index) => (
       <div
         key={slide.url}
         className={`absolute inset-0 h-full w-full transition-all duration-[3000ms] ease-in-out
-          ${index === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-105'}`
-        }
+          ${
+            index === currentIndex
+              ? "opacity-100 scale-100"
+              : "opacity-0 scale-105"
+          }`}
       >
-        <img 
-          src={slide.url} 
-          alt={slide.alt} 
-          className="h-full w-full object-cover object-center" 
-          loading="lazy"
-        />
+        <video
+          src={slide.url}
+          className="h-full w-full object-cover object-center"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+        >
+        </video>
       </div>
     ))}
   </>
 );
 
 const explore = () => {
-    const element = document.getElementById("ExploreServices");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-
-}
+  const element = document.getElementById("ExploreServices");
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+};
 
 const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
   <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -122,12 +123,12 @@ const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
           {slides.map((slide, index) => (
             <p
               key={`eyebrow-${slide.url}`}
-              className={`absolute text-xs noto-sans-medium uppercase tracking-wider text-amber-600 sm:text-sm md:text-base transition-all duration-1000 ease-in-out
-                ${currentIndex === index 
-                  ? 'opacity-100 blur-0 scale-100' 
-                  : 'opacity-0 blur-md scale-95 pointer-events-none'
-                }`
-              }
+              className={`absolute text-xs uppercase raleway-light tracking-wider text-amber-600 sm:text-sm md:text-base transition-all duration-1000 ease-in-out
+                ${
+                  currentIndex === index
+                    ? "opacity-100 blur-0 scale-100"
+                    : "opacity-0 blur-md scale-95 pointer-events-none"
+                }`}
             >
               {slide.eyebrow}
             </p>
@@ -135,16 +136,16 @@ const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
         </div>
 
         {/* Headline container - fixed height for largest possible text */}
-        <div className="h-[72px] sm:h-[96px] md:h-[120px] lg:h-[144px] xl:h-[168px] flex items-center justify-center">
+        <div className="h-[72px] sm:h-[96px] raleway-bold md:h-[120px] lg:h-[144px] xl:h-[168px] flex items-center justify-center">
           {slides.map((slide, index) => (
             <h1
               key={`headline-${slide.url}`}
-              className={`absolute text-3xl fira-sans-black leading-tight tracking-tight text-slate-100 [text-shadow:0_2px_4px_rgba(0,0,0,0.5)] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl transition-all duration-1000 ease-in-out
-                ${currentIndex === index 
-                  ? 'opacity-100 blur-0 scale-100' 
-                  : 'opacity-0 blur-md scale-95 pointer-events-none'
-                }`
-              }
+              className={`absolute text-3xl  leading-tight tracking-tight text-slate-100  sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl transition-all duration-1000 ease-in-out
+                ${
+                  currentIndex === index
+                    ? "opacity-100 blur-0 scale-100"
+                    : "opacity-0 blur-md scale-95 pointer-events-none"
+                }`}
             >
               {slide.headline}
             </h1>
@@ -152,16 +153,16 @@ const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
         </div>
 
         {/* Subheadline container - fixed height */}
-        <div className="h-[48px] sm:h-[56px] md:h-[64px] mx-auto max-w-2xl sm:max-w-3xl lg:max-w-4xl flex items-center justify-center">
+        <div className="h-[48px] sm:h-[56px] raleway-regular md:h-[64px] mx-auto max-w-2xl sm:max-w-3xl lg:max-w-4xl flex items-center justify-center">
           {slides.map((slide, index) => (
             <p
               key={`subheadline-${slide.url}`}
-              className={`absolute noto-sans-medium text-slate-300 sm:text-lg md:text-xl transition-all duration-1000 ease-in-out px-4
-                ${currentIndex === index 
-                  ? 'opacity-100 blur-0 scale-100' 
-                  : 'opacity-0 blur-md scale-95 pointer-events-none'
-                }`
-              }
+              className={`absolute  text-slate-300 sm:text-lg md:text-xl transition-all duration-1000 ease-in-out px-4
+                ${
+                  currentIndex === index
+                    ? "opacity-100 blur-0 scale-100"
+                    : "opacity-0 blur-md scale-95 pointer-events-none"
+                }`}
             >
               {slide.subheadline}
             </p>
@@ -169,13 +170,18 @@ const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
         </div>
       </div>
     </div>
-    
+
     {/* Buttons with proper spacing */}
     <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-12 sm:flex-row sm:gap-4 md:mt-16">
-      <button onClick={explore} className="group flex w-full min-h-[48px] cursor-pointer items-center justify-center gap-2 rounded-lg bg-slate-100 px-6 py-3 font-bold text-slate-900 transition-all duration-300 hover:bg-white sm:w-auto sm:px-8 sm:py-3.5 touch-manipulation">
-        <span className="inter-tight-balck text-sm sm:text-base">Explore Our Solutions</span>
+      <button
+        onClick={explore}
+        className="group flex w-full min-h-[48px] cursor-pointer items-center justify-center gap-2 rounded-lg bg-slate-100 px-6 py-3 font-bold text-slate-900 transition-all duration-300 hover:bg-white sm:w-auto sm:px-8 sm:py-3.5 touch-manipulation"
+      >
+        <span className="inter-tight-balck text-sm sm:text-base">
+          Explore Our Solutions
+        </span>
         <ChevronRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 sm:h-5 sm:w-5" />
-      </button>      
+      </button>
     </div>
   </div>
 );
@@ -194,7 +200,11 @@ const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
 //   </div>
 // );
 
-const CarouselControls: FC<CarouselControlsProps> = ({ slides, currentIndex, goToSlide }) => (
+const CarouselControls: FC<CarouselControlsProps> = ({
+  slides,
+  currentIndex,
+  goToSlide,
+}) => (
   <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 sm:bottom-8 md:bottom-10 lg:bottom-12">
     <div className="flex items-center justify-center gap-3 rounded-full bg-white/5 border border-white/50 px-4 py-2 backdrop-blur-sm">
       {slides.map((_, slideIndex) => (
@@ -204,15 +214,19 @@ const CarouselControls: FC<CarouselControlsProps> = ({ slides, currentIndex, goT
           aria-label={`Go to slide ${slideIndex + 1}`}
           className="flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 touch-manipulation"
         >
-          <div className={`h-2.5 w-2.5 rounded-full transition-all duration-300
-            ${currentIndex === slideIndex ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/70'}`
-          } />
+          <div
+            className={`h-2.5 w-2.5 rounded-full transition-all duration-300
+            ${
+              currentIndex === slideIndex
+                ? "bg-white scale-125"
+                : "bg-white/40 hover:bg-white/70"
+            }`}
+          />
         </button>
       ))}
     </div>
   </div>
 );
-
 
 // ============================================================================
 // MAIN HERO COMPONENT
@@ -224,50 +238,47 @@ const CeeDeeHeroSection = () => {
 
   return (
     // The main container uses full viewport height and width
-    <div
-      ref={heroRef}
-      className="relative h-screen w-full"
-    >
+    <div ref={heroRef} className="relative raleway h-screen w-full">
       {/* Background color layer */}
-      <div className='absolute inset-0'></div>
-      
+      <div className="absolute inset-0"></div>
+
       {/* Main content container */}
-      <div className="relative z-10 h-full w-full overflow-hidden bg-transparent font-sans text-white">
+      <div className="relative z-10 h-full w-full overflow-hidden bg-transparent text-white">
         {/* Background carousel */}
         <BackgroundCarousel slides={SLIDES_DATA} currentIndex={currentIndex} />
-        
+
         {/* Black overlay for entire background */}
         <div className="absolute inset-0 bg-black/60" />
 
-        {/* --- Decorative Frame --- */}
-        <div className="pointer-events-none absolute opacity-0 md:opacity-100 inset-0 z-1 rounded-lg border border-white/20 bg-black/5 backdrop-blur-sm md:inset-20" />
-
         <Headers />
-
 
         {/* Main content area - optimized layout to prevent overflow */}
         <main className="relative z-10 flex h-full flex-col items-center justify-center pt-20 pb-8 sm:pt-24 sm:pb-12 md:pt-28 md:pb-16">
           <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 md:gap-8 flex-1 min-h-0 w-full max-w-7xl mx-auto">
             {/* Dark background container for text content - aligned with navbar elements */}
-            <div 
-              className="backdrop-blur-sm rounded-2xl py-8 sm:py-10 md:py-12 bg-transparent border-1 border-white/50 mx-auto"
+            <div
+              className="backdrop-blur-sm py-8 sm:py-10 md:py-12 bg-transparent border-1 border-white/20 mx-auto"
               style={{
-                width: 'calc(100% - clamp(48px, 4vw, 96px))', 
-                maxWidth: 'calc(100vw - clamp(48px, 4vw, 96px))', 
-                paddingLeft: 'clamp(24px, 4vw, 48px)',
-                paddingRight: 'clamp(24px, 4vw, 48px)'
+                width: "calc(100% - clamp(48px, 4vw, 96px))",
+                maxWidth: "calc(100vw - clamp(48px, 4vw, 96px))",
+                paddingLeft: "clamp(24px, 4vw, 48px)",
+                paddingRight: "clamp(24px, 4vw, 48px)",
               }}
             >
-              <SandyTextureOverlay />   
+              <SandyTextureOverlay />
               <HeroContent slides={SLIDES_DATA} currentIndex={currentIndex} />
             </div>
             {/* <Stats stats={STATS_DATA} /> */}
           </div>
         </main>
-        
-        <CarouselControls slides={SLIDES_DATA} currentIndex={currentIndex} goToSlide={goToSlide} />
+
+        <CarouselControls
+          slides={SLIDES_DATA}
+          currentIndex={currentIndex}
+          goToSlide={goToSlide}
+        />
       </div>
-    </section>
+    </div>
   );
 };
 

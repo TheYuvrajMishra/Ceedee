@@ -11,7 +11,7 @@ const NAV_LINKS = [
   { to: '/careers', label: 'Careers' },
 ];
 
-const Header: FC = () => {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -28,13 +28,12 @@ const Header: FC = () => {
   }, []);
 
   return (
-    <header
+    <div
       className={clsx(
         'fixed top-0 w-full z-50 transition-all duration-300 ease-in-out p-4 md:py-3',
-        {
-          'bg-white/90 backdrop-blur-lg shadow-md': isScrolled,
-          'bg-transparent': !isScrolled,
-        }
+        isScrolled
+          ? 'bg-white/90 backdrop-blur-lg shadow-md'
+          : 'bg-transparent'
       )}
     >
       <div className="container mx-auto flex items-center">
@@ -176,6 +175,7 @@ const Header: FC = () => {
                   justifyContent: 'center',
                   padding: '0 24px'
                 }}
+              >
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   {NAV_LINKS.map((link) => (
                     <Link
@@ -211,7 +211,7 @@ const Header: FC = () => {
         </>,
         document.body
       )}
-    </header>
+    </div>
   );
 };
 

@@ -7,7 +7,7 @@ import { useScrollAnimation } from './data/hooks';
  */
 const CompInfo: React.FC = () => {
   // Use the improved scroll animation with better viewport calculations
-  const { progress, elementRef } = useScrollAnimation(0, 0.6);
+  const { progress, elementRef } = useScrollAnimation(0, 0.5);
 
   const text = "Ceedee's Group of companies is an industry leader in providing a range of services in the sphere of various manufacturing and trading enterprises worldwide!";
 
@@ -51,13 +51,51 @@ const CompInfo: React.FC = () => {
   return (
     <section 
       ref={elementRef}
-      className="h-[50vh] bg-white relative overflow-hidden"
+      className="h-[50vh] bg-white relative raleway-light overflow-hidden"
     >
       {/* Content container */}
       <div className="relative z-10 h-full flex items-center justify-center">
+      
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl inter-tight-black">
+          <div className="max-w-4xl mx-auto text-left">
+            <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+              {animatedText.map((wordData, wordIndex) => (
+                <span key={wordIndex} className="inline-block" style={{ whiteSpace: 'nowrap' }}>
+                  {/* Render each character in the word */}
+                  {wordData.word.map(({ char, color, index }) => (
+                    <span
+                      key={index}
+                      style={{ 
+                        color,
+                        // Improved transition with better cubic-bezier timing function
+                        transition: 'color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                      }}
+                      className="inline-block"
+                    >
+                      {char}
+                    </span>
+                  ))}
+                  {/* Render the space after the word if it exists */}
+                  {wordData.space && (
+                    <span
+                      key={wordData.space.index}
+                      style={{ 
+                        color: wordData.space.color,
+                        transition: 'color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                      }}
+                      className="inline-block"
+                    >
+                      {'\u00A0'}
+                    </span>
+                  )}
+                </span>
+              ))}
+            </p>
+          </div>
+        </div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-right">
+            <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
               {animatedText.map((wordData, wordIndex) => (
                 <span key={wordIndex} className="inline-block" style={{ whiteSpace: 'nowrap' }}>
                   {/* Render each character in the word */}
