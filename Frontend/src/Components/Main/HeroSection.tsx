@@ -79,6 +79,7 @@ const SandyTextureOverlay: FC = () => (
     }}
   />
 );
+
 const BackgroundCarousel = ({ slides, currentIndex }: CarouselProps) => (
   <>
     {slides.map((slide, index) => (
@@ -114,16 +115,16 @@ const explore = () => {
 };
 
 const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
-  <div className="w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+  <div className="w-full max-w-7xl px-3 xs:px-4 sm:px-6 lg:px-8">
     <div className="relative flex flex-col items-center justify-center text-center">
       {/* Fixed space containers for each text type */}
-      <div className="flex flex-col items-center space-y-4 sm:space-y-6">
-        {/* Eyebrow container - fixed height */}
-        <div className="h-[16px] sm:h-[20px] md:h-[24px] flex items-center justify-center">
+      <div className="flex flex-col items-center space-y-3 xs:space-y-4 sm:space-y-6">
+        {/* Eyebrow container - fixed height with better mobile scaling */}
+        <div className="h-[14px] xs:h-[16px] sm:h-[20px] md:h-[24px] flex items-center justify-center">
           {slides.map((slide, index) => (
             <p
               key={`eyebrow-${slide.url}`}
-              className={`absolute text-xs uppercase raleway-light tracking-wider text-amber-600 sm:text-sm md:text-base transition-all duration-1000 ease-in-out
+              className={`absolute text-[10px] xs:text-xs uppercase raleway-light tracking-wider text-amber-600 sm:text-sm md:text-base transition-all duration-1000 ease-in-out
                 ${
                   currentIndex === index
                     ? "opacity-100 blur-0 scale-100"
@@ -135,12 +136,12 @@ const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
           ))}
         </div>
 
-        {/* Headline container - fixed height for largest possible text */}
-        <div className="h-[72px] sm:h-[96px] raleway-bold md:h-[120px] lg:h-[144px] xl:h-[168px] flex items-center justify-center">
+        {/* Headline container - better mobile height management */}
+        <div className="h-[60px] xs:h-[72px] sm:h-[96px] raleway-bold md:h-[120px] lg:h-[144px] xl:h-[168px] flex items-center justify-center px-2">
           {slides.map((slide, index) => (
             <h1
               key={`headline-${slide.url}`}
-              className={`absolute text-3xl  leading-tight tracking-tight text-slate-100  sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl transition-all duration-1000 ease-in-out
+              className={`absolute text-2xl xs:text-3xl leading-tight tracking-tight text-slate-100 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl transition-all duration-1000 ease-in-out
                 ${
                   currentIndex === index
                     ? "opacity-100 blur-0 scale-100"
@@ -152,12 +153,12 @@ const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
           ))}
         </div>
 
-        {/* Subheadline container - fixed height */}
-        <div className="h-[48px] sm:h-[56px] raleway-regular md:h-[64px] mx-auto max-w-2xl sm:max-w-3xl lg:max-w-4xl flex items-center justify-center">
+        {/* Subheadline container - better mobile text sizing */}
+        <div className="h-[40px] xs:h-[48px] sm:h-[56px] raleway-regular md:h-[64px] mx-auto max-w-xs xs:max-w-sm sm:max-w-2xl lg:max-w-4xl flex items-center justify-center">
           {slides.map((slide, index) => (
             <p
               key={`subheadline-${slide.url}`}
-              className={`absolute  text-slate-300 sm:text-lg md:text-xl transition-all duration-1000 ease-in-out px-4
+              className={`absolute text-sm xs:text-base text-slate-300 sm:text-lg md:text-xl transition-all duration-1000 ease-in-out px-2 xs:px-4 leading-relaxed
                 ${
                   currentIndex === index
                     ? "opacity-100 blur-0 scale-100"
@@ -171,13 +172,13 @@ const HeroContent: FC<CarouselProps> = ({ slides, currentIndex }) => (
       </div>
     </div>
 
-    {/* Buttons with proper spacing */}
-    <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:mt-12 sm:flex-row sm:gap-4 md:mt-16">
+    {/* Buttons with better mobile spacing */}
+    <div className="mt-6 xs:mt-8 flex flex-col items-center justify-center gap-3 sm:mt-12 sm:flex-row sm:gap-4 md:mt-16">
       <button
         onClick={explore}
-        className="group flex w-full min-h-[48px] cursor-pointer items-center justify-center gap-2 rounded-lg bg-slate-100 px-6 py-3 font-bold text-slate-900 transition-all duration-300 hover:bg-white sm:w-auto sm:px-8 sm:py-3.5 touch-manipulation"
+        className="group flex w-full xs:w-auto min-w-[280px] xs:min-w-[300px] sm:min-w-0 min-h-[44px] xs:min-h-[48px] cursor-pointer items-center justify-center gap-2 rounded-lg bg-slate-100 px-4 xs:px-6 py-3 font-bold text-slate-900 transition-all duration-300 hover:bg-white sm:w-auto sm:px-8 sm:py-3.5 touch-manipulation"
       >
-        <span className="inter-tight-balck text-sm sm:text-base">
+        <span className="inter-tight-balck text-sm xs:text-base">
           Explore Our Solutions
         </span>
         <ChevronRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 sm:h-5 sm:w-5" />
@@ -205,17 +206,17 @@ const CarouselControls: FC<CarouselControlsProps> = ({
   currentIndex,
   goToSlide,
 }) => (
-  <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20 sm:bottom-8 md:bottom-10 lg:bottom-12">
-    <div className="flex items-center justify-center gap-3 rounded-full bg-white/5 border border-white/50 px-4 py-2 backdrop-blur-sm">
+  <div className="absolute bottom-4 xs:bottom-6 left-1/2 transform -translate-x-1/2 z-20 sm:bottom-8 md:bottom-10 lg:bottom-12">
+    <div className="flex items-center justify-center gap-2 xs:gap-3 rounded-full bg-white/5 border border-white/50 px-3 xs:px-4 py-2 backdrop-blur-sm">
       {slides.map((_, slideIndex) => (
         <button
           key={slideIndex}
           onClick={() => goToSlide(slideIndex)}
           aria-label={`Go to slide ${slideIndex + 1}`}
-          className="flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 touch-manipulation"
+          className="flex h-7 w-7 xs:h-8 xs:w-8 items-center justify-center rounded-full transition-all duration-300 touch-manipulation"
         >
           <div
-            className={`h-2.5 w-2.5 rounded-full transition-all duration-300
+            className={`h-2 w-2 xs:h-2.5 xs:w-2.5 rounded-full transition-all duration-300
             ${
               currentIndex === slideIndex
                 ? "bg-white scale-125"
@@ -237,8 +238,8 @@ const CeeDeeHeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null); // Create a ref for the hero section
 
   return (
-    // The main container uses full viewport height and width
-    <div ref={heroRef} className="relative raleway h-screen w-full">
+    // The main container uses full viewport height with safe area handling
+    <div ref={heroRef} className="relative raleway h-screen w-full min-h-[600px] xs:min-h-[700px]">
       {/* Background color layer */}
       <div className="absolute inset-0"></div>
 
@@ -247,22 +248,22 @@ const CeeDeeHeroSection = () => {
         {/* Background carousel */}
         <BackgroundCarousel slides={SLIDES_DATA} currentIndex={currentIndex} />
 
-        {/* Black overlay for entire background */}
-        <div className="absolute inset-0 bg-black/60" />
+        {/* Black overlay for entire background with slightly more opacity on mobile */}
+        <div className="absolute inset-0 bg-black/70 xs:bg-black/65 sm:bg-black/60" />
 
         <Headers />
 
-        {/* Main content area - optimized layout to prevent overflow */}
-        <main className="relative z-10 flex h-full flex-col items-center justify-center pt-20 pb-8 sm:pt-24 sm:pb-12 md:pt-28 md:pb-16">
-          <div className="flex flex-col items-center justify-center gap-4 sm:gap-6 md:gap-8 flex-1 min-h-0 w-full max-w-7xl mx-auto">
-            {/* Dark background container for text content - aligned with navbar elements */}
+        {/* Main content area - better mobile padding and spacing */}
+        <main className="relative z-10 flex h-full flex-col items-center justify-center pt-16 xs:pt-20 pb-6 xs:pb-8 sm:pt-24 sm:pb-12 md:pt-28 md:pb-16">
+          <div className="flex flex-col items-center justify-center gap-3 xs:gap-4 sm:gap-6 md:gap-8 flex-1 min-h-0 w-full max-w-7xl mx-auto">
+            {/* Dark background container for text content - better mobile responsiveness */}
             <div
-              className="backdrop-blur-sm py-8 sm:py-10 md:py-12 bg-transparent border-1 border-white/20 mx-auto"
+              className="backdrop-blur-sm py-6 xs:py-8 sm:py-10 md:py-12 bg-transparent border-1 border-white/20 mx-auto"
               style={{
-                width: "calc(100% - clamp(48px, 4vw, 96px))",
-                maxWidth: "calc(100vw - clamp(48px, 4vw, 96px))",
-                paddingLeft: "clamp(24px, 4vw, 48px)",
-                paddingRight: "clamp(24px, 4vw, 48px)",
+                width: "calc(100% - clamp(24px, 3vw, 96px))",
+                maxWidth: "calc(100vw - clamp(24px, 3vw, 96px))",
+                paddingLeft: "clamp(16px, 3vw, 48px)",
+                paddingRight: "clamp(16px, 3vw, 48px)",
               }}
             >
               <SandyTextureOverlay />
