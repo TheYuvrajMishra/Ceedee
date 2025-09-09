@@ -56,7 +56,7 @@ const CompInfo: React.FC = () => {
       {/* Content container */}
       <div className="relative z-10 h-full flex items-center justify-center">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-right">
+          <div className="max-w-4xl mx-auto text-center">
             <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
               {animatedText.map((wordData, wordIndex) => (
                 <span key={wordIndex} className="inline-block" style={{ whiteSpace: 'nowrap' }}>
