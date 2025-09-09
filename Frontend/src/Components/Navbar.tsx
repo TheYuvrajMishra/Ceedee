@@ -1,5 +1,5 @@
 import { Menu, X } from 'lucide-react';
-import { useState, useEffect, type FC } from 'react';
+import { useState, useEffect} from 'react';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { createPortal } from 'react-dom';

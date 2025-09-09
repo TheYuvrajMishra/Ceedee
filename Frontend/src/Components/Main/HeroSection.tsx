@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef, type FC } from "react";
-import { ChevronRight, Play } from "lucide-react";
+import { ChevronRight} from "lucide-react";
 import Headers from "../Navbar"; // Assuming this is your Navbar component
 import { SLIDES_DATA } from "./data/hero-data"; // Assuming this is your data file
 
@@ -48,7 +48,7 @@ export interface CarouselControlsProps extends CarouselProps {
 //   return mousePosition;
 // };
 
-const useCarousel = (length: number, interval = 5000) => {
+const useCarousel = (_length: number, _interval = 5000) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const goToNext = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % SLIDES_DATA.length);
