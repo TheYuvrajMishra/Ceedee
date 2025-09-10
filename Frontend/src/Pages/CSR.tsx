@@ -24,7 +24,9 @@ const CSR = () => {
                 const response = await fetch('http://localhost:5000/api/csr');
                 if (!response.ok) throw new Error('Data could not be fetched at this moment.');
                 const data = await response.json();
-                setCsrs(data);
+                                
+                console.log("CSR API Response:", data);
+                setCsrs(data.data.projects || []);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An unknown error occurred.');
             } finally {
