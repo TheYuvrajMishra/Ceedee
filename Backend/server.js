@@ -26,6 +26,7 @@ handleUncaughtException();
 app.use(helmet(helmetConfig));
 app.use(customSecurityHeaders);
 app.use(globalLimiter);
+app.use(cors())
 
 // SECURITY: Enhanced request size limits and validation
 const REQUEST_LIMITS = {

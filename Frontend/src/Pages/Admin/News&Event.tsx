@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router';
 
 // Type definition based on the Mongoose Schema
 type NewsEvent = {
@@ -170,6 +171,7 @@ const AdminNewsAndEvents = () => {
 
     return (
         <div className="container mx-auto p-4 md:p-6 bg-gray-50 min-h-screen font-sans">
+            <Link to={"/admin/dashboard"} className='fixed top-0 right-0 m-5 underline'>back to home</Link>
             <h2 className="text-3xl font-bold text-gray-800 mb-6">Admin: Manage News & Events</h2>
 
             {error && <p className="text-red-600 bg-red-100 p-3 rounded-md mb-4 border border-red-200">{error}</p>}

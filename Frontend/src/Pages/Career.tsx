@@ -21,20 +21,31 @@ const Career = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const fetchJobs = async () => {
-            try {
-                // Using the same API endpoint as the admin panel
-                const response = await fetch('http://localhost:5000/api/careers');
-                if (!response.ok) throw new Error('Data could not be fetched at this time.');
-                const data = await response.json();
-                setJobs(data);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'An unknown error occurred.');
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchJobs();
+        // Inside your useEffect hook
+
+const fetchJobs = async () => {
+    try {
+        const response = await fetch('http://localhost:5000/api/careers');
+        if (!response.ok) throw new Error('Data could not be fetched at this time.');
+        const data = await response.json();
+        
+        // --- FIX IS HERE ---
+        // Check what the data looks like before setting it
+        console.log("API Response:", data); 
+
+        // Set the state with the array from the response object
+        // Use `data.careers` or whatever the key is.
+        // The `|| []` provides a fallback to an empty array.
+        setJobs(data.careers || []); 
+        
+    } catch (err) {
+        setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+    } finally {
+        setLoading(false);
+    }
+};
+
+fetchJobs();
     }, []);
 
     // Helper to format salary

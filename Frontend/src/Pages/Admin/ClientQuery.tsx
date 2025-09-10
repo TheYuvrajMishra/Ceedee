@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router';
 
 type Query = {
     _id: string;
@@ -45,6 +46,7 @@ const AdminClientQueryViewer = () => {
 
     return (
         <div className="container mx-auto p-6 font-sans">
+            <Link to={"/admin/dashboard"} className='fixed top-0 right-0 m-5 underline'>back to home</Link>
             <h2 className="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">Client Queries</h2>
 
             {error && <p className="text-red-500 bg-red-100 p-3 rounded-md">{error}</p>}
