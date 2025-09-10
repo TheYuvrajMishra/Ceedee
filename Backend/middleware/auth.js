@@ -62,7 +62,50 @@ const requireAdmin = (req, res, next) => {
   next();
 };
 
+// Middleware to check if user is already authenticated (for login/register routes)
+const checkAlreadyAuthenticated = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization || "";
+    let token = null;
+
+    // Case-insensitive check for "Bearer "
+    if (authHeader.toLowerCase().startsWith("bearer ")) {
+      token = authHeader.substring(7);
+    }
+
+    // If no token, proceed to login/register
+    if (!token) {
+      return next();
+    }
+
+    // If token exists, verify it
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    // Find user in the User model
+    const user = await User.findById(decoded.id).select("-password");
+    
+    if (user && user.isActive) {
+      // User is already authenticated
+      return res.status(400).json({
+        status: 'error',
+        message: 'You are already authenticated',
+        code: 'ALREADY_AUTHENTICATED',
+        data: {
+          user: { id: user._id, name: user.name, email: user.email, role: user.role }
+        }
+      });
+    }
+
+    // Token is invalid or user is inactive, proceed to login/register
+    next();
+  } catch (err) {
+    // If token verification fails, proceed to login/register
+    next();
+  }
+};
+
 module.exports = { 
   verifyToken, 
-  requireAdmin
+  requireAdmin,
+  checkAlreadyAuthenticated
 };

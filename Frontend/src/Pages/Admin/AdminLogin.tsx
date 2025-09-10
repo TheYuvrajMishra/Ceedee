@@ -1,9 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 
 const AdminLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // Check if user is already authenticated
+        const token = localStorage.getItem('token');
+        if (token) {
+            setIsAuthenticated(true);
+        }
+        setLoading(false);
+    }, []);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -33,6 +45,20 @@ const AdminLogin = () => {
             setError('Invalid email or password. Please try again.');
         }
     };
+
+    // Show loading while checking authentication
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+                <div className="text-lg text-gray-900 dark:text-white">Loading...</div>
+            </div>
+        );
+    }
+
+    // If already authenticated, redirect to admin dashboard
+    if (isAuthenticated) {
+        return <Navigate to="/admin/dashboard" replace />;
+    }
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
