@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const { signToken } = require("../utils/jwt");
-const { verifyToken, requireAdmin } = require("../middleware/auth");
+const { verifyToken, requireAdmin, checkAlreadyAuthenticated } = require("../middleware/auth");
 const { 
   validateUserRegistration, 
   validateUserLogin, 
@@ -99,15 +99,37 @@ router.post("/create-admin", verifyToken, requireAdmin, sanitizeInput, validateU
   });
 }));
 
+// GET /api/auth/me - Get current user info
+router.get("/me", verifyToken, catchAsync(async (req, res) => {
+  res.json({
+    status: 'success',
+    message: 'User authenticated',
+    data: {
+      user: { 
+        id: req.user._id, 
+        name: req.user.name, 
+        email: req.user.email, 
+        role: req.user.role 
+      }
+    }
+  });
+}));
+
 // POST /api/auth/logout
-router.post("/logout", catchAsync(async (req, res) => {
+router.post("/logout", verifyToken, catchAsync(async (req, res) => {
   // Instruct the client to clear authentication tokens and related data.
   // For security, the client-side should handle the actual removal of the token.
   res.setHeader('Clear-Site-Data', '"cookies", "storage"');
   
   res.json({
     status: 'success',
-    message: 'Logout successful. Please clear your token.'
+    message: 'Logout successful. Please clear your token.',
+    data: {
+      user: {
+        id: req.user._id,
+        name: req.user.name
+      }
+    }
   });
 }));
 

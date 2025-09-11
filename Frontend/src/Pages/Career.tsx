@@ -29,14 +29,11 @@ const fetchJobs = async () => {
         if (!response.ok) throw new Error('Data could not be fetched at this time.');
         const data = await response.json();
         
-        // --- FIX IS HERE ---
-        // Check what the data looks like before setting it
+        // Extract jobs from the correct path in the API response
         console.log("API Response:", data); 
 
-        // Set the state with the array from the response object
-        // Use `data.careers` or whatever the key is.
-        // The `|| []` provides a fallback to an empty array.
-        setJobs(data.careers || []); 
+        // Backend returns data: { jobs }, so we need data.data.jobs
+        setJobs(data.data.jobs || []); 
         
     } catch (err) {
         setError(err instanceof Error ? err.message : 'An unknown error occurred.');

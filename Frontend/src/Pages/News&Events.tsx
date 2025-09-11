@@ -23,9 +23,14 @@ const NewsAndEvents = () => {
             try {
                 const response = await fetch('http://localhost:5000/api/news-events');
                 if (!response.ok) throw new Error('Data could not be fetched at this moment.');
-                const data: NewsEvent[] = await response.json();
+                const data = await response.json();
+                
+                // Backend returns data: { newsEvents }, so we need data.data.newsEvents
+                console.log("News&Events API Response:", data);
+                const newsEvents = data.data.newsEvents || [];
+                
                 // Filter for only published items before setting state
-                const publishedItems = data.filter(item => item.status === 'Published');
+                const publishedItems = newsEvents.filter((item: NewsEvent) => item.status === 'Published');
                 setItems(publishedItems);
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'An unknown error occurred.');
