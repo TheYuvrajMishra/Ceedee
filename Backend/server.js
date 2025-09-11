@@ -7,11 +7,11 @@ const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 
 // Import configurations
-const { 
-  globalErrorHandler, 
-  handleUnhandledRejection, 
-  handleUncaughtException, 
-  gracefulShutdown 
+const {
+  globalErrorHandler,
+  handleUnhandledRejection,
+  handleUncaughtException,
+  gracefulShutdown
 } = require("./middleware/errorHandler");
 const { globalLimiter, authLimiter, contactLimiter } = require("./config/rateLimits");
 const { helmetConfig, customSecurityHeaders } = require("./config/securityHeaders");
@@ -40,7 +40,7 @@ const REQUEST_LIMITS = {
 // SECURITY: Enhanced JSON parsing with error handling
 const createJSONMiddleware = (limit) => {
   return (req, res, next) => {
-    express.json({ 
+    express.json({
       limit,
       strict: true,
       type: 'application/json'
@@ -78,7 +78,7 @@ app.use('/api/admin', createJSONMiddleware(REQUEST_LIMITS.admin));
 app.use(createJSONMiddleware(REQUEST_LIMITS.json));
 
 // SECURITY: Enhanced URL encoding with limits
-app.use(express.urlencoded({ 
+app.use(express.urlencoded({
   extended: false,
   limit: REQUEST_LIMITS.urlencoded,
   parameterLimit: 20,
@@ -87,14 +87,14 @@ app.use(express.urlencoded({
 
 // SECURITY: Enhanced CORS configuration
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? [process.env.FRONTEND_URL || 'https://yourdomain.com'] 
+  origin: process.env.NODE_ENV === 'production'
+    ? [process.env.FRONTEND_URL || 'https://yourdomain.com']
     : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
   allowedHeaders: [
-    'Content-Type', 
-    'Authorization', 
+    'Content-Type',
+    'Authorization',
     'X-Requested-With',
     'Accept',
     'Origin',
@@ -122,6 +122,7 @@ loadModels();
 // Routes with specific rate limiting
 app.use("/api/auth", authLimiter, require("./routes/auth.routes"));
 app.use("/api/careers", require("./routes/career.routes"));
+app.use("/api/career-applications", require("./routes/careerApplication.routes"));
 app.use("/api/clients", contactLimiter, require("./routes/client.routes"));
 app.use("/api/csr", require("./routes/csr.routes"));
 app.use("/api/news-events", require("./routes/newsEvents.routes"));

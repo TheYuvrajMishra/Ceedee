@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router';
+import { useState, useEffect } from "react";
+import { Link } from "react-router";
 
-// Expanded type to match the Mongoose schema
+// Types
 type Career = {
   _id: string;
   title: string;
@@ -10,362 +10,750 @@ type Career = {
   type: "Full-Time" | "Part-Time" | "Internship" | "Contract";
   description: string;
   requirements: string[];
-  salaryRange: {
-    min?: number;
-    max?: number;
-  };
+  salaryRange: { min?: number; max?: number };
 };
 
-const AdminCareer = () => {
-    // State for the list of all jobs
-    const [jobs, setJobs] = useState<Career[]>([]);
+type Application = {
+  _id: string;
+  careerId: string;
+  name: string;
+  email: string;
+  phone?: string;
+  createdAt: string;
+};
 
-    // State for the form fields
-    const [formData, setFormData] = useState({
-        title: '',
-        department: '',
-        location: '',
-        type: 'Full-Time' as Career['type'],
-        description: '',
-        requirements: [] as string[],
-        salaryMin: '',
-        salaryMax: '',
+// Custom Hooks
+const useJobs = () => {
+  const [jobs, setJobs] = useState<Career[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const fetchJobs = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await fetch("http://localhost:5000/api/careers");
+      if (!response.ok) throw new Error("Failed to fetch jobs");
+      const data = await response.json();
+      setJobs(data.data?.jobs || []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteJob = async (id: string) => {
+    const response = await fetch(`http://localhost:5000/api/careers/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+    if (!response.ok) throw new Error("Failed to delete job");
+    fetchJobs();
+  };
+
+  const saveJob = async (jobData: any, editingId?: string) => {
+    const url = editingId
+      ? `http://localhost:5000/api/careers/${editingId}`
+      : "http://localhost:5000/api/careers";
+    const response = await fetch(url, {
+      method: editingId ? "PUT" : "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(jobData),
     });
 
-    // State for managing the requirements input
-    const [currentRequirement, setCurrentRequirement] = useState('');
-    
-    // State for editing logic
-    const [editingJob, setEditingJob] = useState<Career | null>(null);
-    
-    // UI State
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [jobToDelete, setJobToDelete] = useState<string | null>(null);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to save job");
+    }
 
+    fetchJobs();
+  };
 
-    const API_URL = 'http://localhost:5000/api/careers'; // Ensure this is your correct API endpoint
+  return { jobs, loading, error, fetchJobs, deleteJob, saveJob };
+};
 
-    // --- Data Fetching ---
-    const fetchJobs = async () => {
-        setLoading(true);
-        setError('');
-        try {
-            const response = await fetch(API_URL);
-            if (!response.ok) throw new Error('Failed to fetch jobs. Please check the network connection.');
-            const data = await response.json();
-            // Extract jobs array from API response structure
-            setJobs(data.data?.jobs || []);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'An unknown error occurred.');
-        } finally {
-            setLoading(false);
+const useApplications = () => {
+  const [applications, setApplications] = useState<{
+    [key: string]: Application[];
+  }>({});
+  const [loadingAppId, setLoadingAppId] = useState<string | null>(null);
+
+  const fetchApplications = async (jobId: string) => {
+    if (applications[jobId]) return;
+
+    setLoadingAppId(jobId);
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/career-applications/career/${jobId}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
-    };
+      );
+      if (!response.ok) throw new Error("Failed to fetch applications");
+      const data = await response.json();
+      setApplications((prev) => ({
+        ...prev,
+        [jobId]: data.data?.applications || [],
+      }));
+    } catch (err) {
+      setApplications((prev) => ({ ...prev, [jobId]: [] }));
+    } finally {
+      setLoadingAppId(null);
+    }
+  };
 
-    useEffect(() => {
-        fetchJobs();
-    }, []);
+  return { applications, loadingAppId, fetchApplications };
+};
 
-    // --- Form Management ---
-    const resetForm = () => {
-        setFormData({
-            title: '',
-            department: '',
-            location: '',
-            type: 'Full-Time',
-            description: '',
-            requirements: [],
-            salaryMin: '',
-            salaryMax: '',
-        });
-        setCurrentRequirement('');
-        setEditingJob(null);
-    };
+// Components
+const JobCard = ({
+  job,
+  onEdit,
+  onDelete,
+  onToggleApplications,
+  expanded,
+  applications,
+  loadingAppId,
+}: {
+  job: Career;
+  onEdit: (job: Career) => void;
+  onDelete: (id: string) => void;
+  onToggleApplications: (id: string) => void;
+  expanded: boolean;
+  applications: Application[];
+  loadingAppId: string | null;
+}) => {
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
-    
-    // --- Requirements Management ---
-    const handleAddRequirement = () => {
-        if (currentRequirement.trim()) {
-            setFormData(prev => ({
-                ...prev,
-                requirements: [...prev.requirements, currentRequirement.trim()]
-            }));
-            setCurrentRequirement('');
-        }
-    };
+  const typeStyles = {
+    "Full-Time": "bg-green-100 text-green-800",
+    "Part-Time": "bg-blue-100 text-blue-800",
+    Internship: "bg-purple-100 text-purple-800",
+    Contract: "bg-orange-100 text-orange-800",
+  };
 
-    const handleRemoveRequirement = (index: number) => {
-        setFormData(prev => ({
-            ...prev,
-            requirements: prev.requirements.filter((_, i) => i !== index)
-        }));
-    };
-    
-    // --- CRUD Operations ---
-    const handleEdit = (job: Career) => {
-        setEditingJob(job);
-        setFormData({
-            title: job.title,
-            department: job.department,
-            location: job.location,
-            type: job.type,
-            description: job.description,
-            requirements: job.requirements,
-            salaryMin: job.salaryRange.min?.toString() || '',
-            salaryMax: job.salaryRange.max?.toString() || '',
-        });
-        window.scrollTo(0, 0); // Scroll to top to see the form
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError('');
-
-        // Frontend validation to match backend requirements
-        if (formData.title.trim().length < 5 || formData.title.trim().length > 200) {
-            setError('Job title must be between 5 and 200 characters');
-            return;
-        }
-        
-        if (formData.description.trim().length < 50 || formData.description.trim().length > 5000) {
-            setError('Job description must be between 50 and 5000 characters');
-            return;
-        }
-
-        if (formData.location && formData.location.length > 100) {
-            setError('Location must not exceed 100 characters');
-            return;
-        }
-
-        if (formData.requirements.join('').length > 2000) {
-            setError('Requirements must not exceed 2000 characters total');
-            return;
-        }
-
-        // Clean up salary range - remove undefined values to avoid validation issues
-        const salaryRange: any = {};
-        if (formData.salaryMin && !isNaN(Number(formData.salaryMin))) {
-            salaryRange.min = Number(formData.salaryMin);
-        }
-        if (formData.salaryMax && !isNaN(Number(formData.salaryMax))) {
-            salaryRange.max = Number(formData.salaryMax);
-        }
-
-        const careerData = {
-            title: formData.title.trim(),
-            department: formData.department.trim() || undefined,
-            location: formData.location.trim() || undefined,
-            type: formData.type,
-            description: formData.description.trim(),
-            requirements: formData.requirements.filter(req => req.trim() !== ''),
-            ...(Object.keys(salaryRange).length > 0 && { salaryRange }),
-        };
-
-        const url = editingJob ? `${API_URL}/${editingJob._id}` : API_URL;
-        const method = editingJob ? 'PUT' : 'POST';
-
-        try {
-            const response = await fetch(url, {
-                method,
-                headers: {
-                    'Content-Type': 'application/json',
-                    // Assuming token-based auth
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-                body: JSON.stringify(careerData),
-            });
-            if (!response.ok) {
-                 const errorData = await response.json();
-                 console.error('Career API Error:', errorData);
-                 console.error('Sent data:', careerData);
-                 
-                 // Show detailed validation errors if available
-                 if (errorData.details && Array.isArray(errorData.details)) {
-                     const validationErrors = errorData.details.map((err: any) => 
-                         `${err.field}: ${err.message}`
-                     ).join(', ');
-                     throw new Error(validationErrors);
-                 }
-                 
-                 throw new Error(errorData.message || `Failed to ${editingJob ? 'update' : 'add'} job`);
-            }
-
-            resetForm();
-            fetchJobs();
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'An unknown error occurred.');
-        }
-    };
-
-    const handleDeleteClick = (id: string) => {
-        setJobToDelete(id);
-        setShowDeleteModal(true);
-    };
-
-    const confirmDelete = async () => {
-        if (!jobToDelete) return;
-
-        try {
-            const response = await fetch(`${API_URL}/${jobToDelete}`, {
-                method: 'DELETE',
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-            });
-            if (!response.ok) throw new Error('Failed to delete job');
-            
-            fetchJobs();
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'An unknown error occurred.');
-        } finally {
-            setShowDeleteModal(false);
-            setJobToDelete(null);
-        }
-    };
-
-    // --- Render Method ---
-    return (
-        <div className="container mx-auto p-4 md:p-6 bg-gray-50 min-h-screen font-sans">
-            <Link to={"/admin/dashboard"} className='fixed top-0 right-0 m-5 underline'>back to home</Link>
-            <h2 className="text-3xl font-bold text-gray-800 mb-6">Admin: Manage Careers</h2>
-
-            {error && <p className="text-red-600 bg-red-100 p-3 rounded-md mb-4 border border-red-200">{error}</p>}
-
-            {/* Form Section */}
-            <form onSubmit={handleSubmit} className="mb-8 p-6 bg-white rounded-lg shadow-lg">
-                <h3 className="text-2xl font-semibold mb-6 text-gray-700 border-b pb-3">{editingJob ? 'Edit Job' : 'Add New Job Posting'}</h3>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Title */}
-                    <div>
-                        <label className="block text-gray-700 font-medium mb-2">Title</label>
-                        <input type="text" name="title" value={formData.title} onChange={handleInputChange} className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required />
-                    </div>
-                    {/* Department */}
-                    <div>
-                        <label className="block text-gray-700 font-medium mb-2">Department</label>
-                        <input type="text" name="department" value={formData.department} onChange={handleInputChange} className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    </div>
-                    {/* Location */}
-                    <div>
-                        <label className="block text-gray-700 font-medium mb-2">Location</label>
-                        <input type="text" name="location" value={formData.location} onChange={handleInputChange} className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    </div>
-                    {/* Type */}
-                    <div>
-                        <label className="block text-gray-700 font-medium mb-2">Job Type</label>
-                        <select name="type" value={formData.type} onChange={handleInputChange} className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
-                            <option>Full-Time</option>
-                            <option>Part-Time</option>
-                            <option>Internship</option>
-                            <option>Contract</option>
-                        </select>
-                    </div>
-                    {/* Description */}
-                    <div className="md:col-span-2">
-                        <label className="block text-gray-700 font-medium mb-2">Description</label>
-                        <textarea name="description" value={formData.description} onChange={handleInputChange} className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" rows={5} required></textarea>
-                    </div>
-                    {/* Salary Range */}
-                    <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                         <div>
-                            <label className="block text-gray-700 font-medium mb-2">Salary Minimum</label>
-                            <input type="number" name="salaryMin" placeholder="e.g., 50000" value={formData.salaryMin} onChange={handleInputChange} className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                        </div>
-                        <div>
-                            <label className="block text-gray-700 font-medium mb-2">Salary Maximum</label>
-                            <input type="number" name="salaryMax" placeholder="e.g., 80000" value={formData.salaryMax} onChange={handleInputChange} className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                        </div>
-                    </div>
-                     {/* Requirements */}
-                    <div className="md:col-span-2">
-                        <label className="block text-gray-700 font-medium mb-2">Requirements</label>
-                        <div className="flex items-center space-x-2 mb-3">
-                            <input
-                                type="text"
-                                value={currentRequirement}
-                                onChange={(e) => setCurrentRequirement(e.target.value)}
-                                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddRequirement())}
-                                placeholder="Add a requirement and press Enter"
-                                className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                            <button type="button" onClick={handleAddRequirement} className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 transition duration-150 whitespace-nowrap">
-                                Add
-                            </button>
-                        </div>
-                        <ul className="space-y-2">
-                            {formData.requirements.map((req, index) => (
-                                <li key={index} className="flex items-center justify-between p-2 bg-gray-100 rounded-md">
-                                    <span className="text-gray-800">{req}</span>
-                                    <button type="button" onClick={() => handleRemoveRequirement(index)} className="text-red-500 hover:text-red-700 font-bold">
-                                        &times;
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-
-                <div className="flex space-x-4 mt-6">
-                    <button type="submit" className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150">
-                        {editingJob ? 'Update Job' : 'Add Job'}
-                    </button>
-                    {editingJob && (
-                        <button type="button" onClick={resetForm} className="px-6 py-2 bg-gray-600 text-white font-semibold rounded-md hover:bg-gray-700 transition duration-150">
-                            Cancel Edit
-                        </button>
-                    )}
-                </div>
-            </form>
-
-            {/* Jobs List */}
-            <div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-700">Existing Job Postings</h3>
-                {loading ? <p>Loading jobs...</p> : (
-                    <ul className="space-y-4">
-                        {jobs.map(job => (
-                            <li key={job._id} className="p-4 bg-white rounded-lg shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between">
-                                <div className="mb-3 sm:mb-0">
-                                  <p className="text-lg text-gray-800 font-bold">{job.title}</p>
-                                  <p className="text-sm text-gray-600">{job.location} &bull; {job.type}</p>
-                                </div>
-                                <div className="flex space-x-2">
-                                    <button onClick={() => handleEdit(job)} className="px-4 py-2 bg-yellow-500 text-white font-semibold rounded-md hover:bg-yellow-600 transition duration-150 text-sm">
-                                        Edit
-                                    </button>
-                                    <button onClick={() => handleDeleteClick(job._id)} className="px-4 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 transition duration-150 text-sm">
-                                        Delete
-                                    </button>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+  return (
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="p-6">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <div className="flex items-center space-x-3 mb-2">
+              <h3 className="text-lg font-semibold text-gray-900">
+                {job.title}
+              </h3>
+              <span
+                className={`px-2 py-1 text-xs font-medium rounded-full ${
+                  typeStyles[job.type]
+                }`}
+              >
+                {job.type}
+              </span>
+            </div>
+            <div className="flex items-center space-x-4 text-sm text-gray-600 mb-3">
+              {job.department && <span>📁 {job.department}</span>}
+              {job.location && <span>📍 {job.location}</span>}
+              {job.salaryRange &&
+                (job.salaryRange.min || job.salaryRange.max) && (
+                  <span>
+                    💰 ${job.salaryRange.min?.toLocaleString() || "..."} - $
+                    {job.salaryRange.max?.toLocaleString() || "..."}
+                  </span>
                 )}
             </div>
-
-            {/* Delete Confirmation Modal */}
-            {showDeleteModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full">
-                        <h4 className="text-xl font-bold text-gray-800 mb-4">Confirm Deletion</h4>
-                        <p className="text-gray-600 mb-6">Are you sure you want to delete this job posting? This action cannot be undone.</p>
-                        <div className="flex justify-end space-x-4">
-                            <button onClick={() => setShowDeleteModal(false)} className="px-4 py-2 bg-gray-300 text-gray-800 font-semibold rounded-md hover:bg-gray-400 transition duration-150">
-                                Cancel
-                            </button>
-                            <button onClick={confirmDelete} className="px-4 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 transition duration-150">
-                                Delete
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <p className="text-gray-700 text-sm line-clamp-2">
+              {job.description}
+            </p>
+          </div>
+          <div className="flex items-center space-x-2 ml-4">
+            <button
+              onClick={() => onEdit(job)}
+              className="px-3 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-md hover:bg-yellow-200"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => onDelete(job._id)}
+              className="px-3 py-1 text-xs bg-red-100 text-red-800 rounded-md hover:bg-red-200"
+            >
+              Delete
+            </button>
+            <button
+              onClick={() => onToggleApplications(job._id)}
+              className="px-3 py-1 text-xs bg-gray-100 cursor-pointer text-gray-800 rounded-md hover:bg-gray-200 whitespace-nowrap"
+            >
+              {expanded ? "Hide" : "View"} Applications
+            </button>
+          </div>
         </div>
-    );
+      </div>
+
+      {expanded && (
+        <div className="border-t border-gray-200 bg-gray-50 p-6">
+          <h4 className="text-md font-medium text-gray-900 mb-4">
+            Applications
+          </h4>
+          {loadingAppId === job._id ? (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
+              <span className="ml-2 text-sm text-gray-600">
+                Loading applications...
+              </span>
+            </div>
+          ) : applications.length > 0 ? (
+            <div className="grid gap-3">
+              {applications.map((app) => (
+                <div
+                  key={app._id}
+                  className="bg-white p-4 rounded-md border border-gray-200"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="flex items-center justify-center w-10 h-10 bg-indigo-100 text-indigo-600 rounded-full font-medium">
+                        {app.name.charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <h5 className="font-medium text-gray-900">
+                          {app.name}
+                        </h5>
+                        <p className="text-sm text-gray-600">{app.email}</p>
+                        {app.phone && (
+                          <p className="text-sm text-gray-600">{app.phone}</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-gray-500">Applied on</p>
+                      {/* CORRECTED: Changed app.appliedAt to app.createdAt */}
+                      <p className="text-sm font-medium text-gray-900">
+                        {formatDate(app.createdAt)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-gray-500">
+                No applications yet for this position.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const JobForm = ({
+  job,
+  onSave,
+  onCancel,
+}: {
+  job?: Career;
+  onSave: (data: any, editingId?: string) => Promise<void>;
+  onCancel: () => void;
+}) => {
+  const [formData, setFormData] = useState({
+    title: job?.title || "",
+    department: job?.department || "",
+    location: job?.location || "",
+    type: job?.type || ("Full-Time" as Career["type"]),
+    description: job?.description || "",
+    requirements: job?.requirements || ([] as string[]),
+    salaryMin: job?.salaryRange?.min?.toString() || "",
+    salaryMax: job?.salaryRange?.max?.toString() || "",
+  });
+  const [currentRequirement, setCurrentRequirement] = useState("");
+  const [error, setError] = useState("");
+
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const addRequirement = () => {
+    if (currentRequirement.trim()) {
+      setFormData((prev) => ({
+        ...prev,
+        requirements: [...prev.requirements, currentRequirement.trim()],
+      }));
+      setCurrentRequirement("");
+    }
+  };
+
+  const removeRequirement = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      requirements: prev.requirements.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    if (
+      formData.title.trim().length < 5 ||
+      formData.title.trim().length > 200
+    ) {
+      setError("Job title must be between 5 and 200 characters");
+      return;
+    }
+
+    if (
+      formData.description.trim().length < 50 ||
+      formData.description.trim().length > 5000
+    ) {
+      setError("Job description must be between 50 and 5000 characters");
+      return;
+    }
+
+    const salaryRange: any = {};
+    if (formData.salaryMin && !isNaN(Number(formData.salaryMin)))
+      salaryRange.min = Number(formData.salaryMin);
+    if (formData.salaryMax && !isNaN(Number(formData.salaryMax)))
+      salaryRange.max = Number(formData.salaryMax);
+
+    const jobData = {
+      title: formData.title.trim(),
+      department: formData.department.trim() || undefined,
+      location: formData.location.trim() || undefined,
+      type: formData.type,
+      description: formData.description.trim(),
+      requirements: formData.requirements.filter((req) => req.trim() !== ""),
+      ...(Object.keys(salaryRange).length > 0 && { salaryRange }),
+    };
+
+    try {
+      await onSave(jobData, job?._id);
+      onCancel();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="px-6 py-4 border-b border-gray-200">
+          <h2 className="text-xl font-semibold text-gray-900">
+            {job ? "Edit Job Posting" : "Create New Job Posting"}
+          </h2>
+        </div>
+
+        {error && (
+          <div className="mx-6 mt-6 p-4 bg-red-50 border border-red-200 rounded-md">
+            <p className="text-red-800">{error}</p>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="p-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Job Title *
+              </label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Department
+              </label>
+              <input
+                type="text"
+                name="department"
+                value={formData.department}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Location
+              </label>
+              <input
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Job Type
+              </label>
+              <select
+                name="type"
+                value={formData.type}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                <option value="Full-Time">Full-Time</option>
+                <option value="Part-Time">Part-Time</option>
+                <option value="Internship">Internship</option>
+                <option value="Contract">Contract</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Min Salary
+              </label>
+              <input
+                type="number"
+                name="salaryMin"
+                value={formData.salaryMin}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Max Salary
+              </label>
+              <input
+                type="number"
+                name="salaryMax"
+                value={formData.salaryMax}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+
+            <div className="lg:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Job Description *
+              </label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                rows={6}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                required
+              />
+            </div>
+
+            <div className="lg:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Requirements
+              </label>
+              <div className="flex space-x-2 mb-3">
+                <input
+                  type="text"
+                  value={currentRequirement}
+                  onChange={(e) => setCurrentRequirement(e.target.value)}
+                  onKeyDown={(e) =>
+                    e.key === "Enter" && (e.preventDefault(), addRequirement())
+                  }
+                  placeholder="Add a requirement..."
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                />
+                <button
+                  type="button"
+                  onClick={addRequirement}
+                  className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                >
+                  Add
+                </button>
+              </div>
+
+              {formData.requirements.length > 0 && (
+                <div className="space-y-2">
+                  {formData.requirements.map((req, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-3 bg-gray-50 rounded-md"
+                    >
+                      <span className="text-sm text-gray-800">{req}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeRequirement(index)}
+                        className="text-red-500 hover:text-red-700 font-bold text-lg"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between pt-6 mt-6 border-t border-gray-200">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="px-6 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+            >
+              {job ? "Update Job" : "Create Job"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+const DeleteModal = ({
+  show,
+  onConfirm,
+  onCancel,
+}: {
+  show: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) => {
+  if (!show) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+        <div className="flex items-center mb-4">
+          <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+            <span className="text-red-600 text-xl">⚠️</span>
+          </div>
+        </div>
+        <div className="text-center">
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            Delete Job Posting
+          </h3>
+          <p className="text-sm text-gray-500 mb-6">
+            Are you sure you want to delete this job posting? This action cannot
+            be undone.
+          </p>
+        </div>
+        <div className="flex justify-center space-x-3">
+          <button
+            onClick={onCancel}
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onConfirm}
+            className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
+          >
+            Delete Job
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Main Component
+const AdminCareer = () => {
+  const { jobs, loading, error, fetchJobs, deleteJob, saveJob } = useJobs();
+  const { applications, loadingAppId, fetchApplications } = useApplications();
+
+  const [activeTab, setActiveTab] = useState<"list" | "form">("list");
+  const [expandedJobs, setExpandedJobs] = useState<Set<string>>(new Set());
+  const [editingJob, setEditingJob] = useState<Career | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [jobToDelete, setJobToDelete] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const toggleJobExpansion = (jobId: string) => {
+    const newExpanded = new Set(expandedJobs);
+    if (newExpanded.has(jobId)) {
+      newExpanded.delete(jobId);
+    } else {
+      newExpanded.add(jobId);
+      fetchApplications(jobId);
+    }
+    setExpandedJobs(newExpanded);
+  };
+
+  const handleEdit = (job: Career) => {
+    setEditingJob(job);
+    setActiveTab("form");
+  };
+
+  const handleDeleteClick = (id: string) => {
+    setJobToDelete(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (jobToDelete) {
+      try {
+        await deleteJob(jobToDelete);
+      } catch (err) {
+        console.error("Delete failed:", err);
+      }
+    }
+    setShowDeleteModal(false);
+    setJobToDelete(null);
+  };
+
+  const handleSave = async (jobData: any, editingId?: string) => {
+    await saveJob(jobData, editingId);
+    setEditingJob(null);
+    setActiveTab("list");
+  };
+
+  const handleCancel = () => {
+    setEditingJob(null);
+    setActiveTab("list");
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-6">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Career Management
+              </h1>
+              <p className="text-gray-600 mt-1">
+                Manage job postings and view applications
+              </p>
+            </div>
+            <Link
+              to="/admin/dashboard"
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-100 hover:bg-indigo-200"
+            >
+              ← Back to Dashboard
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
+            <p className="text-red-800">{error}</p>
+          </div>
+        )}
+
+        {/* Tab Navigation */}
+        <div className="flex space-x-1 mb-6">
+          <button
+            onClick={() => setActiveTab("list")}
+            className={`px-6 py-3 text-sm font-medium rounded-lg transition-colors ${
+              activeTab === "list"
+                ? "bg-indigo-600 text-white shadow-sm"
+                : "text-gray-700 bg-white hover:bg-gray-50 border border-gray-200"
+            }`}
+          >
+            Job Listings & Applications ({jobs.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("form")}
+            className={`px-6 py-3 text-sm font-medium rounded-lg transition-colors ${
+              activeTab === "form"
+                ? "bg-indigo-600 text-white shadow-sm"
+                : "text-gray-700 bg-white hover:bg-gray-50 border border-gray-200"
+            }`}
+          >
+            {editingJob ? "Edit Job" : "Create New Job"}
+          </button>
+        </div>
+
+        {/* Content */}
+        {activeTab === "list" ? (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-semibold text-gray-900">
+                Active Job Postings
+              </h2>
+              <button
+                onClick={() => setActiveTab("form")}
+                className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700"
+              >
+                + Add New Job
+              </button>
+            </div>
+
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+                <p className="mt-4 text-gray-600">Loading jobs...</p>
+              </div>
+            ) : jobs.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-gray-500">No job postings found.</p>
+                <button
+                  onClick={() => setActiveTab("form")}
+                  className="mt-4 text-indigo-600 hover:text-indigo-800"
+                >
+                  Create your first job posting
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {jobs.map((job) => (
+                  <JobCard
+                    key={job._id}
+                    job={job}
+                    onEdit={handleEdit}
+                    onDelete={handleDeleteClick}
+                    onToggleApplications={toggleJobExpansion}
+                    expanded={expandedJobs.has(job._id)}
+                    applications={applications[job._id] || []}
+                    loadingAppId={loadingAppId}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <JobForm
+            job={editingJob || undefined}
+            onSave={handleSave}
+            onCancel={handleCancel}
+          />
+        )}
+      </div>
+
+      <DeleteModal
+        show={showDeleteModal}
+        onConfirm={confirmDelete}
+        onCancel={() => setShowDeleteModal(false)}
+      />
+    </div>
+  );
 };
 
 export default AdminCareer;
