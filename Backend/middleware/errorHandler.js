@@ -168,7 +168,7 @@ const handleUnhandledRejection = () => {
   process.on('unhandledRejection', (err) => {
     console.error('🔴 UNHANDLED REJECTION! 💥 Shutting down...');
     logError(err);
-    process.exit(1);
+    // process.exit(1);
   });
 };
 
@@ -177,7 +177,7 @@ const handleUncaughtException = () => {
   process.on('uncaughtException', (err) => {
     console.error('🔴 UNCAUGHT EXCEPTION! 💥 Shutting down...');
     logError(err);
-    process.exit(1);
+    // process.exit(1);
   });
 };
 
