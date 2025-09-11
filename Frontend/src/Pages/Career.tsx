@@ -119,7 +119,7 @@ const CareerPage = () => {
             ) : jobs.length === 0 && !error ? (
                  <p className="text-center text-gray-600 text-xl mt-8">No open positions at the moment. Please check back later!</p>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-row-2 gap-8 max-w-6xl mx-auto">
                     {jobs.map(job => (
                         <div key={job._id} className="flex flex-col p-6 bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-200">
                            
@@ -159,7 +159,7 @@ const CareerPage = () => {
                                 {/* ONCLICK HANDLER: Update the button to open the modal */}
                                 <button 
                                     onClick={() => handleOpenModal(job)}
-                                    className="w-full sm:w-auto px-5 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors duration-200"
+                                    className="w-full sm:w-auto px-5 py-2 bg-blue-600 text-white font-semibold cursor-pointer rounded-md hover:bg-blue-700 transition-colors duration-200"
                                 >
                                     Apply Now
                                 </button>
