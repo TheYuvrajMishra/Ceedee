@@ -42,7 +42,7 @@ const authLimiter = rateLimit({
 // Rate limiting for contact forms to prevent spam
 const contactLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  limit: 3, // Only 3 contact submissions per hour
+  limit: 100, // Only 3 contact submissions per hour
   message: {
     error: "Too many contact form submissions, please try again later.",
     retryAfter: "1 hour"
