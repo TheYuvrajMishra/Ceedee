@@ -146,13 +146,13 @@ const NewsEventCard = ({ item, onEdit, onDelete }: {
         <div className="flex items-center space-x-2 ml-4">
           <button
             onClick={() => onEdit(item)}
-            className="px-3 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-md hover:bg-yellow-200 transition-colors"
+            className="px-3 py-1 text-xs cursor-pointer bg-yellow-100 text-yellow-800 rounded-md hover:bg-yellow-200 transition-colors"
           >
             Edit
           </button>
           <button
             onClick={() => onDelete(item._id)}
-            className="px-3 py-1 text-xs bg-red-100 text-red-800 rounded-md hover:bg-red-200 transition-colors"
+            className="px-3 py-1 text-xs cursor-pointer bg-red-100 text-red-800 rounded-md hover:bg-red-200 transition-colors"
           >
             Delete
           </button>
@@ -336,13 +336,13 @@ const NewsEventForm = ({ item, onSave, onCancel }: {
             <button
               type="button"
               onClick={onCancel}
-              className="px-6 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+              className="px-6 py-2 cursor-pointer text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors"
+              className="px-6 py-2 cursor-pointer text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors"
             >
               {item ? 'Update Item' : 'Create Item'}
             </button>
@@ -377,13 +377,13 @@ const DeleteModal = ({ show, onConfirm, onCancel }: {
         <div className="flex justify-center space-x-3">
           <button
             onClick={onCancel}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+            className="px-4 py-2 text-sm cursor-pointer font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 transition-colors"
+            className="px-4 py-2 text-sm cursor-pointer font-medium text-white bg-red-600 rounded-md hover:bg-red-700 transition-colors"
           >
             Delete
           </button>
@@ -470,7 +470,7 @@ const AdminNewsAndEvents = () => {
         <div className="flex space-x-1 mb-6">
           <button
             onClick={() => setActiveTab('list')}
-            className={`px-6 py-3 text-sm font-medium rounded-lg transition-colors ${
+            className={`px-6 py-3 text-sm cursor-pointer font-medium rounded-lg transition-colors ${
               activeTab === 'list' 
                 ? 'bg-indigo-600 text-white shadow-sm' 
                 : 'text-gray-700 bg-white hover:bg-gray-50 border border-gray-200'
@@ -480,7 +480,7 @@ const AdminNewsAndEvents = () => {
           </button>
           <button
             onClick={() => setActiveTab('form')}
-            className={`px-6 py-3 text-sm font-medium rounded-lg transition-colors ${
+            className={`px-6 py-3 text-sm cursor-pointer font-medium rounded-lg transition-colors ${
               activeTab === 'form' 
                 ? 'bg-indigo-600 text-white shadow-sm' 
                 : 'text-gray-700 bg-white hover:bg-gray-50 border border-gray-200'
@@ -494,10 +494,10 @@ const AdminNewsAndEvents = () => {
         {activeTab === 'list' ? (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-gray-900">News & Events</h2>
+              <h2 className="text-xl  font-semibold text-gray-900">News & Events</h2>
               <button
                 onClick={() => setActiveTab('form')}
-                className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition-colors"
+                className="inline-flex cursor-pointer items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition-colors"
               >
                 + Add New Item
               </button>
@@ -513,7 +513,7 @@ const AdminNewsAndEvents = () => {
                 <p className="text-gray-500">No news or events found.</p>
                 <button 
                   onClick={() => setActiveTab('form')} 
-                  className="mt-4 text-indigo-600 hover:text-indigo-800"
+                  className="mt-4 cursor-pointer text-indigo-600 hover:text-indigo-800"
                 >
                   Create your first item
                 </button>
