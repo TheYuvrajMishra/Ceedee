@@ -316,7 +316,7 @@ const AdminCSR = () => {
                 <div className="flex space-x-1 mb-6">
                     <button
                         onClick={() => setActiveTab('list')}
-                        className={`px-6 py-3 text-sm font-medium rounded-lg transition-colors ${
+                        className={`px-6 py-3 text-sm cursor-pointer font-medium rounded-lg transition-colors ${
                             activeTab === 'list'
                                 ? 'bg-indigo-600 text-white shadow-sm'
                                 : 'text-gray-700 bg-white hover:bg-gray-50 border border-gray-200'
@@ -326,7 +326,7 @@ const AdminCSR = () => {
                     </button>
                     <button
                         onClick={() => setActiveTab('form')}
-                        className={`px-6 py-3 text-sm font-medium rounded-lg transition-colors ${
+                        className={`px-6 py-3 text-sm font-medium cursor-pointer rounded-lg transition-colors ${
                             activeTab === 'form'
                                 ? 'bg-indigo-600 text-white shadow-sm'
                                 : 'text-gray-700 bg-white hover:bg-gray-50 border border-gray-200'
@@ -348,7 +348,7 @@ const AdminCSR = () => {
                                 <select
                                     value={filterStatus}
                                     onChange={(e) => setFilterStatus(e.target.value as any)}
-                                    className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 cursor-pointer focus:ring-indigo-500 focus:border-indigo-500"
                                 >
                                     <option value="all">All Status</option>
                                     <option value="Planned">Planned</option>
@@ -359,7 +359,7 @@ const AdminCSR = () => {
                                 <select
                                     value={filterCategory}
                                     onChange={(e) => setFilterCategory(e.target.value as any)}
-                                    className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                    className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 cursor-pointer focus:ring-indigo-500 focus:border-indigo-500"
                                 >
                                     <option value="all">All Categories</option>
                                     <option value="Education">Education</option>
@@ -371,7 +371,7 @@ const AdminCSR = () => {
                                 
                                 <button
                                     onClick={() => setActiveTab('form')}
-                                    className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition-colors"
+                                    className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md cursor-pointer hover:bg-indigo-700 transition-colors"
                                 >
                                     + Add Initiative
                                 </button>
@@ -388,7 +388,7 @@ const AdminCSR = () => {
                                 <p className="text-gray-500">No CSR initiatives found.</p>
                                 <button
                                     onClick={() => setActiveTab('form')}
-                                    className="mt-4 text-indigo-600 hover:text-indigo-800"
+                                    className="mt-4 cursor-pointer text-indigo-600 hover:text-indigo-800"
                                 >
                                     Create your first initiative
                                 </button>
@@ -419,19 +419,19 @@ const AdminCSR = () => {
                                                 <div className="flex items-center space-x-2 ml-4">
                                                     <button
                                                         onClick={() => handleEdit(csr)}
-                                                        className="px-3 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-md hover:bg-yellow-200 transition-colors"
+                                                        className="px-3 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-md hover:bg-yellow-200 transition-colors cursor-pointer"
                                                     >
                                                         Edit
                                                     </button>
                                                     <button
                                                         onClick={() => handleDeleteClick(csr._id)}
-                                                        className="px-3 py-1 text-xs bg-red-100 text-red-800 rounded-md hover:bg-red-200 transition-colors"
+                                                        className="px-3 py-1 text-xs bg-red-100 text-red-800 rounded-md cursor-pointer hover:bg-red-200 transition-colors"
                                                     >
                                                         Delete
                                                     </button>
                                                     <button
                                                         onClick={() => toggleInitiativeExpansion(csr._id)}
-                                                        className="px-3 py-1 text-xs bg-gray-100 text-gray-800 rounded-md hover:bg-gray-200 transition-colors"
+                                                        className="px-3 py-1 text-xs bg-gray-100 text-gray-800 rounded-md cursor-pointer hover:bg-gray-200 transition-colors"
                                                     >
                                                         {expandedInitiatives.has(csr._id) ? 'Hide' : 'View'} Details
                                                     </button>
@@ -719,7 +719,7 @@ const AdminCSR = () => {
                                             resetForm();
                                             setActiveTab('list');
                                         }}
-                                        className="px-6 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                                        className="px-6 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 cursor-pointer rounded-md hover:bg-gray-50 transition-colors"
                                     >
                                         Cancel
                                     </button>
@@ -728,14 +728,14 @@ const AdminCSR = () => {
                                             <button
                                                 type="button"
                                                 onClick={resetForm}
-                                                className="px-6 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                                                className="px-6 py-2 text-sm font-medium text-gray-700 bg-white border cursor-pointer border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
                                             >
                                                 Reset Form
                                             </button>
                                         )}
                                         <button
                                             type="submit"
-                                            className="px-6 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors"
+                                            className="px-6 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md cursor-pointer hover:bg-indigo-700 transition-colors"
                                         >
                                             {editingCsr ? 'Update Initiative' : 'Create Initiative'}
                                         </button>
@@ -766,13 +766,13 @@ const AdminCSR = () => {
                             <div className="flex justify-center space-x-3">
                                 <button
                                     onClick={() => setShowDeleteModal(false)}
-                                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md cursor-pointer hover:bg-gray-50 transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={confirmDelete}
-                                    className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 transition-colors"
+                                    className="px-4 py-2 text-sm cursor-pointer font-medium text-white bg-red-600 rounded-md hover:bg-red-700 transition-colors"
                                 >
                                     Delete Initiative
                                 </button>

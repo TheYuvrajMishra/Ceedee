@@ -179,13 +179,13 @@ const JobCard = ({
           <div className="flex items-center space-x-2 ml-4">
             <button
               onClick={() => onEdit(job)}
-              className="px-3 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-md hover:bg-yellow-200"
+              className="px-3 py-1 cursor-pointer text-xs bg-yellow-100 text-yellow-800 rounded-md hover:bg-yellow-200"
             >
               Edit
             </button>
             <button
               onClick={() => onDelete(job._id)}
-              className="px-3 py-1 text-xs bg-red-100 text-red-800 rounded-md hover:bg-red-200"
+              className="px-3 py-1 cursor-pointer text-xs bg-red-100 text-red-800 rounded-md hover:bg-red-200"
             >
               Delete
             </button>
@@ -481,7 +481,7 @@ const JobForm = ({
                 <button
                   type="button"
                   onClick={addRequirement}
-                  className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                  className="px-4 py-2 cursor-pointer bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
                 >
                   Add
                 </button>
@@ -519,7 +519,7 @@ const JobForm = ({
             </button>
             <button
               type="submit"
-              className="px-6 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+              className="px-6 py-2 text-sm cursor-pointer font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
             >
               {job ? "Update Job" : "Create Job"}
             </button>
@@ -561,13 +561,13 @@ const DeleteModal = ({
         <div className="flex justify-center space-x-3">
           <button
             onClick={onCancel}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+            className="px-4 py-2 cursor-pointer text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
+            className="px-4 py-2 cursor-pointer text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
           >
             Delete Job
           </button>
@@ -671,7 +671,7 @@ const AdminCareer = () => {
         <div className="flex space-x-1 mb-6">
           <button
             onClick={() => setActiveTab("list")}
-            className={`px-6 py-3 text-sm font-medium rounded-lg transition-colors ${
+            className={`px-6 py-3 text-sm font-medium cursor-pointer rounded-lg transition-colors ${
               activeTab === "list"
                 ? "bg-indigo-600 text-white shadow-sm"
                 : "text-gray-700 bg-white hover:bg-gray-50 border border-gray-200"
@@ -684,7 +684,7 @@ const AdminCareer = () => {
             className={`px-6 py-3 text-sm font-medium rounded-lg transition-colors ${
               activeTab === "form"
                 ? "bg-indigo-600 text-white shadow-sm"
-                : "text-gray-700 bg-white hover:bg-gray-50 border border-gray-200"
+                : "text-gray-700 bg-white cursor-pointer hover:bg-gray-50 border border-gray-200"
             }`}
           >
             {editingJob ? "Edit Job" : "Create New Job"}
@@ -700,7 +700,7 @@ const AdminCareer = () => {
               </h2>
               <button
                 onClick={() => setActiveTab("form")}
-                className="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700"
+                className="inline-flex items-center cursor-pointer px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700"
               >
                 + Add New Job
               </button>
@@ -716,7 +716,7 @@ const AdminCareer = () => {
                 <p className="text-gray-500">No job postings found.</p>
                 <button
                   onClick={() => setActiveTab("form")}
-                  className="mt-4 text-indigo-600 hover:text-indigo-800"
+                  className="mt-4 text-indigo-600 cursor-pointer hover:text-indigo-800"
                 >
                   Create your first job posting
                 </button>

@@ -66,7 +66,7 @@ const DashboardHome = () => {
         <header className="flex justify-between items-center p-4 bg-white shadow-md md:justify-end">
           {/* Mobile Menu Button */}
           <button 
-            className="text-slate-700 md:hidden"
+            className="text-slate-700 cursor-pointer md:hidden"
             onClick={() => setSidebarOpen(!isSidebarOpen)}
             aria-label="Open sidebar"
           >
@@ -79,7 +79,7 @@ const DashboardHome = () => {
               localStorage.removeItem('user');
               window.location.href = '/admin/login';
             }}
-            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors shadow-md hover:shadow-lg"
+            className="bg-red-600 cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors shadow-md hover:shadow-lg"
           >
             Logout
           </button>
