@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 // Define the structure for our form data
 interface FormData {
@@ -11,6 +12,7 @@ interface FormData {
 }
 
 const ContactForm = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState<FormData>({
         name: '',
         email: '',
@@ -61,7 +63,11 @@ const ContactForm = () => {
             setError(err instanceof Error ? err.message : 'An unknown error occurred.');
         } finally {
             setLoading(false);
+            setInterval(() => {
+                navigate('/');
+            }, 2000);
         }
+        
     };
 
     return (

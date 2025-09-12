@@ -6,9 +6,9 @@ import { createPortal } from 'react-dom';
 
 const NAV_LINKS = [
   { to: '/about', label: 'About Us' },
-  { to: '/products', label: 'Products' },
-  { to: '/sustainability', label: 'Sustainability' },
-  { to: '/careers', label: 'Careers' },
+  { to: '/career', label: 'Careers' },
+  { to: '/csr', label: 'CSR Activities' },
+  { to: '/news-and-events', label: 'News & Events' },
 ];
 
 // Shared button styles

@@ -38,6 +38,13 @@ const ClientSchema = new mongoose.Schema({
     notes: {
         type: String,
         trim: true
+    },
+    status: {
+        type: String,
+        required: true,
+        // ✅ ONLY these values are allowed
+        enum: ['new', 'contacted', 'resolved', 'archived'], 
+        default: 'new'
     }
 }, { timestamps: true });
 
