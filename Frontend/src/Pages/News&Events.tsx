@@ -218,7 +218,6 @@ const NewsAndEvents = () => {
         const fetchNewsAndEvents = async () => {
             setLoading(true);
             try {
-                // NOTE: Using a placeholder API. Replace with your actual endpoint.
                 const response = await fetch('http://localhost:5000/api/news-events');
                 if (!response.ok) throw new Error('Data could not be fetched right now.');
                 const data = await response.json();
