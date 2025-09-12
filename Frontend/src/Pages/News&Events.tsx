@@ -55,18 +55,17 @@ const FilterControls = ({ activeFilter, setActiveFilter }: { activeFilter: Filte
 
 // --- Date Formatter ---
 const formatDate = (dateString?: string) => {
-    if (!dateString) return { month: '', day: '', full: '' };
+    if (!dateString) return { full: '' };
     const date = new Date(dateString);
     return {
-        month: date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
-        day: date.toLocaleDateString('en-US', { day: '2-digit' }),
         full: date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
     };
 };
 
-// --- News & Event Card Component ---
+// --- News & Event Card Component (MODIFIED) ---
 const NewsEventCard = ({ item, onReadMore }: { item: NewsEvent, onReadMore: (item: NewsEvent) => void }) => {
-    const { month, day, full: fullDate } = formatDate(item.date);
+    // Simplified date formatting, as only the full date is needed now.
+    const { full: fullDate } = formatDate(item.date);
     const isEvent = item.type === 'Event';
 
     return (
@@ -79,33 +78,21 @@ const NewsEventCard = ({ item, onReadMore }: { item: NewsEvent, onReadMore: (ite
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         onError={(e) => { e.currentTarget.src = 'https://placehold.co/600x400/EEE/31343C?text=Image+Not+Found'; }}
                     />
+                    {/* The tag color remains distinct, which is a good visual cue */}
                     <span className={`absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-full ${isEvent ? 'bg-purple-500 text-white' : 'bg-blue-500 text-white'}`}>
                         {item.type}
                     </span>
                 </div>
             )}
             <div className="p-6 flex flex-col flex-grow">
-                <div className="flex items-start gap-4">
-                    {isEvent && (
-                        <div className="flex-shrink-0 text-center bg-gray-100 rounded-md p-2 border border-gray-200">
-                            <p className="text-purple-600 font-bold text-sm">{month}</p>
-                            <p className="text-gray-800 font-extrabold text-2xl tracking-tight">{day}</p>
-                        </div>
-                    )}
-                    <div className="flex-grow">
-                        <p className="text-sm text-gray-500 mb-1">
-                            {!isEvent && <><CalendarIcon /> {fullDate}</>}
-                        </p>
-                        <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight">{item.title}</h3>
-                    </div>
-                </div>
-
-                {isEvent && item.location && (
-                    <p className="text-sm text-gray-600 my-2 flex items-center">
-                        <PinIcon /> {item.location}
-                    </p>
-                )}
-
+                {/* UNIFIED LAYOUT: Both News and Events will now use this same structure */}
+                <p className="text-sm text-gray-500 mb-1 flex items-center">
+                    <CalendarIcon /> {fullDate}
+                </p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight group-hover:text-blue-600 transition-colors">
+                    {item.title}
+                </h3>
+                
                 <p className="text-gray-600 text-sm leading-relaxed my-3 flex-grow">
                     {item.description.substring(0, 120)}{item.description.length > 120 && '...'}
                 </p>
@@ -125,17 +112,9 @@ const SkeletonCard = () => (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden animate-pulse">
         <div className="bg-gray-300 h-48 w-full"></div>
         <div className="p-6">
-            <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                    <div className="bg-gray-300 h-14 w-14 rounded-md"></div>
-                </div>
-                <div className="flex-grow space-y-2">
-                    <div className="bg-gray-300 h-4 w-1/3 rounded"></div>
-                    <div className="bg-gray-300 h-5 w-full rounded"></div>
-                </div>
-            </div>
-            <div className="bg-gray-300 h-4 w-3/4 mt-4 rounded"></div>
-            <div className="space-y-2 mt-3">
+            <div className="bg-gray-300 h-4 w-1/2 rounded mb-2"></div>
+            <div className="bg-gray-300 h-5 w-full rounded mb-4"></div>
+            <div className="space-y-2">
                 <div className="bg-gray-300 h-4 w-full rounded"></div>
                 <div className="bg-gray-300 h-4 w-full rounded"></div>
                 <div className="bg-gray-300 h-4 w-2/3 rounded"></div>
@@ -148,10 +127,9 @@ const SkeletonCard = () => (
 );
 
 // =================================================================================
-// 2. NEW: DETAIL MODAL COMPONENT
+// 2. DETAIL MODAL COMPONENT
 // =================================================================================
 const NewsDetailModal = ({ item, onClose }: { item: NewsEvent, onClose: () => void }) => {
-    // Effect to handle 'Escape' key press for closing the modal
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
@@ -162,19 +140,27 @@ const NewsDetailModal = ({ item, onClose }: { item: NewsEvent, onClose: () => vo
         return () => document.removeEventListener('keydown', handleKeyDown);
     }, [onClose]);
     
-    const { full: fullDate } = formatDate(item.date);
+    // We'll need the full formatDate function here for the modal
+    const fullFormatDate = (dateString?: string) => {
+        if (!dateString) return { full: '' };
+        const date = new Date(dateString);
+        return {
+            full: date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+        };
+    };
+
+    const { full: fullDate } = fullFormatDate(item.date);
     const isEvent = item.type === 'Event';
 
     return (
         <div 
             className="fixed inset-0 bg-black/20 backdrop-blur-xs bg-opacity-70 z-50 flex justify-center items-center p-4 transition-opacity duration-300"
-            onClick={onClose} // Close modal on backdrop click
+            onClick={onClose}
         >
             <div 
                 className="relative bg-white rounded-lg shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"
-                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the modal
+                onClick={(e) => e.stopPropagation()}
             >
-                {/* Close Button */}
                 <button onClick={onClose} className="absolute cursor-pointer top-4 right-4 text-gray-400 hover:text-gray-800 z-10">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -218,7 +204,7 @@ const NewsDetailModal = ({ item, onClose }: { item: NewsEvent, onClose: () => vo
 
 
 // =================================================================================
-// 3. MAIN COMPONENT (Updated with Modal Logic)
+// 3. MAIN COMPONENT
 // =================================================================================
 
 const NewsAndEvents = () => {
@@ -226,14 +212,13 @@ const NewsAndEvents = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [activeFilter, setActiveFilter] = useState<FilterType>('All');
-    
-    // NEW: State to manage the selected item for the modal
     const [selectedItem, setSelectedItem] = useState<NewsEvent | null>(null);
 
     useEffect(() => {
         const fetchNewsAndEvents = async () => {
             setLoading(true);
             try {
+                // NOTE: Using a placeholder API. Replace with your actual endpoint.
                 const response = await fetch('http://localhost:5000/api/news-events');
                 if (!response.ok) throw new Error('Data could not be fetched right now.');
                 const data = await response.json();
@@ -258,7 +243,6 @@ const NewsAndEvents = () => {
         return items.filter(item => item.type === activeFilter);
     }, [items, activeFilter]);
 
-    // NEW: Handlers to open and close the modal
     const handleReadMore = (item: NewsEvent) => {
         setSelectedItem(item);
     };
@@ -299,7 +283,6 @@ const NewsAndEvents = () => {
                 )}
             </div>
             
-            {/* NEW: Conditionally render the modal */}
             {selectedItem && <NewsDetailModal item={selectedItem} onClose={handleCloseModal} />}
         </div>
     );
