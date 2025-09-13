@@ -72,17 +72,6 @@ const DashboardHome = () => {
           >
             <MenuIcon />
           </button>
-          
-          <button
-            onClick={() => {
-              localStorage.removeItem('token');
-              localStorage.removeItem('user');
-              window.location.href = '/admin/login';
-            }}
-            className="bg-red-600 cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors shadow-md hover:shadow-lg"
-          >
-            Logout
-          </button>
         </header>
         
         {/* Page Content */}

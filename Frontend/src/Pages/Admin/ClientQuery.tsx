@@ -39,7 +39,7 @@ const AdminClientQueryViewer = () => {
       // Build query parameters dynamically
       const params = new URLSearchParams({
         page: String(currentPage),
-        limit: "10", // Or make this configurable
+        limit: "10",
       });
       if (statusFilter) {
         params.append("status", statusFilter);
@@ -274,7 +274,7 @@ const AdminClientQueryViewer = () => {
                       </div>
                       <button
                         onClick={() => handleDelete(q._id)}
-                        className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 text-sm font-semibold"
+                        className="px-3 py-1 bg-red-500 cursor-pointer text-white rounded-md hover:bg-red-600 text-sm font-semibold"
                       >
                         Delete
                       </button>
@@ -294,7 +294,7 @@ const AdminClientQueryViewer = () => {
             <button
               onClick={() => setCurrentPage((p) => p - 1)}
               disabled={currentPage <= 1}
-              className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-gray-300 cursor-pointer text-gray-800 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Previous
             </button>
@@ -304,7 +304,7 @@ const AdminClientQueryViewer = () => {
             <button
               onClick={() => setCurrentPage((p) => p + 1)}
               disabled={currentPage >= totalPages}
-              className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 bg-gray-300 cursor-pointer text-gray-800 rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next
             </button>
