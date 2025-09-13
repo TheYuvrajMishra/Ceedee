@@ -1,3 +1,4 @@
+import { ArrowDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
 
@@ -640,6 +641,14 @@ const AdminCareer = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
+        <a
+          href="/careers"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="fixed bg-blue-400 text-white p-4 hover:-rotate-135 transition-all ease duration-250 rounded-full bottom-10 right-10 cursor-pointer -rotate-110"
+        >
+          <ArrowDown />
+        </a>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div>

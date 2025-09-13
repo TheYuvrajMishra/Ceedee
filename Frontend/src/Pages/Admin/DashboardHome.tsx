@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from "react-router";
 import Sidebar from '../../Components/Admin/Sidebar';
+import { ArrowDown } from 'lucide-react';
 
 // A simple hamburger menu icon component
 const MenuIcon = () => (
@@ -62,6 +63,14 @@ const DashboardHome = () => {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
+        <a
+          href="/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="fixed bg-blue-400 text-white p-4 hover:-rotate-135 transition-all ease duration-250 rounded-full bottom-10 right-10 cursor-pointer -rotate-110"
+        >
+          <ArrowDown />
+        </a>
         {/* Top Header */}
         <header className="flex justify-between items-center p-4 bg-white shadow-md md:justify-end">
           {/* Mobile Menu Button */}

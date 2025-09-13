@@ -6,7 +6,7 @@ import { createPortal } from 'react-dom';
 
 const NAV_LINKS = [
   { to: '/about', label: 'About Us' },
-  { to: '/career', label: 'Careers' },
+  { to: '/careers', label: 'Careers' },
   { to: '/csr', label: 'CSR Activities' },
   { to: '/news-and-events', label: 'News & Events' },
 ];

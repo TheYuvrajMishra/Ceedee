@@ -14,7 +14,7 @@ function App() {
       <Routes>
         {/* Public Routes with Navbar */}
         <Route path="/" element={<><Navbar /><MainPage /></>} />
-        <Route path="/career" element={<><Navbar /><Career /></>} />
+        <Route path="/careers" element={<><Navbar /><Career /></>} />
         <Route path="/contact" element={<><Navbar /><ContactForm /></>} />
         <Route path="/csr" element={<><Navbar /><CSR /></>} />
         <Route path="/news-and-events" element={<><Navbar /><NewsAndEvents /></>} />
