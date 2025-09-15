@@ -7,7 +7,8 @@ const NAV_LINKS = [
   { to: '/careers', label: 'Careers' },
   { to: '/csr', label: 'CSR Activities' },
   { to: '/news-and-events', label: 'News & Events' },
-  { to: '/venbro', label: 'Venbro Polymers' }
+  { to: '/venbro', label: 'Venbro Polymers' },
+  { to: '/Shrikrishna', label: 'Shri Krishna Automobiles' }
 ];
 
 const Header = () => {
