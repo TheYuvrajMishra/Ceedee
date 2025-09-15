@@ -110,10 +110,17 @@ const CareerPage = () => {
     const [error, setError] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedJob, setSelectedJob] = useState<Career | null>(null);
+    const [scrollY, setScrollY] = useState(0);
     
     // State for filters
     const [departmentFilter, setDepartmentFilter] = useState('All');
     const [typeFilter, setTypeFilter] = useState('All');
+
+    useEffect(() => {
+        const handleScroll = () => setScrollY(window.scrollY);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     useEffect(() => {
         const fetchJobs = async () => {
@@ -162,34 +169,70 @@ const CareerPage = () => {
         return `Up to ${formatter.format(max!)}`;
     }
 
+    const parallaxOffset = scrollY * 0.3;
+
     return (
-        <div className="bg-gray-50 min-h-screen font-sans pt-16">
+        <div className="bg-gray-50 min-h-screen font-sans">
+            {/* Hero Section */}
+            <section className="relative h-screen flex items-center overflow-hidden">
+                <div className="flex w-full h-full">
+                    {/* Left side - Content */}
+                    <div className="w-2/5 bg-gray-900 text-white flex items-center justify-center relative z-10">
+                        <div className="max-w-lg px-8 text-left">
+                            <h1 className="text-2xl md:text-3xl font-light text-amber-600 mb-6 tracking-wide">
+                                Careers
+                            </h1>
+                            <h2 className="text-3xl md:text-5xl font-light text-white mb-8 leading-tight">
+                                Join the Ceedee's Family - Build Your Future With Us.
+                            </h2>
+                            <p className="text-lg text-gray-300 font-light tracking-wide">
+                                Shape Your Tomorrow.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    {/* Right side - Image */}
+                    <div className="w-3/5 relative overflow-hidden">
+                        <div
+                            className="absolute inset-0 bg-cover bg-center"
+                            style={{
+                                transform: `translateY(${parallaxOffset}px)`,
+                                backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+                            }}
+                        />
+                    </div>
+                </div>
+            </section>
+
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
                 {/* Page Header */}
                 <div className="text-center mb-12">
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight break-words">
-                        Find Your <span className="text-indigo-600">Next Opportunity</span>
-                    </h1>
-                    <p className="mt-4 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+                    <h3 className="text-4xl md:text-5xl font-light text-gray-900 mb-8 tracking-wide">
+                        Find Your <span className="text-amber-600">Next Opportunity</span>
+                    </h3>
+                    <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
+                    <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
                         We are a passionate team dedicated to innovation and excellence. Explore our open positions and find where you belong.
                     </p>
                 </div>
 
                 {/* Filters */}
-                <div className="bg-white p-4 rounded-lg shadow-sm mb-8 flex flex-col sm:flex-row gap-4">
-                    <div className="flex-1">
-                        <label htmlFor="department-filter" className="block text-sm font-medium text-gray-700 mb-1">Department</label>
-                        <select id="department-filter" value={departmentFilter} onChange={e => setDepartmentFilter(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
-                            {departments.map(dep => <option key={dep} value={dep}>{dep}</option>)}
-                        </select>
-                    </div>
-                    <div className="flex-1">
-                        <label htmlFor="type-filter" className="block text-sm font-medium text-gray-700 mb-1">Job Type</label>
-                        <select id="type-filter" value={typeFilter} onChange={e => setTypeFilter(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
-                            {jobTypes.map(type => <option key={type} value={type}>{type}</option>)}
-                        </select>
+                <div className="bg-white p-6 rounded-lg shadow-sm mb-12 border border-gray-200">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label htmlFor="department-filter" className="block text-sm font-medium text-gray-700 mb-3">Department</label>
+                            <select id="department-filter" value={departmentFilter} onChange={e => setDepartmentFilter(e.target.value)}
+                                className="w-full p-3 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500 transition-colors">
+                                {departments.map(dep => <option key={dep} value={dep}>{dep}</option>)}
+                            </select>
+                        </div>
+                        <div>
+                            <label htmlFor="type-filter" className="block text-sm font-medium text-gray-700 mb-3">Job Type</label>
+                            <select id="type-filter" value={typeFilter} onChange={e => setTypeFilter(e.target.value)}
+                                className="w-full p-3 border border-gray-300 rounded-md focus:ring-amber-500 focus:border-amber-500 transition-colors">
+                                {jobTypes.map(type => <option key={type} value={type}>{type}</option>)}
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -211,36 +254,36 @@ const CareerPage = () => {
                     </div>
                 ) : error ? (
                     <div className="text-center py-12">
-                        <p className="text-center text-red-600 bg-red-100 p-4 rounded-md">{error}</p>
+                        <p className="text-center text-red-600 bg-red-50 p-4 rounded-lg border border-red-200">{error}</p>
                     </div>
                 ) : filteredJobs.length === 0 ? (
                     <div className="text-center py-12">
-                        <p className="text-gray-600 text-lg">No open positions match your criteria. Please check back later!</p>
+                        <p className="text-gray-600 text-lg font-light">No open positions match your criteria. Please check back later!</p>
                     </div>
                 ) : (
                     <div className="space-y-6">
                         {filteredJobs.map(job => (
-                            <div key={job._id} className="bg-white p-6 rounded-lg shadow-sm border border-transparent hover:border-indigo-500 hover:shadow-md transition-all duration-300">
+                            <div key={job._id} className="bg-white p-6 rounded-lg shadow-sm border border-transparent hover:border-amber-500 hover:shadow-lg transition-all duration-300">
                                 <div className="flex flex-col sm:flex-row justify-between gap-4">
                                     <div className="flex-1">
-                                        <h3 className="text-xl font-bold text-gray-900 hover:text-indigo-600 cursor-pointer break-words">{job.title}</h3>
+                                        <h3 className="text-xl font-light text-gray-900 hover:text-amber-600 cursor-pointer break-words mb-3">{job.title}</h3>
                                         <div className="flex flex-col sm:flex-row sm:items-center flex-wrap gap-x-4 gap-y-2 text-sm text-gray-600 mt-2">
                                             <span className="flex items-center min-w-0"><span className="truncate">{Icons.briefcase}{job.department}</span></span>
                                             <span className="flex items-center min-w-0"><span className="truncate">{Icons.location}{job.location}</span></span>
                                         </div>
                                     </div>
                                     <div className="mt-4 sm:mt-0 sm:text-right flex-shrink-0">
-                                        <span className="inline-block px-3 py-1 text-xs font-semibold text-indigo-800 bg-indigo-100 rounded-full">{job.type}</span>
+                                        <span className="inline-block px-3 py-1 text-xs font-medium text-amber-800 bg-amber-100 rounded-full">{job.type}</span>
                                         {job.salaryRange && (job.salaryRange.min || job.salaryRange.max) && (
-                                            <p className="text-sm text-gray-800 font-semibold mt-2">
+                                            <p className="text-sm text-gray-800 font-light mt-2">
                                                 {formatSalary(job.salaryRange.min, job.salaryRange.max)}
                                             </p>
                                         )}
                                     </div>
                                 </div>
                                 <p className="text-gray-700 leading-relaxed mt-4 pt-4 border-t border-gray-200 break-words">{job.description}</p>
-                                <div className="text-right mt-4">
-                                    <button onClick={() => handleOpenModal(job)} className="px-5 py-2 w-full sm:w-auto bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 transition-colors duration-200">
+                                <div className="text-right mt-6">
+                                    <button onClick={() => handleOpenModal(job)} className="px-6 py-3 w-full sm:w-auto bg-amber-600 text-white font-medium rounded-md hover:bg-amber-700 transition-colors duration-300 tracking-wide">
                                         Apply Now
                                     </button>
                                 </div>
