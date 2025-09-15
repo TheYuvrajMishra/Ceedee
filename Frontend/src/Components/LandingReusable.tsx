@@ -253,7 +253,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({ data, onButtonClick }
       <section className="py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
-            <div className="sticky top-24">
+            <div className="relative md:sticky">
               <img 
                 src={data.services.image}
                 alt={data.services.imageAlt}
