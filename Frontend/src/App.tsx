@@ -7,6 +7,7 @@ import ContactForm from './Pages/ContactForm';
 import CSR from './Pages/CSR';
 import NewsAndEvents from './Pages/News&Events';
 import MainPage from './Pages/Main/MainPage';
+import Venbro from './Pages/Venbro Polymer/Venbro';
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Route path="/contact" element={<><Navbar /><ContactForm /></>} />
         <Route path="/csr" element={<><Navbar /><CSR /></>} />
         <Route path="/news-and-events" element={<><Navbar /><NewsAndEvents /></>} />
-
+        <Route path="/venbro" element={<><Navbar /><Venbro/></>} />
         {/* Admin Login Route (no navbar) */}
         <Route path="/admin/login" element={<AdminLogin />} />
 
