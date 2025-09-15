@@ -450,7 +450,7 @@ const CeedeeHomepage = () => {
         </div>
         <TwoCompany />
       </section>
-      <div className="marquee-wrapper my-5 text-3xl raleway-light">
+      <div className="marquee-wrapper py-5 text-3xl bg-black/80 text-white raleway-light">
         <div className="marquee-content">
           {/* First copy of the text */}
           <div className="marquee-text">
