@@ -1,96 +1,61 @@
 import React from 'react';
 
+interface Partner {
+  id: number;
+  name: string;
+  // Future properties can be added here like logo, url, etc.
+}
+
 const PartnerSection: React.FC = () => {
+  // Partner data array - easy to maintain and modify
+  const partners: Partner[] = [
+    { id: 1, name: 'Partner 1' },
+    { id: 2, name: 'Partner 2' },
+    { id: 3, name: 'Partner 3' },
+    { id: 4, name: 'Partner 4' },
+    { id: 5, name: 'Partner 5' },
+  ];
+
+  // Render a single partner logo
+  const renderPartnerLogo = (partner: Partner) => (
+    <div key={partner.id} className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
+      <span className="text-white font-light">{partner.name}</span>
+    </div>
+  );
+
+  // Render a set of partner logos
+  const renderPartnerSet = (setIndex: number) => (
+    <div key={setIndex} className="flex items-center space-x-8 mr-8 flex-shrink-0">
+      {partners.map(renderPartnerLogo)}
+    </div>
+  );
+
   return (
     // The main container
-    <section className="h-[50vh] bg-gray-950 relative overflow-hidden">
-      
-      {/* Sandy Texture Overlay. */}
-      <div 
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15' /%3E%3C/svg%3E")`,
-        }}
-      />
+    <section className="py-24 bg-gray-900 text-white relative overflow-hidden">
       
              {/* Content container */}
-       <div className="relative z-10 h-full flex items-center">
-         <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-full">
-           <div className="flex h-full">
-             {/* Left side - Text content (30%) */}
-             <div className="w-[30%] flex flex-col justify-center pr-8">
-               <h2 className="text-3xl fira-sans-black text-stone-100 sm:text-4xl md:text-5xl mb-6 leading-tight">
-                 Our Partners
-               </h2>
-               <p className="text-lg text-stone-300 noto-sans-medium leading-relaxed">
-                 Collaborating with industry leaders to deliver exceptional solutions and drive innovation across multiple sectors.
-               </p>
-             </div>
-             
-             {/* Right side - Logo marquee (70%) */}
-             <div className="w-[70%] flex items-center overflow-hidden">
+       <div className="relative z-10">
+         <div className="max-w-6xl mx-auto px-6">
+           <div className="text-center mb-16">
+             <h2 className="text-4xl md:text-5xl font-light mb-8">
+               Our Partners
+             </h2>
+             <div className="w-16 h-px bg-white mx-auto mb-8"></div>
+             <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+               Collaborating with industry leaders to deliver exceptional solutions and drive innovation across multiple sectors.
+             </p>
+           </div>
+           
+           {/* Logo marquee */}
+           <div className="flex items-center overflow-hidden">
                <div className="w-full">
                  {/* Marquee container */}
                  <div className="flex animate-marquee">
-                   {/* First set of logos */}
-                   <div className="flex items-center space-x-8 mr-8 flex-shrink-0">
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 1</span>
-                     </div>
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 2</span>
-                     </div>
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 3</span>
-                     </div>
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 4</span>
-                     </div>
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 5</span>
-                     </div>
-                   </div>
-                   
-                   {/* Second set for seamless loop */}
-                   <div className="flex items-center space-x-8 mr-8 flex-shrink-0">
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 1</span>
-                     </div>
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 2</span>
-                     </div>
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 3</span>
-                     </div>
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 4</span>
-                     </div>
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 5</span>
-                     </div>
-                   </div>
-                   
-                   {/* Third set for extra smoothness */}
-                   <div className="flex items-center space-x-8 mr-8 flex-shrink-0">
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 1</span>
-                     </div>
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 2</span>
-                     </div>
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 3</span>
-                     </div>
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 4</span>
-                     </div>
-                     <div className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-                       <span className="text-stone-200 font-semibold">Partner 5</span>
-                     </div>
-                   </div>
+                   {/* Generate three sets of logos for seamless marquee effect */}
+                   {[0, 1, 2].map(renderPartnerSet)}
                  </div>
                </div>
-             </div>
            </div>
          </div>
        </div>
