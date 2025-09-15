@@ -28,7 +28,7 @@ export const COMPANIES_DATA: Company[] = [
     name: 'Venbro',
     subtitle: 'Polymers',
     description: 'Advanced polymer solutions for industrial applications. Delivering quality materials and innovative manufacturing processes.',
-    website: 'https://venbro.com',
+    website: '/Venbro',
     buttonText: 'Visit Now',
     icon: Factory,
     backgroundImage: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
@@ -38,7 +38,7 @@ export const COMPANIES_DATA: Company[] = [
     name: 'Shri Krishna',
     subtitle: 'Automobile Enterprise',
     description: 'Professional automotive services and maintenance solutions. Trusted expertise for commercial and personal vehicles.',
-    website: 'https://shrikrishnaautomobile.com',
+    website: '/Shrikrishna',
     buttonText: 'Visit Site',
     icon: Wrench,
     backgroundImage: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2132&q=80',
@@ -120,7 +120,7 @@ const CompanyCard: FC<CompanyCardProps> = ({ company, isLeft, hoveredSide }) => 
         </h2>
 
         <p
-          className={`text-base sm:text-lg text-slate-400 mb-8 sm:mb-10 leading-relaxed font-light transition-opacity duration-500 
+          className={`text-base sm:text-lg text-slate-400 mb-8 sm:mb-10 leading-relaxed font-light transition-all duration-500 
           ${hoveredSide === oppositeSide ? "opacity-0" : "opacity-100"}`}
         >
           {description}
@@ -131,7 +131,7 @@ const CompanyCard: FC<CompanyCardProps> = ({ company, isLeft, hoveredSide }) => 
           className="group inline-flex items-center gap-2 sm:gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-medium border border-white/20 hover:border-white/30 cursor-pointer transition-all duration-300"
         >
           {buttonText}
-          <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-transform duration-300" />
+          <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-all duration-300" />
         </button>
       </div>
     </div>

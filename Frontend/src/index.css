@@ -6,6 +6,47 @@
   to { transform: rotate(360deg); }
 }
 
+
+/* The outer container that hides the overflowing text */
+.marquee-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+/* The inner container that holds and animates the text blocks */
+.marquee-content {
+  display: flex; /* Places text blocks side-by-side */
+  animation: scroll 5s linear infinite; /* Apply the animation */
+}
+
+/* Prevents the text blocks from shrinking */
+.marquee-text {
+  flex-shrink: 0;
+  white-space: nowrap; /* Ensures text stays on one line */
+  padding-right: 5px; /* Adds some space between the repeated texts */
+}
+
+/* Define the scrolling animation */
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /*
+     * We translate by -50%. Because the .marquee-content is 200% the
+     * width of the text (since it has two copies), moving it by 50%
+     * brings the second copy to the exact start position of the first one,
+     * creating a seamless loop.
+     */
+    transform: translateX(-50%);
+  }
+}
+
+/* Optional: Pause animation on hover */
+.marquee-wrapper:hover .marquee-content {
+  animation-play-state: paused;
+}
+
 .raleway-thin {
   font-family: "Raleway", sans-serif;
   font-optical-sizing: auto;

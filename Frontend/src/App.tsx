@@ -7,18 +7,22 @@ import ContactForm from './Pages/ContactForm';
 import CSR from './Pages/CSR';
 import NewsAndEvents from './Pages/News&Events';
 import MainPage from './Pages/Main/MainPage';
+import Venbro from './Pages/Venbro Polymer/Venbro';
+import Footer from './Components/Footer';
+import SKAELanding from './Pages/Shri Krishnan/ShriKrishna';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         {/* Public Routes with Navbar */}
-        <Route path="/" element={<><Navbar /><MainPage /></>} />
-        <Route path="/careers" element={<><Navbar /><Career /></>} />
-        <Route path="/contact" element={<><Navbar /><ContactForm /></>} />
-        <Route path="/csr" element={<><Navbar /><CSR /></>} />
-        <Route path="/news-and-events" element={<><Navbar /><NewsAndEvents /></>} />
-
+        <Route path="/" element={<><Navbar /><MainPage /><Footer/></>} />
+        <Route path="/careers" element={<><Navbar /><Career /><Footer/></>} />
+        <Route path="/contact" element={<><Navbar /><ContactForm /><Footer/></>} />
+        <Route path="/csr" element={<><Navbar /><CSR /><Footer/></>} />
+        <Route path="/news-and-events" element={<><Navbar /><NewsAndEvents /><Footer/></>} />
+        <Route path="/venbro" element={<><Navbar /><Venbro/><Footer/></>} />
+        <Route path="/Shrikrishna" element={<><Navbar /><SKAELanding/><Footer/></>} />
         {/* Admin Login Route (no navbar) */}
         <Route path="/admin/login" element={<AdminLogin />} />
 

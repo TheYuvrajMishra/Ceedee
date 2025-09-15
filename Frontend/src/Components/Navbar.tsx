@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { to: '/careers', label: 'Careers' },
   { to: '/csr', label: 'CSR Activities' },
   { to: '/news-and-events', label: 'News & Events' },
+  { to: '/venbro', label: 'Venbro Polymers' }
 ];
 
 // Shared button styles
@@ -73,7 +74,10 @@ const Header = () => {
   // Only transparent on main page when not scrolled
   const shouldBeTransparent = isMainPage && !isScrolled;
 
-  const closeMenu = () => setIsMenuOpen(false);
+  const closeMenu = () => {
+    setIsMenuOpen(false)
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    };
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const MenuButton = ({
@@ -97,7 +101,9 @@ const Header = () => {
   );
 
   const Logo = () => (
-    <Link to="/" className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-2 xs:space-x-3 sm:space-x-4">
+    <Link to="/" onClick={() => {
+                    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+                  }} className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-2 xs:space-x-3 sm:space-x-4">
       <div className="w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center">
         <img src="/logo.png" alt="Company Logo Base" className="w-full h-full object-contain" />
       </div>
@@ -106,7 +112,9 @@ const Header = () => {
   );
 
   const ContactButton = () => (
-    <Link to="/contact" className={contactStyles}>
+    <Link to="/contact" onClick={() => {
+                    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+                  }} className={contactStyles}>
       <span className="hidden xs:inline">Contact Us</span>
       <span className="xs:hidden">Contact</span>
     </Link>
@@ -213,6 +221,7 @@ const Header = () => {
             <Link
               to="/contact"
               onClick={closeMenu}
+              
               style={{
                 display: 'inline-block',
                 padding: '12px 24px',
