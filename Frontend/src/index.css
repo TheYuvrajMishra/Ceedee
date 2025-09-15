@@ -16,7 +16,7 @@
 /* The inner container that holds and animates the text blocks */
 .marquee-content {
   display: flex; /* Places text blocks side-by-side */
-  animation: scroll 5s linear infinite; /* Apply the animation */
+  animation: scroll 7s linear infinite; /* Apply the animation */
 }
 
 /* Prevents the text blocks from shrinking */
@@ -40,11 +40,6 @@
      */
     transform: translateX(-50%);
   }
-}
-
-/* Optional: Pause animation on hover */
-.marquee-wrapper:hover .marquee-content {
-  animation-play-state: paused;
 }
 
 .raleway-thin {

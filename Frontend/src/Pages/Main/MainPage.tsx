@@ -110,7 +110,7 @@ const CeedeeHomepage = () => {
               <div
                 className="w-16 h-16 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-6"
                 style={{
-                  transform: `translateY(${scrollY * 0.02}px)`,
+                  // transform: `translateY(${scrollY * 0.02}px)`,
                 }}
               >
                 <Building2 className="w-8 h-8 text-white" />
@@ -128,7 +128,7 @@ const CeedeeHomepage = () => {
               <div
                 className="w-16 h-16 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-6"
                 style={{
-                  transform: `translateY(${scrollY * 0.03}px)`,
+                  // transform: `translateY(${scrollY * 0.03}px)`,
                 }}
               >
                 <Award className="w-8 h-8 text-white" />
@@ -146,7 +146,7 @@ const CeedeeHomepage = () => {
               <div
                 className="w-16 h-16 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-6"
                 style={{
-                  transform: `translateY(${scrollY * 0.025}px)`,
+                  // transform: `translateY(${scrollY * 0.025}px)`,
                 }}
               >
                 <Users className="w-8 h-8 text-white" />
