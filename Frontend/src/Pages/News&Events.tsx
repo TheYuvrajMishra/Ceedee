@@ -50,7 +50,6 @@ const SortDropdown = ({ activeSort, setActiveSort }: { activeSort: SortType, set
             className="appearance-none bg-gray-200 border border-gray-300 rounded-lg px-4 py-2.5 pr-10 text-sm font-medium text-gray-700 hover:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors cursor-pointer shadow-sm"
             style={{ minWidth: '160px' }}
         >
-            <option value="" disabled hidden>Sort by</option>
             {sortOptions.map(option => (
                 <option 
                     key={option.value} 
