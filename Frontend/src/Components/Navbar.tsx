@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { to: '/careers', label: 'Careers' },
   { to: '/csr', label: 'CSR Activities' },
   { to: '/news-and-events', label: 'News & Events' },
+  { to: '/venbro', label: 'Venbro Polymers' }
 ];
 
 // Shared button styles
