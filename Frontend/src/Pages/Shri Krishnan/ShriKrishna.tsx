@@ -1,6 +1,6 @@
 
 import ReusableLanding from '../../Components/LandingReusable'; // Adjust the path as needed
-import { venbroData } from '../../Components/Venbro Polymer/data'; // Import the data object
+import { skaeData } from '../../Components/Shri Krishnan/data'; // Import the data object
 // Example usage component
 const Venbro = () => {
   const handleButtonClick = (type: string, text: string) => {
@@ -9,7 +9,7 @@ const Venbro = () => {
 
   return (
     <ReusableLanding 
-      data={venbroData} 
+      data={skaeData} 
       onButtonClick={handleButtonClick}
     />
   );
