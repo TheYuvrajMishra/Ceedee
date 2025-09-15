@@ -163,7 +163,7 @@ const CareerPage = () => {
     }
 
     return (
-        <div className="bg-gray-50 min-h-screen font-sans">
+        <div className="bg-gray-50 min-h-screen font-sans pt-16">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
                 {/* Page Header */}
                 <div className="text-center mb-12">
