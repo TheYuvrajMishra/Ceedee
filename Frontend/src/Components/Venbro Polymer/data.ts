@@ -9,6 +9,7 @@ type LandingPageData = {
       primary: string;
       secondary: string;
     };
+    theme: "red" | "blue"
   };
   legacy: {
     title: string;
@@ -73,7 +74,7 @@ type LandingPageData = {
 export const venbroData: LandingPageData = {
   hero: {
     title: "Venbro Polymers",
-    subtitle: "",
+    subtitle: "~By Ceedee Group",
     tagline: "20+ Years of Industrial Experience",
     description: "Maintaining high standards in Food Grade PP Woven Fabrics, Sacks and Bags for Indian and International markets",
     backgroundImage: "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
@@ -81,6 +82,7 @@ export const venbroData: LandingPageData = {
       primary: "VIEW PRODUCTS",
       secondary: "CONTACT US"
     }
+    ,theme: "blue"
   },
   legacy: {
     title: "Our Legacy",

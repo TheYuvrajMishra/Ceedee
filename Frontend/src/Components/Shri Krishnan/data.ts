@@ -9,6 +9,7 @@ type LandingPageData = {
       primary: string;
       secondary: string;
     };
+    theme: "red" | "blue"
   };
   legacy: {
     title: string;
@@ -73,14 +74,15 @@ type LandingPageData = {
 export const skaeData: LandingPageData = {
   hero: {
     title: "Sri Krishna Automobile Enterprises",
-    subtitle: "SKAE",
+    subtitle: "~By Ceedee Group",
     tagline: "The Oldest Service Centre in South India",
     description: "Available 6 days a week for all Maruti Cars since 1986",
     backgroundImage: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
     buttons: {
       primary: "BOOK SERVICE",
       secondary: "CONTACT US"
-    }
+    },
+    theme: "red"
   },
   legacy: {
     title: "Our Legacy",
