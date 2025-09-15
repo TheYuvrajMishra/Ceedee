@@ -31,20 +31,56 @@ const PinIcon = () => (
   </svg>
 );
 
-// --- Filter Controls ---
+// --- Sort and Filter Controls ---
 type FilterType = 'All' | 'News' | 'Event';
 const filterOptions: FilterType[] = ['All', 'News', 'Event'];
 
+type SortType = 'newest' | 'oldest' | 'alphabetical';
+const sortOptions: { value: SortType; label: string }[] = [
+    { value: 'newest', label: 'Newest First' },
+    { value: 'oldest', label: 'Oldest First' },
+    { value: 'alphabetical', label: 'Alphabetical' }
+];
+
+const SortDropdown = ({ activeSort, setActiveSort }: { activeSort: SortType, setActiveSort: (sort: SortType) => void }) => (
+    <div className="relative">
+        <select
+            value={activeSort}
+            onChange={(e) => setActiveSort(e.target.value as SortType)}
+            className="appearance-none bg-gray-200 border border-gray-300 rounded-lg px-4 py-2.5 pr-10 text-sm font-medium text-gray-700 hover:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors cursor-pointer shadow-sm"
+            style={{ minWidth: '160px' }}
+        >
+            <option value="" disabled hidden>Sort by</option>
+            {sortOptions.map(option => (
+                <option 
+                    key={option.value} 
+                    value={option.value} 
+                    className="py-2"
+                >
+                    {option.label}
+                </option>
+            ))}
+        </select>
+        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+    </div>
+);
+
 const FilterControls = ({ activeFilter, setActiveFilter }: { activeFilter: FilterType, setActiveFilter: (filter: FilterType) => void }) => (
-    <div className="flex justify-center items-center gap-2 md:gap-4 mb-12">
-        {filterOptions.map(option => (
+    <div className="inline-flex bg-gray-200 rounded-lg p-1">
+        {filterOptions.map((option, index) => (
             <button
                 key={option}
                 onClick={() => setActiveFilter(option)}
-                className={`px-4 py-2 text-sm md:text-base cursor-pointer font-semibold rounded-full transition-all duration-300 ease-in-out ${
+                className={`px-4 py-2 text-sm font-medium transition-all duration-200 relative ${
+                    index === 0 ? 'rounded-l-md' : index === filterOptions.length - 1 ? 'rounded-r-md' : ''
+                } ${
                     activeFilter === option
-                        ? 'bg-blue-600 text-white shadow-md'
-                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                        ? 'bg-orange-500 text-white shadow-sm'
+                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-300'
                 }`}
             >
                 {option}
@@ -53,53 +89,87 @@ const FilterControls = ({ activeFilter, setActiveFilter }: { activeFilter: Filte
     </div>
 );
 
-// --- Date Formatter ---
-const formatDate = (dateString?: string) => {
-    if (!dateString) return { full: '' };
-    const date = new Date(dateString);
-    return {
-        full: date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-    };
-};
+const ControlsBar = ({ activeFilter, setActiveFilter, activeSort, setActiveSort }: {
+    activeFilter: FilterType;
+    setActiveFilter: (filter: FilterType) => void;
+    activeSort: SortType;
+    setActiveSort: (sort: SortType) => void;
+}) => (
+    <div className="flex justify-between items-center mb-12">
+        <SortDropdown activeSort={activeSort} setActiveSort={setActiveSort} />
+        <FilterControls activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+    </div>
+);
 
-// --- News & Event Card Component (MODIFIED) ---
-const NewsEventCard = ({ item, onReadMore }: { item: NewsEvent, onReadMore: (item: NewsEvent) => void }) => {
-    // Simplified date formatting, as only the full date is needed now.
-    const { full: fullDate } = formatDate(item.date);
+
+// --- Timeline Item Component ---
+const TimelineItem = ({ item, onReadMore }: { item: NewsEvent, onReadMore: (item: NewsEvent) => void }) => {
+    const formatTimelineDate = (dateString?: string) => {
+        if (!dateString) return { month: '', day: '', year: '' };
+        const date = new Date(dateString);
+        return {
+            month: date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
+            day: date.getDate().toString().padStart(2, '0'),
+            year: date.getFullYear().toString()
+        };
+    };
+
+    const { month, day, year } = formatTimelineDate(item.date);
     const isEvent = item.type === 'Event';
 
     return (
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 group">
-            {item.image && (
-                <div className="relative h-48">
-                    <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        onError={(e) => { e.currentTarget.src = 'https://placehold.co/600x400/EEE/31343C?text=Image+Not+Found'; }}
-                    />
-                    {/* The tag color remains distinct, which is a good visual cue */}
-                    <span className={`absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-full ${isEvent ? 'bg-purple-500 text-white' : 'bg-blue-500 text-white'}`}>
+        <div className="flex flex-col md:flex-row gap-8 md:gap-12 py-12 border-b border-gray-200 last:border-b-0 group">
+            {/* Date Block */}
+            <div className="flex-shrink-0 text-center md:text-left">
+                <div className="text-sm font-medium text-gray-500 mb-1">{month}</div>
+                <div className="text-5xl md:text-6xl font-light text-gray-800 mb-1">{day}</div>
+                <div className="text-lg font-medium text-gray-500">{year}</div>
+            </div>
+
+            {/* Image - Fixed height to match content */}
+            <div className="flex-shrink-0 w-full md:w-96 h-80 overflow-hidden">
+                <img
+                    src={item.image || 'https://placehold.co/600x400/EEE/31343C?text=No+Image'}
+                    alt={item.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    onError={(e) => { e.currentTarget.src = 'https://placehold.co/600x400/EEE/31343C?text=Image+Not+Found'; }}
+                />
+            </div>
+
+            {/* Content - Fixed height to match image */}
+            <div className="flex-1 min-w-0 h-80 flex flex-col">
+                <div className="flex items-center gap-2 mb-3">
+                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${isEvent ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'}`}>
                         {item.type}
                     </span>
                 </div>
-            )}
-            <div className="p-6 flex flex-col flex-grow">
-                {/* UNIFIED LAYOUT: Both News and Events will now use this same structure */}
-                <p className="text-sm text-gray-500 mb-1 flex items-center">
-                    <CalendarIcon /> {fullDate}
-                </p>
-                <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight group-hover:text-blue-600 transition-colors">
+                
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 group-hover:text-amber-600 transition-colors">
                     {item.title}
                 </h3>
                 
-                <p className="text-gray-600 text-sm leading-relaxed my-3 flex-grow">
-                    {item.description.substring(0, 120)}{item.description.length > 120 && '...'}
-                </p>
-
-                <div className="mt-auto pt-4 border-t border-gray-100">
-                    <button onClick={() => onReadMore(item)} className="font-semibold text-blue-600 hover:text-blue-800 cursor-pointer transition-colors">
-                        Read More &rarr;
+                {isEvent && item.location && (
+                    <div className="text-sm text-gray-500 mb-4 flex items-center">
+                        <PinIcon /> {item.location}
+                    </div>
+                )}
+                
+                {/* Fixed height description - minimum 3 lines */}
+                <div className="h-20 mb-6 overflow-hidden">
+                    <p className="text-gray-600 leading-relaxed text-base h-full">
+                        {item.description.substring(0, 250)}{item.description.length > 250 && '...'}
+                    </p>
+                </div>
+                
+                <div className="mt-auto">
+                    <button 
+                        onClick={() => onReadMore(item)} 
+                        className="inline-flex items-center text-amber-600 hover:text-amber-700 font-medium transition-colors group/btn"
+                    >
+                        View {item.type} Details 
+                        <svg className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -107,24 +177,6 @@ const NewsEventCard = ({ item, onReadMore }: { item: NewsEvent, onReadMore: (ite
     );
 };
 
-// --- Skeleton Loader Card ---
-const SkeletonCard = () => (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden animate-pulse">
-        <div className="bg-gray-300 h-48 w-full"></div>
-        <div className="p-6">
-            <div className="bg-gray-300 h-4 w-1/2 rounded mb-2"></div>
-            <div className="bg-gray-300 h-5 w-full rounded mb-4"></div>
-            <div className="space-y-2">
-                <div className="bg-gray-300 h-4 w-full rounded"></div>
-                <div className="bg-gray-300 h-4 w-full rounded"></div>
-                <div className="bg-gray-300 h-4 w-2/3 rounded"></div>
-            </div>
-            <div className="mt-6 pt-4 border-t border-gray-100">
-                 <div className="bg-gray-300 h-5 w-1/4 rounded"></div>
-            </div>
-        </div>
-    </div>
-);
 
 // =================================================================================
 // 2. DETAIL MODAL COMPONENT
@@ -212,7 +264,15 @@ const NewsAndEvents = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [activeFilter, setActiveFilter] = useState<FilterType>('All');
+    const [activeSort, setActiveSort] = useState<SortType>('newest');
     const [selectedItem, setSelectedItem] = useState<NewsEvent | null>(null);
+    const [scrollY, setScrollY] = useState(0);
+
+    useEffect(() => {
+        const handleScroll = () => setScrollY(window.scrollY);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     useEffect(() => {
         const fetchNewsAndEvents = async () => {
@@ -224,8 +284,7 @@ const NewsAndEvents = () => {
                 
                 const newsEvents = data.data.newsEvents || [];
                 const publishedItems = newsEvents
-                    .filter((item: NewsEvent) => item.status === 'Published')
-                    .sort((a: NewsEvent, b: NewsEvent) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime());
+                    .filter((item: NewsEvent) => item.status === 'Published');
                 
                 setItems(publishedItems);
             } catch (err) {
@@ -238,9 +297,21 @@ const NewsAndEvents = () => {
     }, []);
 
     const filteredItems = useMemo(() => {
-        if (activeFilter === 'All') return items;
-        return items.filter(item => item.type === activeFilter);
-    }, [items, activeFilter]);
+        let filtered = activeFilter === 'All' ? items : items.filter(item => item.type === activeFilter);
+        
+        // Apply sorting
+        return filtered.sort((a, b) => {
+            switch (activeSort) {
+                case 'oldest':
+                    return new Date(a.date || 0).getTime() - new Date(b.date || 0).getTime();
+                case 'alphabetical':
+                    return a.title.localeCompare(b.title);
+                case 'newest':
+                default:
+                    return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime();
+            }
+        });
+    }, [items, activeFilter, activeSort]);
 
     const handleReadMore = (item: NewsEvent) => {
         setSelectedItem(item);
@@ -250,23 +321,76 @@ const NewsAndEvents = () => {
         setSelectedItem(null);
     };
 
+    const parallaxOffset = scrollY * 0.3;
+
     return (
-        <div className="bg-gray-50 min-h-screen pt-16">
-            <div className="container mx-auto px-4 py-12 md:py-16">
-                <div className="text-center mb-8">
-                    <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">News & Events</h1>
-                    <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Stay updated with our latest announcements and upcoming events.</p>
+        <div className="bg-gray-50 min-h-screen font-sans">
+            {/* Hero Section */}
+            <section className="relative h-screen flex items-center overflow-hidden">
+                <div className="flex w-full h-full">
+                    {/* Left side - Content */}
+                    <div className="w-2/5 bg-gray-900 text-white flex items-center justify-center relative z-10">
+                        <div className="max-w-lg px-8 text-left">
+                            <h1 className="text-2xl md:text-3xl font-light text-amber-600 mb-6 tracking-wide">
+                                News & Events
+                            </h1>
+                            <h2 className="text-3xl md:text-5xl font-light text-white mb-8 leading-tight">
+                                Stay Connected with Ceedee - Latest Updates & Happenings.
+                            </h2>
+                            <p className="text-lg text-gray-300 font-light tracking-wide">
+                                Your Gateway to Information.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    {/* Right side - Image */}
+                    <div className="w-3/5 relative overflow-hidden">
+                        <div
+                            className="absolute inset-0 bg-cover bg-center"
+                            style={{
+                                transform: `translateY(${parallaxOffset}px)`,
+                                backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+                            }}
+                        />
+                    </div>
                 </div>
+            </section>
+
+            <div className="container mx-auto px-4 py-12 md:py-16">
                 
-                <FilterControls activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+                <ControlsBar 
+                    activeFilter={activeFilter} 
+                    setActiveFilter={setActiveFilter}
+                    activeSort={activeSort}
+                    setActiveSort={setActiveSort}
+                />
 
                 {error && (
                     <p className="text-center text-red-600 bg-red-100 p-4 rounded-lg font-semibold">{error}</p>
                 )}
 
                 {loading ? (
-                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                        {Array.from({ length: 6 }).map((_, index) => <SkeletonCard key={index} />)}
+                    <div className="w-4/5 mx-auto">
+                        {Array.from({ length: 4 }).map((_, index) => (
+                            <div key={index} className="flex flex-col md:flex-row gap-8 md:gap-12 py-12 border-b border-gray-200 animate-pulse">
+                                <div className="flex-shrink-0 text-center md:text-left">
+                                    <div className="bg-gray-300 h-4 w-8 rounded mb-1 mx-auto md:mx-0"></div>
+                                    <div className="bg-gray-300 h-16 w-16 rounded mx-auto md:mx-0 mb-1"></div>
+                                    <div className="bg-gray-300 h-5 w-12 rounded mx-auto md:mx-0"></div>
+                                </div>
+                                <div className="flex-shrink-0 w-full md:w-96 h-80 bg-gray-300 rounded-lg"></div>
+                                <div className="flex-1 min-w-0">
+                                    <div className="bg-gray-300 h-6 w-16 rounded-full mb-3"></div>
+                                    <div className="bg-gray-300 h-9 w-3/4 rounded mb-4"></div>
+                                    <div className="space-y-2 mb-6">
+                                        <div className="bg-gray-300 h-4 w-full rounded"></div>
+                                        <div className="bg-gray-300 h-4 w-full rounded"></div>
+                                        <div className="bg-gray-300 h-4 w-2/3 rounded"></div>
+                                    </div>
+                                    <div className="bg-gray-300 h-6 w-32 rounded"></div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 ) : filteredItems.length === 0 ? (
                     <div className="text-center py-16">
@@ -274,9 +398,9 @@ const NewsAndEvents = () => {
                         <p className="text-gray-500 mt-2">Please check back soon for new updates!</p>
                     </div>
                 ) : (
-                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="w-4/5 mx-auto">
                         {filteredItems.map(item => (
-                            <NewsEventCard key={item._id} item={item} onReadMore={handleReadMore} />
+                            <TimelineItem key={item._id} item={item} onReadMore={handleReadMore} />
                         ))}
                     </div>
                 )}
