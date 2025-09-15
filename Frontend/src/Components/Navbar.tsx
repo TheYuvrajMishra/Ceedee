@@ -1,7 +1,7 @@
 import { Menu, X } from 'lucide-react';
 import { useState, useEffect} from 'react';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 
 const NAV_LINKS = [
@@ -58,12 +58,20 @@ const sidebarStyles: React.CSSProperties = {
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  
+  // Check if we're on the main page (home page)
+  const isMainPage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Determine if navbar should be transparent
+  // Only transparent on main page when not scrolled
+  const shouldBeTransparent = isMainPage && !isScrolled;
 
   const closeMenu = () => setIsMenuOpen(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -240,14 +248,14 @@ const Header = () => {
   return (
     <div className={clsx(
       'fixed top-0 w-full z-50 transition-all duration-300 ease-in-out p-3 xs:p-4 md:py-3',
-      isScrolled ? 'bg-white/90 backdrop-blur-lg shadow-md' : 'bg-transparent'
+      shouldBeTransparent ? 'bg-transparent' : 'bg-white/90 backdrop-blur-lg shadow-md'
     )}>
       <div className="container mx-auto flex items-center justify-between relative">
         {/* Hamburger Menu */}
         <div className="flex items-center">
           <div className="ml-2 xs:ml-4 sm:ml-6 md:ml-8 lg:ml-10 xl:ml-12">
             <MenuButton
-              className={clsx(buttonStyles.base, isScrolled ? buttonStyles.scrolled : buttonStyles.transparent)}
+              className={clsx(buttonStyles.base, shouldBeTransparent ? buttonStyles.transparent : buttonStyles.scrolled)}
               onClick={toggleMenu}
               ariaLabel="Toggle menu"
             >
