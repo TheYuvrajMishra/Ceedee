@@ -33,6 +33,7 @@ import {
   Package,
 } from "lucide-react";
 import TwoCompany from "../../Components/Main/TwoCompany";
+import PartnerSection from "../../Components/Main/PartnerSection";
 
 const CeedeeHomepage = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -163,6 +164,9 @@ const CeedeeHomepage = () => {
         </div>
       </section>
 
+      {/* Partner's Section */}
+      <PartnerSection/>
+      
       {/* Company Showcase */}
       <section className="py-24 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
