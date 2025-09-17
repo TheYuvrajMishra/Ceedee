@@ -129,7 +129,7 @@ export default function CSRPage() {
             setLoading(true);
             setError(''); // Reset error state on new fetch
             try {
-                const response = await fetch('http://localhost:5000/api/csr');
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/csr`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch initiatives. Please try again later.');
                 }

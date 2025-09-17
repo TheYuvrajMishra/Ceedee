@@ -46,7 +46,6 @@ const PartnerSection: React.FC = () => {
                Collaborating with industry leaders to deliver exceptional solutions and drive innovation across multiple sectors.
              </p>
            </div>
-           
            {/* Logo marquee */}
            <div className="flex items-center overflow-hidden">
                <div className="w-full">

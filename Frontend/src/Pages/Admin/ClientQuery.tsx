@@ -46,7 +46,7 @@ const AdminClientQueryViewer = () => {
       }
 
       const response = await fetch(
-        `http://localhost:5000/api/clients?${params.toString()}`,
+        `${import.meta.env.VITE_API_URL}/api/clients?${params.toString()}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -84,7 +84,7 @@ const AdminClientQueryViewer = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/clients/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/clients/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -116,7 +116,7 @@ const AdminClientQueryViewer = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/clients/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/clients/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

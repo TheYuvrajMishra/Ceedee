@@ -40,7 +40,7 @@ const ApplicationModal = ({ job, onClose }: { job: Career | null, onClose: () =>
         setSubmitSuccess(false);
 
         try {
-            const response = await fetch('http://localhost:5000/api/career-applications', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/career-applications`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, email, careerId: job._id }),
@@ -119,7 +119,7 @@ const CareerPage = () => {
         const fetchJobs = async () => {
             setLoading(true);
             try {
-                const response = await fetch('http://localhost:5000/api/careers');
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/careers`);
                 if (!response.ok) throw new Error('Data could not be fetched at this time.');
                 const data = await response.json();
                 setJobs(data.data.jobs || []);

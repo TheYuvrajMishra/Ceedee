@@ -33,7 +33,7 @@ const useJobs = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch("http://localhost:5000/api/careers");
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/careers`);
       if (!response.ok) throw new Error("Failed to fetch jobs");
       const data = await response.json();
       setJobs(data.data?.jobs || []);
@@ -45,7 +45,7 @@ const useJobs = () => {
   };
 
   const deleteJob = async (id: string) => {
-    const response = await fetch(`http://localhost:5000/api/careers/${id}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/careers/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
@@ -55,8 +55,8 @@ const useJobs = () => {
 
   const saveJob = async (jobData: any, editingId?: string) => {
     const url = editingId
-      ? `http://localhost:5000/api/careers/${editingId}`
-      : "http://localhost:5000/api/careers";
+      ? `${import.meta.env.VITE_API_URL}/api/careers/${editingId}`
+      : `${import.meta.env.VITE_API_URL}/api/careers`;
     const response = await fetch(url, {
       method: editingId ? "PUT" : "POST",
       headers: {
@@ -89,7 +89,7 @@ const useApplications = () => {
     setLoadingAppId(jobId);
     try {
       const response = await fetch(
-        `http://localhost:5000/api/career-applications/career/${jobId}`,
+        `${import.meta.env.VITE_API_URL}/api/career-applications/career/${jobId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }

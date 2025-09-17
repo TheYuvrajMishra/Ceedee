@@ -78,7 +78,7 @@ const AdminCSR = () => {
     const [filterStatus, setFilterStatus] = useState<'all' | CSR['status']>('all');
     const [filterCategory, setFilterCategory] = useState<'all' | CSR['category']>('all');
 
-    const API_URL = 'http://localhost:5000/api/csr';
+    const API_URL = `${import.meta.env.VITE_API_URL}/api/csr`;
 
     // Data fetching
     const fetchCsrs = async () => {

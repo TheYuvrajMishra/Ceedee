@@ -218,7 +218,7 @@ const NewsAndEvents = () => {
         const fetchNewsAndEvents = async () => {
             setLoading(true);
             try {
-                const response = await fetch('http://localhost:5000/api/news-events');
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/news-events`);
                 if (!response.ok) throw new Error('Data could not be fetched right now.');
                 const data = await response.json();
                 
