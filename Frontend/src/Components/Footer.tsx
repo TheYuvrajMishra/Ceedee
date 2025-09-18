@@ -26,7 +26,7 @@ const Footer = () => {
               </h5>
               <div className="space-y-2">
                 <Link
-                  to="/venbro"
+                  to="/venbro-polymers"
                   onClick={() => {
                     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
                   }}
@@ -44,7 +44,7 @@ const Footer = () => {
                     </div>
                   </div>
                 </Link>
-                <Link to="/shrikrishna" onClick={() => {
+                <Link to="/shri-krishna-automobile-enterprises" onClick={() => {
                     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
                   }}>
                   <div className="flex items-start space-x-3">
@@ -109,7 +109,7 @@ const Footer = () => {
                   Venbro Polymers
                 </a>
                 <a href="#" className="hover:text-white transition-colors">
-                  ShriKrishnan Automobile Enterprises
+                  Shri Krishna Automobile Enterprises
                 </a>
                 <a href="#" className="hover:text-white transition-colors">
                   Corporate Social Responsibilities
