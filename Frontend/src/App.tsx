@@ -47,8 +47,8 @@ function App() {
             <Route path="/contact" element={<ContactForm />} />
             <Route path="/csr" element={<CSR />} />
             <Route path="/news-and-events" element={<NewsAndEvents />} />
-            <Route path="/venbro" element={<Venbro />} />
-            <Route path="/Shrikrishna" element={<SKAELanding />} />
+            <Route path="/venbro-polymers" element={<Venbro />} />
+            <Route path="/shri-krishna-automobile-enterprises" element={<SKAELanding />} />
           </Route>
 
           {/* Admin Routes */}

@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router";
 
 // --- TYPE DEFINITIONS (Unchanged) ---
 interface HeroData {
@@ -95,26 +96,33 @@ interface ReusableLandingProps {
   onButtonClick?: (buttonType: string, buttonText: string) => void;
 }
 
-const ReusableLanding: React.FC<ReusableLandingProps> = ({ data, onButtonClick }) => {
+const ReusableLanding: React.FC<ReusableLandingProps> = ({
+  data,
+  onButtonClick,
+}) => {
   const [scrollY, setScrollY] = useState(0);
 
   // --- UPDATED: Refined Theme Configuration Object ---
   // A more robust and reusable theme structure
   const themeConfig = {
     red: {
-      text: 'text-red-600',
-      bg: 'bg-red-600',
-      hoverBg: 'hover:bg-red-700',
-      border: 'border-red-600',
+      text: "text-red-600",
+      bg: "bg-red-600",
+      hoverBg: "hover:bg-red-700",
+      border: "border-red-600",
       // Specific shade for hero button text for better harmony
-      heroButtonText: 'text-red-600',
+      heroButtonText: "text-red-600",
+      // --- ADD THIS LINE ---
+      hoverText: "hover:text-red-600",
     },
     blue: {
-      text: 'text-blue-600',
-      bg: 'bg-blue-600',
-      hoverBg: 'hover:bg-blue-700',
-      border: 'border-blue-600',
-      heroButtonText: 'text-blue-600',
+      text: "text-blue-600",
+      bg: "bg-blue-600",
+      hoverBg: "hover:bg-blue-700",
+      border: "border-blue-600",
+      heroButtonText: "text-blue-600",
+      // --- ADD THIS LINE ---
+      hoverText: "hover:text-blue-600",
     },
   };
 
@@ -122,8 +130,8 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({ data, onButtonClick }
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const parallaxOffset = scrollY * 0.3;
@@ -133,12 +141,12 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({ data, onButtonClick }
       onButtonClick(type, text);
     }
   };
-
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             transform: `translateY(${parallaxOffset}px)`,
@@ -161,21 +169,32 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({ data, onButtonClick }
           <p className="text-lg opacity-90 max-w-3xl mx-auto leading-relaxed mb-8">
             {data.hero.description}
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* --- MODIFIED: Themed text on primary hero button --- */}
-            <button 
-              onClick={() => handleButtonClick('primary', data.hero.buttons.primary)}
+            {/* --- CORRECTED: Use the specific key for clarity --- */}
+            <button
+              onClick={() => {
+                // Check if the button's text is 'Book Services'
+                if (data.hero.buttons.primary === "BOOK SERVICE") {
+                  navigate("/shri-krishna-automobile-enterprises/services");
+                } else {
+                  navigate("/venbro-polymers/products");
+                }
+              }}
               className={`bg-white cursor-pointer ${currentTheme.heroButtonText} hover:bg-gray-100 px-8 py-3 transition-colors duration-300 tracking-wider text-sm`}
             >
               {data.hero.buttons.primary}
             </button>
-            <button 
-              onClick={() => handleButtonClick('secondary', data.hero.buttons.secondary)}
-              className={`border cursor-pointer border-white text-white hover:bg-white ${currentTheme.heroButtonText} hover:${currentTheme.heroButtonText} px-8 py-3 transition-colors duration-300 tracking-wider text-sm`}
-            >
-              {data.hero.buttons.secondary}
-            </button>
+            <Link to="/contact">
+              <button
+                onClick={() =>
+                  handleButtonClick("secondary", data.hero.buttons.secondary)
+                }
+                className={`border cursor-pointer border-white text-white hover:bg-white ${currentTheme.hoverText} px-8 py-3 transition-colors duration-300 tracking-wider text-sm`}
+              >
+                {data.hero.buttons.secondary}
+              </button>
+            </Link>
           </div>
         </div>
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white">
@@ -195,17 +214,19 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({ data, onButtonClick }
               <div className={`w-16 h-px ${currentTheme.bg} mb-8`}></div>
               <div className="space-y-6 text-gray-700 leading-relaxed">
                 {data.legacy.content.map((paragraph, index) => (
-                  <p key={index} className={index === 0 ? "text-lg" : ""} 
-                     dangerouslySetInnerHTML={{ __html: paragraph }}
+                  <p
+                    key={index}
+                    className={index === 0 ? "text-lg" : ""}
+                    dangerouslySetInnerHTML={{ __html: paragraph }}
                   />
                 ))}
               </div>
             </div>
-            <div 
+            <div
               className="relative h-96"
               style={{ transform: `translateY(${scrollY * 0.05}px)` }}
             >
-              <img 
+              <img
                 src={data.legacy.image}
                 alt={data.legacy.imageAlt}
                 className="w-full h-full object-cover grayscale"
@@ -231,15 +252,19 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({ data, onButtonClick }
             {data.philosophy.cards.map((card, index) => (
               <div key={index} className="text-center">
                 <div className="relative h-48 mb-8">
-                  <img 
+                  <img
                     src={card.image}
                     alt={card.imageAlt}
                     className="w-full h-full object-cover grayscale"
                   />
                 </div>
-                <h3 className="text-2xl font-light text-gray-900 mb-4">{card.title}</h3>
+                <h3 className="text-2xl font-light text-gray-900 mb-4">
+                  {card.title}
+                </h3>
                 {/* --- MODIFIED: Themed card divider --- */}
-                <div className={`w-12 h-px ${currentTheme.bg} opacity-50 mx-auto mb-4`}></div>
+                <div
+                  className={`w-12 h-px ${currentTheme.bg} opacity-50 mx-auto mb-4`}
+                ></div>
                 <p className="text-gray-600 leading-relaxed">
                   {card.description}
                 </p>
@@ -268,7 +293,9 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({ data, onButtonClick }
               <div className="space-y-8">
                 {data.services.services.map((service, index) => (
                   <div key={index}>
-                    <h3 className="text-xl font-light text-gray-900 mb-4">{service.title}</h3>
+                    <h3 className="text-xl font-light text-gray-900 mb-4">
+                      {service.title}
+                    </h3>
                     <p className="text-gray-600 leading-relaxed">
                       {service.description}
                     </p>
@@ -281,7 +308,11 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({ data, onButtonClick }
       </section>
 
       {/* Certifications & Standards Section */}
-      <section className={`py-24 ${data.certification.backgroundColor || 'bg-black/95'} text-white`}>
+      <section
+        className={`py-24 ${
+          data.certification.backgroundColor || "bg-black/95"
+        } text-white`}
+      >
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -296,14 +327,18 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({ data, onButtonClick }
                 {data.certification.stats.map((stat, index) => (
                   <div key={index}>
                     {/* --- MODIFIED: Themed stat value --- */}
-                    <div className={`text-2xl font-light mb-2 text-white/95`}>{stat.value}</div>
-                    <div className="text-sm text-gray-400 tracking-wider">{stat.label}</div>
+                    <div className={`text-2xl font-light mb-2 text-white/95`}>
+                      {stat.value}
+                    </div>
+                    <div className="text-sm text-gray-400 tracking-wider">
+                      {stat.label}
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
             <div className="relative h-96">
-              <img 
+              <img
                 src={data.certification.image}
                 alt={data.certification.imageAlt}
                 className="w-full h-full object-cover grayscale"
@@ -320,14 +355,14 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({ data, onButtonClick }
             <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
               {data.experience.title}
             </h2>
-             {/* --- MODIFIED: Themed divider --- */}
+            {/* --- MODIFIED: Themed divider --- */}
             <div className={`w-16 h-px ${currentTheme.bg} mx-auto mb-8`}></div>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
               {data.experience.description}
             </p>
           </div>
           <div className="relative h-64 md:h-96 mb-16">
-            <img 
+            <img
               src={data.experience.image}
               alt={data.experience.imageAlt}
               className="w-full h-full object-cover grayscale"
@@ -335,7 +370,9 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({ data, onButtonClick }
           </div>
           <div className="grid md:grid-cols-2 gap-12">
             <div>
-              <h3 className="text-2xl font-light text-gray-900 mb-6">{data.experience.leftColumn.title}</h3>
+              <h3 className="text-2xl font-light text-gray-900 mb-6">
+                {data.experience.leftColumn.title}
+              </h3>
               <div className="space-y-4 text-gray-600">
                 {data.experience.leftColumn.points.map((point, index) => (
                   // --- MODIFIED: Themed bullet point ---
@@ -347,10 +384,12 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({ data, onButtonClick }
               </div>
             </div>
             <div>
-              <h3 className="text-2xl font-light text-gray-900 mb-6">{data.experience.rightColumn.title}</h3>
+              <h3 className="text-2xl font-light text-gray-900 mb-6">
+                {data.experience.rightColumn.title}
+              </h3>
               <div className="space-y-4 text-gray-600">
                 {data.experience.rightColumn.points.map((point, index) => (
-                   // --- MODIFIED: Themed bullet point ---
+                  // --- MODIFIED: Themed bullet point ---
                   <p key={index} className="flex items-start">
                     <span className={`mr-2 ${currentTheme.text}`}>•</span>
                     <span>{point}</span>
@@ -374,15 +413,19 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({ data, onButtonClick }
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {/* --- MODIFIED: Using new theme keys --- */}
-            <button 
-              onClick={() => handleButtonClick('cta-primary', data.cta.buttons.primary)}
+            <button
+              onClick={() =>
+                handleButtonClick("cta-primary", data.cta.buttons.primary)
+              }
               className={`${currentTheme.bg} ${currentTheme.hoverBg} cursor-pointer text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm`}
             >
               {data.cta.buttons.primary}
             </button>
-            <button 
-              onClick={() => handleButtonClick('cta-secondary', data.cta.buttons.secondary)}
-              className={`border ${currentTheme.border} ${currentTheme.text} hover:${currentTheme.bg} hover:text-white cursor-pointer px-8 py-3 transition-colors duration-300 tracking-wider text-sm`}
+            <button
+              onClick={() =>
+                handleButtonClick("cta-secondary", data.cta.buttons.secondary)
+              }
+              className={`border ${currentTheme.border} ${currentTheme.text} ${currentTheme.hoverBg} hover:text-white cursor-pointer px-8 py-3 transition-colors duration-300 tracking-wider text-sm`}
             >
               {data.cta.buttons.secondary}
             </button>
