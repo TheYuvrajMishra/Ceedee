@@ -252,6 +252,7 @@ const NewsAndEvents = () => {
 
     return (
         <div className="bg-gray-50 min-h-screen">
+            <title>Ceedee's | News & Events</title>
             <div className="container mx-auto px-4 py-12 md:py-16">
                 <div className="text-center mb-8">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">News & Events</h1>

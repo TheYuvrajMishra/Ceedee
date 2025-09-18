@@ -8,10 +8,13 @@ const Venbro = () => {
   };
 
   return (
+    <>
+    <title>Ceedee's | Shri Krishna Automobile Enterprises</title>
     <ReusableLanding 
       data={skaeData} 
       onButtonClick={handleButtonClick}
     />
+    </>
   );
 };
 

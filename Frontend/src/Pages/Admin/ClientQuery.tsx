@@ -148,6 +148,7 @@ const AdminClientQueryViewer = () => {
 
   return (
     <div className="container mx-auto p-6 font-sans bg-gray-50 min-h-screen">
+      <title>Ceedee's | Query</title>
       <div className="flex justify-between items-center py-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Client Queries</h1>

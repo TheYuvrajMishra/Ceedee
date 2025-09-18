@@ -72,6 +72,7 @@ const ContactForm = () => {
 
     return (
         <div className="max-w-3xl mx-auto p-6 md:p-8 bg-white shadow-2xl rounded-xl my-10 border border-gray-100">
+            <title>Ceedee's | Contact Us</title>
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-2">Get in Touch</h2>
             <p className="text-center text-gray-500 mb-8">We'd love to hear from you. Please fill out the form below.</p>
             

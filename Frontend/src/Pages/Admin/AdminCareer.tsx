@@ -639,6 +639,7 @@ const AdminCareer = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <title>Ceedee's | Career</title>
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <a

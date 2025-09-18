@@ -48,6 +48,7 @@ const CeedeeHomepage = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <title>Ceedee's | Home</title>
       {/* Hero Section with Parallax */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         {/* Parallax Background */}

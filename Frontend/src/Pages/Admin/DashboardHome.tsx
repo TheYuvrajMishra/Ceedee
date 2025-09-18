@@ -55,6 +55,7 @@ const DashboardHome = () => {
 
   return (
     <div className="flex min-h-screen bg-slate-100 font-sans">
+      <title>Ceedee's | Dashboard</title>
       <Sidebar 
         isOpen={isSidebarOpen} 
         setIsOpen={setSidebarOpen} 

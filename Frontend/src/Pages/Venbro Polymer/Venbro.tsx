@@ -8,10 +8,13 @@ const Venbro = () => {
   };
 
   return (
+    <>
+    <title>Ceedee's | Venbro Polymer</title>
     <ReusableLanding 
       data={venbroData} 
       onButtonClick={handleButtonClick}
     />
+    </>
   );
 };
 
