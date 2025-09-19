@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 // Define the structure for our form data
 interface FormData {
@@ -71,6 +71,7 @@ const ContactForm = () => {
     };
 
     return (
+        <>
         <div className="max-w-3xl mx-auto p-6 md:p-8 bg-white shadow-2xl rounded-xl my-10 border border-gray-100">
             <title>Ceedee's | Contact Us</title>
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-2">Get in Touch</h2>
@@ -127,6 +128,28 @@ const ContactForm = () => {
                 </form>
             )}
         </div>
+        <section className="py-12 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
+            Partner With Excellence
+          </h2>
+          <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
+          <p className="text-lg text-gray-600 mb-12 leading-relaxed">
+            Discover how Ceedee Group's diversified expertise can serve your
+            business needs across automotive and industrial sectors.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
+            <Link to="/" className="bg-gray-900 text-white cursor-pointer px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm">
+              EXPLORE COMPANIES
+            </Link>
+            <Link to="/contact" className="border border-gray-900 cursor-pointer text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm">
+              CONTACT GROUP
+            </Link>
+          </div>
+        </div>
+      </section>
+      </>
     );
 };
 
