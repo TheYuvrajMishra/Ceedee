@@ -80,6 +80,7 @@ const ContactForm = () => {
 
     return (
         <div className="min-h-screen bg-white">
+            <title>Ceedee's | Contact</title>
             {/* Hero Section */}
             <section className="relative py-24 bg-gray-900 text-white overflow-hidden">
                 <div 

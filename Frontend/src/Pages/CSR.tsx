@@ -269,6 +269,7 @@ export default function CSRPage() {
 
   return (
     <div className="min-h-screen bg-white">
+        <title>Ceedee's | Corporate Social Responsibilities</title>
       {/* Hero Section */}
       <section className="relative py-24 bg-gray-900 text-white overflow-hidden">
         <div 
