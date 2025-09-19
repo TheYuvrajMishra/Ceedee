@@ -16,65 +16,6 @@ type Career = {
   };
 };
 
-// --- SVG ICONS ---
-// A collection of simple, professional icons for UI elements.
-const Icons = {
-  briefcase: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5 mr-1.5 text-gray-400 flex-shrink-0"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-      />
-    </svg>
-  ),
-  location: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5 mr-1.5 text-gray-400 flex-shrink-0"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-      />
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-      />
-    </svg>
-  ),
-  checkCircle: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-16 w-16 text-green-500 mx-auto mb-4"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-      />
-    </svg>
-  ),
-};
-
 // --- APPLICATION MODAL COMPONENT ---
 const ApplicationModal = ({
   job,
@@ -121,99 +62,96 @@ const ApplicationModal = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black/30 backdrop-blur-sm flex justify-center items-center z-50 p-4 transition-opacity"
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 p-4"
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg shadow-xl w-full max-w-md transform transition-all"
+        className="bg-white rounded-none shadow-2xl w-full max-w-md"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-          <h3 className="text-lg sm:text-xl font-semibold text-gray-800 break-words">
-            Apply for {job.title}
+        <div className="px-8 py-6 border-b border-gray-200">
+          <h3 className="text-2xl font-light text-gray-900">
+            Apply for Position
           </h3>
+          <p className="text-sm text-gray-600 mt-1">{job.title}</p>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-700 text-3xl leading-none flex-shrink-0 ml-4"
+            className="absolute top-6 right-6 text-gray-400 hover:text-gray-700 text-2xl leading-none"
           >
-            &times;
+            ×
           </button>
         </div>
 
-        <div className="p-6">
+        <div className="p-8">
           {submitSuccess ? (
             <div className="text-center">
-              {Icons.checkCircle}
-              <h4 className="text-xl font-semibold text-gray-800">
-                Application Submitted!
+              <div className="w-16 h-16 border-2 border-gray-900 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h4 className="text-xl font-light text-gray-900 mb-4">
+                Application Submitted
               </h4>
-              <p className="text-gray-600 mt-2">
+              <p className="text-gray-600 mb-8 leading-relaxed">
                 Thank you for your interest. We have received your application
                 and will be in touch shortly.
               </p>
               <button
                 onClick={onClose}
-                className="mt-6 w-full px-4 py-2 font-semibold text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition"
+                className="w-full px-6 py-3 bg-gray-900 text-white font-light tracking-wider text-sm hover:bg-gray-800 transition-colors"
               >
-                Close
+                CLOSE
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Full Name
+                <label className="block text-sm font-light text-gray-700 mb-2 tracking-wider">
+                  FULL NAME
                 </label>
                 <input
                   type="text"
-                  id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="Jane Doe"
+                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-gray-900 transition-colors"
+                  placeholder="Enter your full name"
                   required
                 />
               </div>
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 mb-1"
-                >
-                  Email Address
+                <label className="block text-sm font-light text-gray-700 mb-2 tracking-wider">
+                  EMAIL ADDRESS
                 </label>
                 <input
                   type="email"
-                  id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="jane.doe@example.com"
+                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-gray-900 transition-colors"
+                  placeholder="Enter your email address"
                   required
                 />
               </div>
               {submitError && (
-                <p className="text-red-600 bg-red-50 p-3 rounded-md text-sm">
-                  {submitError}
-                </p>
+                <div className="p-4 bg-red-50 border border-red-200">
+                  <p className="text-red-700 text-sm">{submitError}</p>
+                </div>
               )}
-              <div className="flex justify-end space-x-3 pt-2">
+              <div className="flex gap-4 pt-4">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 rounded-md border border-gray-300 hover:bg-gray-100 transition"
+                  className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-light tracking-wider text-sm hover:bg-gray-50 transition-colors"
                   disabled={submitting}
                 >
-                  Cancel
+                  CANCEL
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 disabled:bg-indigo-400 transition"
+                  className="flex-1 px-6 py-3 bg-gray-900 text-white font-light tracking-wider text-sm hover:bg-gray-800 disabled:bg-gray-400 transition-colors"
                   disabled={submitting}
                 >
-                  {submitting ? "Submitting..." : "Submit Application"}
+                  {submitting ? "SUBMITTING..." : "SUBMIT"}
                 </button>
               </div>
             </form>
@@ -231,10 +169,17 @@ const CareerPage = () => {
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Career | null>(null);
+  const [scrollY, setScrollY] = useState(0);
 
   // State for filters
   const [departmentFilter, setDepartmentFilter] = useState("All");
   const [typeFilter, setTypeFilter] = useState("All");
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -268,7 +213,7 @@ const CareerPage = () => {
     setSelectedJob(null);
   };
 
-  // Memoize filter options to avoid recalculating on every render
+  // Memoize filter options
   const departments = useMemo(
     () => ["All", ...Array.from(new Set(jobs.map((job) => job.department)))],
     [jobs]
@@ -278,7 +223,7 @@ const CareerPage = () => {
     [jobs]
   );
 
-  // Memoize the filtered jobs for performance
+  // Memoize the filtered jobs
   const filteredJobs = useMemo(() => {
     return jobs.filter(
       (job) =>
@@ -301,178 +246,215 @@ const CareerPage = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen font-sans">
-      <title>Ceedee's | Careers</title>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        {/* Page Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight break-words">
-            Find Your <span className="text-indigo-600">Next Opportunity</span>
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="relative py-24 bg-gray-900 text-white overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-20"
+          style={{
+            transform: `translateY(${scrollY * 0.3}px)`,
+            backgroundImage: `url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
+          }}
+        />
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+          <h1 className="text-4xl md:text-6xl font-light mb-6 tracking-wide">
+            Careers
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
-            We are a passionate team dedicated to innovation and excellence.
-            Explore our open positions and find where you belong.
+          <div className="w-24 h-px bg-white mx-auto mb-8"></div>
+          <p className="text-xl font-light mb-4">
+            Join Our Growing Team
+          </p>
+          <p className="text-lg opacity-90 max-w-3xl mx-auto leading-relaxed">
+            Discover opportunities across our diversified portfolio of companies 
+            and build a career that makes a difference
           </p>
         </div>
+      </section>
 
-        {/* Filters */}
-        <div className="bg-white p-4 rounded-lg shadow-sm mb-8 flex flex-col sm:flex-row gap-4">
-          <div className="flex-1">
-            <label
-              htmlFor="department-filter"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Department
-            </label>
-            <select
-              id="department-filter"
-              value={departmentFilter}
-              onChange={(e) => setDepartmentFilter(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-            >
-              {departments.map((dep) => (
-                <option key={dep} value={dep}>
-                  {dep}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="flex-1">
-            <label
-              htmlFor="type-filter"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Job Type
-            </label>
-            <select
-              id="type-filter"
-              value={typeFilter}
-              onChange={(e) => setTypeFilter(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-            >
-              {jobTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        {loading ? (
-          // Skeleton Loader for a professional loading state
-          <div className="space-y-6">
-            {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="bg-white p-6 rounded-lg shadow-sm animate-pulse"
-              >
-                <div className="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
-                <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 mb-6">
-                  <div className="h-4 bg-gray-200 rounded w-1/3"></div>
-                  <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-                </div>
-                <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-                <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+      {/* Main Content */}
+      <section className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          {/* Filters */}
+          <div className="mb-16">
+            <div className="grid md:grid-cols-2 gap-8 max-w-2xl">
+              <div>
+                <label className="block text-sm font-light text-gray-700 mb-3 tracking-wider">
+                  DEPARTMENT
+                </label>
+                <select
+                  value={departmentFilter}
+                  onChange={(e) => setDepartmentFilter(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-gray-900 transition-colors bg-white"
+                >
+                  {departments.map((dep) => (
+                    <option key={dep} value={dep}>
+                      {dep}
+                    </option>
+                  ))}
+                </select>
               </div>
-            ))}
+              <div>
+                <label className="block text-sm font-light text-gray-700 mb-3 tracking-wider">
+                  JOB TYPE
+                </label>
+                <select
+                  value={typeFilter}
+                  onChange={(e) => setTypeFilter(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-gray-900 transition-colors bg-white"
+                >
+                  {jobTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
-        ) : error ? (
-          <div className="text-center py-12">
-            <p className="text-center text-red-600 bg-red-100 p-4 rounded-md">
-              {error}
-            </p>
-          </div>
-        ) : filteredJobs.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">
-              No open positions match your criteria. Please check back later!
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-6">
-            {filteredJobs.map((job) => (
-              <div
-                key={job._id}
-                className="bg-white p-6 rounded-lg shadow-sm border border-transparent hover:border-indigo-500 hover:shadow-md transition-all duration-300"
-              >
-                <div className="flex flex-col sm:flex-row justify-between gap-4">
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-gray-900 hover:text-indigo-600 cursor-pointer break-words">
-                      {job.title}
-                    </h3>
-                    <div className="flex flex-col sm:flex-row sm:items-center flex-wrap gap-x-4 gap-y-2 text-sm text-gray-600 mt-2">
-                      <span className="flex items-center min-w-0">
-                        <span className="truncate">
-                          {Icons.briefcase}
-                          {job.department}
-                        </span>
-                      </span>
-                      <span className="flex items-center min-w-0">
-                        <span className="truncate">
-                          {Icons.location}
-                          {job.location}
-                        </span>
-                      </span>
+
+          {/* Job Listings */}
+          {loading ? (
+            <div className="space-y-8">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="border border-gray-200 p-8 animate-pulse">
+                  <div className="h-6 bg-gray-200 w-3/4 mb-4"></div>
+                  <div className="flex gap-8 mb-6">
+                    <div className="h-4 bg-gray-200 w-32"></div>
+                    <div className="h-4 bg-gray-200 w-24"></div>
+                  </div>
+                  <div className="h-4 bg-gray-200 w-full mb-2"></div>
+                  <div className="h-4 bg-gray-200 w-5/6"></div>
+                </div>
+              ))}
+            </div>
+          ) : error ? (
+            <div className="text-center py-16">
+              <div className="border border-red-200 bg-red-50 p-8 max-w-md mx-auto">
+                <p className="text-red-700">{error}</p>
+              </div>
+            </div>
+          ) : filteredJobs.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-lg text-gray-600">
+                No open positions match your criteria.
+              </p>
+              <p className="text-gray-500 mt-2">Please check back later.</p>
+            </div>
+          ) : (
+            <div className="space-y-8">
+              {filteredJobs.map((job, index) => (
+                <div
+                  key={job._id}
+                  className="border border-gray-200 hover:border-gray-900 transition-colors duration-300 group"
+                  style={{
+                    transform: `translateY(${scrollY * 0.02 * (index + 1)}px)`,
+                  }}
+                >
+                  <div className="p-8">
+                    <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-light text-gray-900 mb-4 group-hover:text-black transition-colors">
+                          {job.title}
+                        </h3>
+                        
+                        <div className="flex flex-col sm:flex-row gap-6 text-sm text-gray-600 mb-6">
+                          <div className="flex items-center">
+                            <div className="w-4 h-4 border border-gray-400 rounded-full mr-3"></div>
+                            {job.department}
+                          </div>
+                          <div className="flex items-center">
+                            <div className="w-4 h-4 border border-gray-400 rounded-full mr-3"></div>
+                            {job.location}
+                          </div>
+                        </div>
+                        
+                        <p className="text-gray-700 leading-relaxed">
+                          {job.description}
+                        </p>
+                      </div>
+                      
+                      <div className="lg:text-right flex-shrink-0">
+                        <div className="border border-gray-300 px-4 py-2 mb-4 inline-block">
+                          <span className="text-xs font-light tracking-wider text-gray-700">
+                            {job.type}
+                          </span>
+                        </div>
+                        {job.salaryRange && (job.salaryRange.min || job.salaryRange.max) && (
+                          <p className="text-sm text-gray-800 mb-6">
+                            {formatSalary(job.salaryRange.min, job.salaryRange.max)}
+                          </p>
+                        )}
+                        <button
+                          onClick={() => handleOpenModal(job)}
+                          className="bg-gray-900 text-white px-8 py-3 hover:bg-black transition-colors font-light tracking-wider text-sm w-full lg:w-auto"
+                        >
+                          APPLY NOW
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <div className="mt-4 sm:mt-0 sm:text-right flex-shrink-0">
-                    <span className="inline-block px-3 py-1 text-xs font-semibold text-indigo-800 bg-indigo-100 rounded-full">
-                      {job.type}
-                    </span>
-                    {job.salaryRange &&
-                      (job.salaryRange.min || job.salaryRange.max) && (
-                        <p className="text-sm text-gray-800 font-semibold mt-2">
-                          {formatSalary(
-                            job.salaryRange.min,
-                            job.salaryRange.max
-                          )}
-                        </p>
-                      )}
-                  </div>
                 </div>
-                <p className="text-gray-700 leading-relaxed mt-4 pt-4 border-t border-gray-200 break-words">
-                  {job.description}
-                </p>
-                <div className="text-right mt-4">
-                  <button
-                    onClick={() => handleOpenModal(job)}
-                    className="px-5 py-2 w-full sm:w-auto bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 transition-colors duration-200"
-                  >
-                    Apply Now
-                  </button>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
+            Join Our Mission
+          </h2>
+          <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
+          <p className="text-lg text-gray-600 mb-12 leading-relaxed">
+            Be part of a diversified group that values excellence, innovation, and 
+            growth across automotive and industrial sectors.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <Link 
+              to="/" 
+              className="bg-gray-900 text-white px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm"
+            >
+              EXPLORE COMPANIES
+            </Link>
+            <Link 
+              to="/contact" 
+              className="border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm"
+            >
+              CONTACT GROUP
+            </Link>
           </div>
-        )}
-      </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-white p-8 shadow-sm">
+              <h3 className="text-xl font-light text-gray-900 mb-4">Industrial Excellence</h3>
+              <div className="w-12 h-px bg-gray-400 mb-4"></div>
+              <p className="text-gray-600 mb-4">
+                Join Venbro Polymers in manufacturing Food Grade PP Woven Fabrics and packaging solutions
+              </p>
+              <a href="/venbro-polymers" className="text-gray-900 text-sm tracking-wider hover:underline">
+                LEARN MORE →
+              </a>
+            </div>
+            <div className="bg-white p-8 shadow-sm">
+              <h3 className="text-xl font-light text-gray-900 mb-4">Automotive Services</h3>
+              <div className="w-12 h-px bg-gray-400 mb-4"></div>
+              <p className="text-gray-600 mb-4">
+                Be part of South India's longest serving Maruti authorized service station
+              </p>
+              <a href="/shri-krishna-automobile-enterprises" className="text-gray-900 text-sm tracking-wider hover:underline">
+                LEARN MORE →
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {isModalOpen && (
         <ApplicationModal job={selectedJob} onClose={handleCloseModal} />
       )}
-      <section className="py-12 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
-            Partner With Excellence
-          </h2>
-          <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
-          <p className="text-lg text-gray-600 mb-12 leading-relaxed">
-            Discover how Ceedee Group's diversified expertise can serve your
-            business needs across automotive and industrial sectors.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
-            <Link to="/" className="bg-gray-900 text-white cursor-pointer px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm">
-              EXPLORE COMPANIES
-            </Link>
-            <Link to="/contact" className="border border-gray-900 cursor-pointer text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm">
-              CONTACT GROUP
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };

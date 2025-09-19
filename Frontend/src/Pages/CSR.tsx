@@ -1,17 +1,4 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  BookOpen,
-  HeartPulse,
-  Leaf,
-  Users,
-  ClipboardList,
-  MapPin,
-  Calendar,
-  CheckCircle,
-  Search,
-  ChevronDown,
-} from "lucide-react";
 import { Link } from "react-router";
 
 // --- TYPES ---
@@ -34,48 +21,29 @@ type CSR = {
 
 // --- HELPER CONFIGURATION ---
 const categoryConfig = {
-  Education: {
-    icon: BookOpen,
-    color: "text-blue-600",
-    bg: "bg-blue-50",
-    ring: "ring-blue-200",
-  },
-  Healthcare: {
-    icon: HeartPulse,
-    color: "text-red-600",
-    bg: "bg-red-50",
-    ring: "ring-red-200",
-  },
-  Environment: {
-    icon: Leaf,
-    color: "text-green-600",
-    bg: "bg-green-50",
-    ring: "ring-green-200",
-  },
-  "Community Development": {
-    icon: Users,
-    color: "text-purple-600",
-    bg: "bg-purple-50",
-    ring: "ring-purple-200",
-  },
-  Other: {
-    icon: ClipboardList,
-    color: "text-gray-600",
-    bg: "bg-gray-50",
-    ring: "ring-gray-200",
-  },
+  Education: { symbol: "📚" },
+  Healthcare: { symbol: "🏥" },
+  Environment: { symbol: "🌱" },
+  "Community Development": { symbol: "👥" },
+  Other: { symbol: "📋" },
 };
 
 const statusConfig = {
-  Completed: { color: "text-green-700", bg: "bg-green-100/80" },
-  Ongoing: { color: "text-yellow-700", bg: "bg-yellow-100/80" },
-  Planned: { color: "text-indigo-700", bg: "bg-indigo-100/80" },
+  Completed: { color: "text-gray-700", bg: "bg-gray-100" },
+  Ongoing: { color: "text-gray-800", bg: "bg-gray-200" },
+  Planned: { color: "text-gray-600", bg: "bg-gray-50" },
 };
 
 // --- CARD COMPONENT ---
-const InitiativeCard = ({ csr }: { csr: CSR }) => {
+const InitiativeCard = ({ csr, index }: { csr: CSR; index: number }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const CategoryIcon = categoryConfig[csr.category].icon;
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return "N/A";
@@ -87,94 +55,67 @@ const InitiativeCard = ({ csr }: { csr: CSR }) => {
   };
 
   return (
-    <motion.div
-      layout
-      className={`bg-white rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300 border border-slate-200/80 overflow-hidden ${
-        categoryConfig[csr.category].ring
-      } ring-1 ring-inset`}
+    <div
+      className="bg-white border border-gray-200 hover:border-gray-900 transition-colors duration-300 group"
+      style={{
+        transform: `translateY(${scrollY * 0.02 * (index + 1)}px)`,
+      }}
     >
-      <div className="p-6">
-        <div className="flex flex-col sm:flex-row items-start justify-between mb-4 gap-3 sm:gap-2">
-          <div className="flex items-center gap-3 min-w-0">
-            <div
-              className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                categoryConfig[csr.category].bg
-              }`}
-            >
-              <CategoryIcon
-                className={`w-6 h-6 ${categoryConfig[csr.category].color}`}
-              />
+      <div className="p-8">
+        <div className="flex items-start justify-between mb-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 border border-gray-300 flex items-center justify-center text-lg">
+              {categoryConfig[csr.category].symbol}
             </div>
-            <div className="min-w-0">
-              <p
-                className={`text-sm font-semibold ${
-                  categoryConfig[csr.category].color
-                }`}
-              >
-                {csr.category}
+            <div>
+              <p className="text-sm font-light tracking-wider text-gray-600 mb-1">
+                {csr.category.toUpperCase()}
               </p>
-              <h3 className="text-lg font-bold text-gray-800 break-words">
+              <h3 className="text-xl font-light text-gray-900 group-hover:text-black transition-colors">
                 {csr.title}
               </h3>
             </div>
           </div>
           <div
-            className={`px-3 py-1 text-xs font-medium rounded-full self-start sm:self-center flex-shrink-0 ${
+            className={`px-3 py-1 text-xs font-light tracking-wider border border-gray-300 ${
               statusConfig[csr.status].bg
             } ${statusConfig[csr.status].color}`}
           >
-            {csr.status}
+            {csr.status.toUpperCase()}
           </div>
         </div>
 
         {csr.location && (
-          <p className="text-sm text-gray-500 mb-4 flex items-center gap-1.5 break-words">
-            <MapPin size={14} className="flex-shrink-0" /> {csr.location}
-          </p>
+          <div className="flex items-center gap-2 mb-4 text-sm text-gray-600">
+            <div className="w-4 h-4 border border-gray-400 rounded-full"></div>
+            {csr.location}
+          </div>
         )}
 
-        <motion.div
-          layout
-          animate={{ height: "auto" }}
-          className="overflow-hidden"
-        >
-          <p className="text-gray-600 leading-relaxed text-sm break-words">
+        <div className="mb-6">
+          <p className="text-gray-700 leading-relaxed">
             {isExpanded
               ? csr.description
-              : `${csr.description.slice(0, 100)}${
-                  csr.description.length > 100 ? "..." : ""
+              : `${csr.description.slice(0, 150)}${
+                  csr.description.length > 150 ? "..." : ""
                 }`}
           </p>
 
-          <AnimatePresence>
-            {isExpanded && csr.impact && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.3 }}
-                className={`mt-4 p-4 rounded-lg border ${
-                  categoryConfig[csr.category].bg
-                } border-dashed`}
-              >
-                <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2 text-sm">
-                  <CheckCircle
-                    size={16}
-                    className={categoryConfig[csr.category].color}
-                  />{" "}
-                  Impact & Outcomes
-                </h4>
-                <p className="text-gray-700 text-sm italic break-words">
-                  {csr.impact}
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
+          {isExpanded && csr.impact && (
+            <div className="mt-6 p-6 bg-gray-50 border-l-2 border-gray-900">
+              <h4 className="font-light text-gray-900 mb-3 text-sm tracking-wider">
+                IMPACT & OUTCOMES
+              </h4>
+              <p className="text-gray-700 leading-relaxed italic">
+                {csr.impact}
+              </p>
+            </div>
+          )}
+        </div>
 
-        <div className="border-t border-gray-200/80 pt-4 mt-4 text-xs text-gray-500 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-1.5 flex-wrap">
-            <Calendar size={14} />
+        <div className="border-t border-gray-200 pt-6 flex items-center justify-between">
+          <div className="text-xs text-gray-500 flex items-center gap-2">
+            <div className="w-3 h-3 border border-gray-400"></div>
             <span>{formatDate(csr.startDate)}</span>
             {csr.endDate && (
               <>
@@ -183,20 +124,17 @@ const InitiativeCard = ({ csr }: { csr: CSR }) => {
               </>
             )}
           </div>
-          {(csr.description.length > 100 || csr.impact) && (
+          {(csr.description.length > 150 || csr.impact) && (
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="text-indigo-600 font-semibold hover:text-indigo-800 transition-colors flex items-center gap-1 flex-shrink-0 self-end sm:self-center"
+              className="text-gray-900 text-sm font-light tracking-wider hover:underline transition-colors"
             >
-              {isExpanded ? "Show Less" : "Learn More"}
-              <motion.div animate={{ rotate: isExpanded ? 180 : 0 }}>
-                <ChevronDown size={16} />
-              </motion.div>
+              {isExpanded ? "SHOW LESS" : "LEARN MORE"}
             </button>
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -205,6 +143,7 @@ export default function CSRPage() {
   const [csrs, setCsrs] = useState<CSR[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [scrollY, setScrollY] = useState(0);
   const [filterCategory, setFilterCategory] = useState<"all" | CSR["category"]>(
     "all"
   );
@@ -212,11 +151,16 @@ export default function CSRPage() {
     "all"
   );
 
-  // --- API Integration ---
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   useEffect(() => {
     const fetchCsrs = async () => {
       setLoading(true);
-      setError(""); // Reset error state on new fetch
+      setError("");
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/csr`);
         if (!response.ok) {
@@ -260,161 +204,238 @@ export default function CSRPage() {
     "Planned",
   ];
 
+  const parallaxOffset = scrollY * 0.3;
+
   const renderContent = () => {
     if (loading) {
       return (
-        <div className="text-center py-20">
-          <div className="inline-flex items-center gap-3">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-            <span className="text-lg text-gray-600">
-              Loading our initiatives...
-            </span>
-          </div>
+        <div className="space-y-8">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="border border-gray-200 p-8 animate-pulse">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-gray-200"></div>
+                <div>
+                  <div className="h-4 bg-gray-200 w-24 mb-2"></div>
+                  <div className="h-6 bg-gray-200 w-48"></div>
+                </div>
+              </div>
+              <div className="h-4 bg-gray-200 w-full mb-2"></div>
+              <div className="h-4 bg-gray-200 w-5/6"></div>
+            </div>
+          ))}
         </div>
       );
     }
 
     if (error) {
       return (
-        <div className="py-20 max-w-lg mx-auto text-center">
-          <div className="w-20 h-20 mx-auto mb-6 bg-red-100 rounded-full flex items-center justify-center">
-            <span className="text-4xl">😟</span>
+        <div className="text-center py-16">
+          <div className="border border-red-200 bg-red-50 p-8 max-w-md mx-auto">
+            <h3 className="text-xl font-light text-red-900 mb-2">
+              An Error Occurred
+            </h3>
+            <p className="text-red-700">{error}</p>
           </div>
-          <h3 className="text-xl font-semibold text-red-800 mb-2">
-            An Error Occurred
-          </h3>
-          <p className="text-red-600 bg-red-50 p-3 rounded-lg">{error}</p>
         </div>
       );
     }
 
     if (filteredCsrs.length === 0) {
       return (
-        <div className="text-center py-20 max-w-md mx-auto">
-          <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
-            <Search size={40} className="text-gray-400" />
+        <div className="text-center py-16">
+          <div className="w-16 h-16 border border-gray-300 mx-auto mb-6 flex items-center justify-center">
+            <div className="w-6 h-6 border border-gray-400"></div>
           </div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">
+          <h3 className="text-xl font-light text-gray-900 mb-2">
             No Initiatives Found
           </h3>
           <p className="text-gray-600">
             {csrs.length > 0
               ? "Try adjusting your filters to discover more of our projects."
-              : "We are currently planning new initiatives. Please check back soon!"}
+              : "We are currently planning new initiatives. Please check back soon."}
           </p>
         </div>
       );
     }
 
     return (
-      <motion.div
-        layout
-        className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-      >
-        <AnimatePresence>
-          {filteredCsrs.map((csr, i) => (
-            <motion.div
-              key={csr._id}
-              layout
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              transition={{ duration: 0.3, delay: i * 0.05 }}
-            >
-              <InitiativeCard csr={csr} />
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </motion.div>
+      <div className="space-y-8">
+        {filteredCsrs.map((csr, index) => (
+          <InitiativeCard key={csr._id} csr={csr} index={index} />
+        ))}
+      </div>
     );
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
-      <title>Ceedee's | Corporate Social Responsibilities</title>
-      {/* Header Section */}
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight break-words">
-            Corporate Social Responsibility
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="relative py-24 bg-gray-900 text-white overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-20"
+          style={{
+            transform: `translateY(${parallaxOffset}px)`,
+            backgroundImage: `url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
+          }}
+        />
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+          <h1 className="text-4xl md:text-6xl font-light mb-6 tracking-wide">
+            Social Responsibility
           </h1>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            We are committed to creating a positive impact on society and the
-            environment through sustainable initiatives.
+          <div className="w-24 h-px bg-white mx-auto mb-8"></div>
+          <p className="text-xl font-light mb-4">
+            Creating Positive Impact
+          </p>
+          <p className="text-lg opacity-90 max-w-3xl mx-auto leading-relaxed">
+            We are committed to creating a positive impact on society and the 
+            environment through sustainable initiatives and community development.
           </p>
         </div>
-      </header>
+      </section>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Filter Section */}
-        <div className="mb-12 p-6 bg-white rounded-2xl border border-gray-200/80 shadow-sm">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="text-sm font-semibold text-gray-700 mb-3 block">
-                Category
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {categories.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setFilterCategory(cat)}
-                    className={`px-3 sm:px-4 py-2 text-sm font-medium rounded-full transition-colors duration-200 ${
-                      filterCategory === cat
-                        ? "bg-indigo-600 text-white shadow"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                    }`}
-                  >
-                    {cat === "all" ? "All" : cat}
-                  </button>
-                ))}
+      {/* Main Content */}
+      <section className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          {/* Filters */}
+          <div className="mb-16 border border-gray-200 p-8">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <label className="block text-sm font-light text-gray-700 mb-4 tracking-wider">
+                  CATEGORY
+                </label>
+                <div className="flex flex-wrap gap-3">
+                  {categories.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setFilterCategory(cat)}
+                      className={`px-4 py-2 text-sm font-light tracking-wider border transition-colors duration-200 ${
+                        filterCategory === cat
+                          ? "bg-gray-900 text-white border-gray-900"
+                          : "bg-white text-gray-700 border-gray-300 hover:border-gray-900"
+                      }`}
+                    >
+                      {cat === "all" ? "ALL" : cat.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div>
-              <label className="text-sm font-semibold text-gray-700 mb-3 block">
-                Status
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {statuses.map((stat) => (
-                  <button
-                    key={stat}
-                    onClick={() => setFilterStatus(stat)}
-                    className={`px-3 sm:px-4 py-2 text-sm font-medium rounded-full transition-colors duration-200 ${
-                      filterStatus === stat
-                        ? "bg-indigo-600 text-white shadow"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                    }`}
-                  >
-                    {stat === "all" ? "All" : stat}
-                  </button>
-                ))}
+              <div>
+                <label className="block text-sm font-light text-gray-700 mb-4 tracking-wider">
+                  STATUS
+                </label>
+                <div className="flex flex-wrap gap-3">
+                  {statuses.map((stat) => (
+                    <button
+                      key={stat}
+                      onClick={() => setFilterStatus(stat)}
+                      className={`px-4 py-2 text-sm font-light tracking-wider border transition-colors duration-200 ${
+                        filterStatus === stat
+                          ? "bg-gray-900 text-white border-gray-900"
+                          : "bg-white text-gray-700 border-gray-300 hover:border-gray-900"
+                      }`}
+                    >
+                      {stat === "all" ? "ALL" : stat.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
+
+          {/* Content */}
+          {renderContent()}
         </div>
+      </section>
 
-        {/* Content Grid */}
-        {renderContent()}
-      </main>
+      {/* Statistics Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
+              Our Impact
+            </h2>
+            <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Measuring our contribution to society and sustainable development
+            </p>
+          </div>
 
-      {/* Footer */}
-      <section className="py-12 bg-gray-50">
+          <div 
+            className="grid md:grid-cols-4 gap-8"
+            style={{
+              transform: `translateY(${scrollY * 0.05}px)`,
+            }}
+          >
+            <div className="text-center">
+              <div className="text-4xl font-light text-gray-900 mb-2">
+                {csrs.filter(c => c.category === 'Education').length}
+              </div>
+              <div className="text-sm text-gray-600 tracking-wider">EDUCATION PROJECTS</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-light text-gray-900 mb-2">
+                {csrs.filter(c => c.category === 'Healthcare').length}
+              </div>
+              <div className="text-sm text-gray-600 tracking-wider">HEALTHCARE INITIATIVES</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-light text-gray-900 mb-2">
+                {csrs.filter(c => c.category === 'Environment').length}
+              </div>
+              <div className="text-sm text-gray-600 tracking-wider">ENVIRONMENT PROJECTS</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-light text-gray-900 mb-2">
+                {csrs.filter(c => c.status === 'Completed').length}
+              </div>
+              <div className="text-sm text-gray-600 tracking-wider">COMPLETED PROJECTS</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 bg-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
-            Partner With Excellence
+            Join Our Mission
           </h2>
           <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
           <p className="text-lg text-gray-600 mb-12 leading-relaxed">
-            Discover how Ceedee Group's diversified expertise can serve your
-            business needs across automotive and industrial sectors.
+            Partner with Ceedee Group in creating positive change and sustainable 
+            development across communities and industries.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
-            <Link to="/" className="bg-gray-900 text-white cursor-pointer px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <Link 
+              to="/" 
+              className="bg-gray-900 text-white px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm"
+            >
               EXPLORE COMPANIES
             </Link>
-            <Link to="/contact" className="border border-gray-900 cursor-pointer text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm">
-              CONTACT GROUP
+            <Link 
+              to="/contact" 
+              className="border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm"
+            >
+              CONTACT US
             </Link>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-gray-50 p-8">
+              <h3 className="text-xl font-light text-gray-900 mb-4">Community Development</h3>
+              <div className="w-12 h-px bg-gray-400 mb-4"></div>
+              <p className="text-gray-600 mb-4">
+                Supporting local communities through education, healthcare, and sustainable initiatives
+              </p>
+            </div>
+            <div className="bg-gray-50 p-8">
+              <h3 className="text-xl font-light text-gray-900 mb-4">Environmental Responsibility</h3>
+              <div className="w-12 h-px bg-gray-400 mb-4"></div>
+              <p className="text-gray-600 mb-4">
+                Committed to sustainable practices and environmental conservation across all operations
+              </p>
+            </div>
           </div>
         </div>
       </section>

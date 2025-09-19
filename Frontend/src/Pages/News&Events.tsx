@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router";
 
-// The type definition remains the same
+// Type definition
 type NewsEvent = {
   _id: string;
   title: string;
@@ -14,52 +14,7 @@ type NewsEvent = {
   tags: string[];
 };
 
-// =================================================================================
-// 1. HELPER COMPONENTS
-// =================================================================================
-
-// --- SVG Icons ---
-const CalendarIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-4 w-4 mr-1.5 inline-block text-gray-500"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-    />
-  </svg>
-);
-
-const PinIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-4 w-4 mr-1.5 inline-block text-gray-500"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-    />
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-    />
-  </svg>
-);
-
-// --- Filter Controls ---
+// Filter Controls
 type FilterType = "All" | "News" | "Event";
 const filterOptions: FilterType[] = ["All", "News", "Event"];
 
@@ -70,91 +25,103 @@ const FilterControls = ({
   activeFilter: FilterType;
   setActiveFilter: (filter: FilterType) => void;
 }) => (
-  <div className="flex justify-center items-center gap-2 md:gap-4 mb-12">
+  <div className="flex justify-center gap-4 mb-16">
     {filterOptions.map((option) => (
       <button
         key={option}
         onClick={() => setActiveFilter(option)}
-        className={`px-4 py-2 text-sm md:text-base cursor-pointer font-semibold rounded-full transition-all duration-300 ease-in-out ${
+        className={`px-6 py-3 text-sm font-light tracking-wider border transition-all duration-300 ${
           activeFilter === option
-            ? "bg-blue-600 text-white shadow-md"
-            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            ? "bg-gray-900 text-white border-gray-900"
+            : "bg-white text-gray-700 border-gray-300 hover:border-gray-900"
         }`}
       >
-        {option}
+        {option.toUpperCase()}
       </button>
     ))}
   </div>
 );
 
-// --- Date Formatter ---
+// Date Formatter
 const formatDate = (dateString?: string) => {
-  if (!dateString) return { full: "" };
+  if (!dateString) return "";
   const date = new Date(dateString);
-  return {
-    full: date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }),
-  };
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 };
 
-// --- News & Event Card Component (MODIFIED) ---
+// News & Event Card Component
 const NewsEventCard = ({
   item,
   onReadMore,
+  index,
+  scrollY,
 }: {
   item: NewsEvent;
   onReadMore: (item: NewsEvent) => void;
+  index: number;
+  scrollY: number;
 }) => {
-  // Simplified date formatting, as only the full date is needed now.
-  const { full: fullDate } = formatDate(item.date);
   const isEvent = item.type === "Event";
 
   return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 group">
+    <div
+      className="bg-white border border-gray-200 hover:border-gray-900 transition-colors duration-300 group"
+      style={{
+        transform: `translateY(${scrollY * 0.02 * (index + 1)}px)`,
+      }}
+    >
       {item.image && (
-        <div className="relative h-48">
+        <div className="relative h-48 overflow-hidden">
           <img
             src={item.image}
             alt={item.title}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
             onError={(e) => {
               e.currentTarget.src =
-                "https://placehold.co/600x400/EEE/31343C?text=Image+Not+Found";
+                "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80";
             }}
           />
-          {/* The tag color remains distinct, which is a good visual cue */}
-          <span
-            className={`absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-full ${
-              isEvent ? "bg-purple-500 text-white" : "bg-blue-500 text-white"
-            }`}
-          >
-            {item.type}
-          </span>
+          <div className="absolute top-4 right-4">
+            <span className="px-3 py-1 text-xs font-light tracking-wider bg-white text-gray-900 border border-gray-300">
+              {item.type.toUpperCase()}
+            </span>
+          </div>
         </div>
       )}
-      <div className="p-6 flex flex-col flex-grow">
-        {/* UNIFIED LAYOUT: Both News and Events will now use this same structure */}
-        <p className="text-sm text-gray-500 mb-1 flex items-center">
-          <CalendarIcon /> {fullDate}
-        </p>
-        <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight group-hover:text-blue-600 transition-colors">
+      
+      <div className="p-8">
+        <div className="mb-4">
+          <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+            <div className="w-3 h-3 border border-gray-400"></div>
+            {formatDate(item.date)}
+          </div>
+          {isEvent && item.location && (
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <div className="w-3 h-3 border border-gray-400 rounded-full"></div>
+              {item.location}
+            </div>
+          )}
+        </div>
+
+        <h3 className="text-xl font-light text-gray-900 mb-4 leading-tight group-hover:text-black transition-colors">
           {item.title}
         </h3>
 
-        <p className="text-gray-600 text-sm leading-relaxed my-3 flex-grow">
-          {item.description.substring(0, 120)}
-          {item.description.length > 120 && "..."}
+        <p className="text-gray-600 leading-relaxed mb-6">
+          {item.description.substring(0, 150)}
+          {item.description.length > 150 && "..."}
         </p>
 
-        <div className="mt-auto pt-4 border-t border-gray-100">
+        <div className="border-t border-gray-200 pt-6">
           <button
             onClick={() => onReadMore(item)}
-            className="font-semibold text-blue-600 hover:text-blue-800 cursor-pointer transition-colors"
+            className="text-gray-900 text-sm font-light tracking-wider hover:underline transition-colors"
           >
-            Read More &rarr;
+            READ MORE →
           </button>
         </div>
       </div>
@@ -162,28 +129,26 @@ const NewsEventCard = ({
   );
 };
 
-// --- Skeleton Loader Card ---
+// Skeleton Loader Card
 const SkeletonCard = () => (
-  <div className="bg-white rounded-xl shadow-lg overflow-hidden animate-pulse">
-    <div className="bg-gray-300 h-48 w-full"></div>
-    <div className="p-6">
-      <div className="bg-gray-300 h-4 w-1/2 rounded mb-2"></div>
-      <div className="bg-gray-300 h-5 w-full rounded mb-4"></div>
-      <div className="space-y-2">
-        <div className="bg-gray-300 h-4 w-full rounded"></div>
-        <div className="bg-gray-300 h-4 w-full rounded"></div>
-        <div className="bg-gray-300 h-4 w-2/3 rounded"></div>
+  <div className="bg-white border border-gray-200 animate-pulse">
+    <div className="bg-gray-200 h-48 w-full"></div>
+    <div className="p-8">
+      <div className="bg-gray-200 h-4 w-1/3 mb-4"></div>
+      <div className="bg-gray-200 h-6 w-full mb-4"></div>
+      <div className="space-y-2 mb-6">
+        <div className="bg-gray-200 h-4 w-full"></div>
+        <div className="bg-gray-200 h-4 w-full"></div>
+        <div className="bg-gray-200 h-4 w-2/3"></div>
       </div>
-      <div className="mt-6 pt-4 border-t border-gray-100">
-        <div className="bg-gray-300 h-5 w-1/4 rounded"></div>
+      <div className="border-t border-gray-200 pt-6">
+        <div className="bg-gray-200 h-4 w-24"></div>
       </div>
     </div>
   </div>
 );
 
-// =================================================================================
-// 2. DETAIL MODAL COMPONENT
-// =================================================================================
+// Detail Modal Component
 const NewsDetailModal = ({
   item,
   onClose,
@@ -201,98 +166,76 @@ const NewsDetailModal = ({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
-  // We'll need the full formatDate function here for the modal
-  const fullFormatDate = (dateString?: string) => {
-    if (!dateString) return { full: "" };
-    const date = new Date(dateString);
-    return {
-      full: date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-    };
-  };
-
-  const { full: fullDate } = fullFormatDate(item.date);
   const isEvent = item.type === "Event";
 
   return (
     <div
-      className="fixed inset-0 bg-black/20 backdrop-blur-xs bg-opacity-70 z-50 flex justify-center items-center p-4 transition-opacity duration-300"
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex justify-center items-center p-4"
       onClick={onClose}
     >
       <div
-        className="relative bg-white rounded-lg shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto"
+        className="relative bg-white shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
-          className="absolute cursor-pointer top-4 right-4 text-gray-400 hover:text-gray-800 z-10"
+          className="absolute top-6 right-6 text-gray-400 hover:text-gray-700 z-10 text-2xl leading-none"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          ×
         </button>
 
         {item.image && (
           <img
             src={item.image}
             alt={item.title}
-            className="w-full h-64 object-cover rounded-t-lg"
+            className="w-full h-64 object-cover grayscale"
           />
         )}
 
-        <div className="p-6 md:p-8">
-          <span
-            className={`inline-block text-sm font-semibold px-3 py-1 rounded-full mb-4 ${
-              isEvent
-                ? "bg-purple-100 text-purple-800"
-                : "bg-blue-100 text-blue-800"
-            }`}
-          >
-            {item.type}
-          </span>
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">
+        <div className="p-8 md:p-12">
+          <div className="mb-6">
+            <span className="px-3 py-1 text-xs font-light tracking-wider bg-gray-100 text-gray-900 border border-gray-300">
+              {item.type.toUpperCase()}
+            </span>
+          </div>
+          
+          <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-6">
             {item.title}
           </h2>
 
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-gray-600 mb-6">
-            <div className="flex items-center">
-              <CalendarIcon /> {fullDate}
+          <div className="flex flex-col sm:flex-row gap-4 text-gray-600 mb-8 pb-8 border-b border-gray-200">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 border border-gray-400"></div>
+              {formatDate(item.date)}
             </div>
             {isEvent && item.location && (
-              <div className="flex items-center">
-                <PinIcon /> {item.location}
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 border border-gray-400 rounded-full"></div>
+                {item.location}
               </div>
             )}
           </div>
 
-          <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-            {item.description}
-          </p>
+          <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed mb-8">
+            {item.description.split('\n').map((paragraph, index) => (
+              <p key={index} className="mb-4">
+                {paragraph}
+              </p>
+            ))}
+          </div>
 
           {item.tags.length > 0 && (
-            <div className="mt-8 pt-4 border-t border-gray-200">
-              <h4 className="font-semibold text-gray-800 mb-2">Tags</h4>
+            <div className="border-t border-gray-200 pt-8">
+              <h4 className="font-light text-gray-900 mb-4 text-sm tracking-wider">
+                TAGS
+              </h4>
               <div className="flex flex-wrap gap-2">
                 {item.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-xs font-medium bg-gray-200 text-gray-700 px-2 py-1 rounded-md"
+                    className="text-xs font-light tracking-wider bg-gray-100 text-gray-700 px-3 py-1 border border-gray-300"
                   >
-                    {tag}
+                    {tag.toUpperCase()}
                   </span>
                 ))}
               </div>
@@ -304,16 +247,20 @@ const NewsDetailModal = ({
   );
 };
 
-// =================================================================================
-// 3. MAIN COMPONENT
-// =================================================================================
-
+// Main Component
 const NewsAndEvents = () => {
   const [items, setItems] = useState<NewsEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [scrollY, setScrollY] = useState(0);
   const [activeFilter, setActiveFilter] = useState<FilterType>("All");
   const [selectedItem, setSelectedItem] = useState<NewsEvent | null>(null);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const fetchNewsAndEvents = async () => {
@@ -359,63 +306,126 @@ const NewsAndEvents = () => {
     setSelectedItem(null);
   };
 
+  const parallaxOffset = scrollY * 0.3;
+
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <title>Ceedee's | News & Events</title>
-      <div className="container mx-auto px-4 py-12 md:py-16">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="relative py-24 bg-gray-900 text-white overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-20"
+          style={{
+            transform: `translateY(${parallaxOffset}px)`,
+            backgroundImage: `url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
+          }}
+        />
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+          <h1 className="text-4xl md:text-6xl font-light mb-6 tracking-wide">
             News & Events
           </h1>
-          <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-            Stay updated with our latest announcements and upcoming events.
+          <div className="w-24 h-px bg-white mx-auto mb-8"></div>
+          <p className="text-xl font-light mb-4">
+            Stay Informed
+          </p>
+          <p className="text-lg opacity-90 max-w-3xl mx-auto leading-relaxed">
+            Stay updated with our latest announcements, industry insights, and upcoming events across our business portfolio.
           </p>
         </div>
+      </section>
 
-        <FilterControls
-          activeFilter={activeFilter}
-          setActiveFilter={setActiveFilter}
-        />
+      {/* Main Content */}
+      <section className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <FilterControls
+            activeFilter={activeFilter}
+            setActiveFilter={setActiveFilter}
+          />
 
-        {error && (
-          <p className="text-center text-red-600 bg-red-100 p-4 rounded-lg font-semibold">
-            {error}
-          </p>
-        )}
+          {error && (
+            <div className="text-center mb-16">
+              <div className="border border-red-200 bg-red-50 p-8 max-w-md mx-auto">
+                <p className="text-red-700">{error}</p>
+              </div>
+            </div>
+          )}
 
-        {loading ? (
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, index) => (
-              <SkeletonCard key={index} />
-            ))}
-          </div>
-        ) : filteredItems.length === 0 ? (
-          <div className="text-center py-16">
-            <p className="text-2xl font-semibold text-gray-700">
-              No {activeFilter !== "All" && activeFilter.toLowerCase()}s to
-              display
+          {loading ? (
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <SkeletonCard key={index} />
+              ))}
+            </div>
+          ) : filteredItems.length === 0 ? (
+            <div className="text-center py-16">
+              <div className="w-16 h-16 border border-gray-300 mx-auto mb-6 flex items-center justify-center">
+                <div className="w-6 h-6 border border-gray-400"></div>
+              </div>
+              <h3 className="text-xl font-light text-gray-900 mb-2">
+                No {activeFilter !== "All" && activeFilter.toLowerCase()}s Available
+              </h3>
+              <p className="text-gray-600">
+                Please check back soon for new updates.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-8">
+              {filteredItems.map((item, index) => (
+                <NewsEventCard
+                  key={item._id}
+                  item={item}
+                  onReadMore={handleReadMore}
+                  index={index}
+                  scrollY={scrollY}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Statistics Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
+              Stay Connected
+            </h2>
+            <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Follow our journey across different platforms and stay updated with the latest developments
             </p>
-            <p className="text-gray-500 mt-2">
-              Please check back soon for new updates!
-            </p>
           </div>
-        ) : (
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {filteredItems.map((item) => (
-              <NewsEventCard
-                key={item._id}
-                item={item}
-                onReadMore={handleReadMore}
-              />
-            ))}
-          </div>
-        )}
-      </div>
 
-      {selectedItem && (
-        <NewsDetailModal item={selectedItem} onClose={handleCloseModal} />
-      )}
-      <section className="py-12 bg-gray-50">
+          <div 
+            className="grid md:grid-cols-3 gap-8"
+            style={{
+              transform: `translateY(${scrollY * 0.05}px)`,
+            }}
+          >
+            <div className="text-center">
+              <div className="text-4xl font-light text-gray-900 mb-2">
+                {items.filter(i => i.type === 'News').length}
+              </div>
+              <div className="text-sm text-gray-600 tracking-wider">NEWS UPDATES</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-light text-gray-900 mb-2">
+                {items.filter(i => i.type === 'Event').length}
+              </div>
+              <div className="text-sm text-gray-600 tracking-wider">EVENTS HOSTED</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-light text-gray-900 mb-2">
+                {items.length}
+              </div>
+              <div className="text-sm text-gray-600 tracking-wider">TOTAL UPDATES</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 bg-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
             Partner With Excellence
@@ -426,16 +436,43 @@ const NewsAndEvents = () => {
             business needs across automotive and industrial sectors.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
-            <Link to="/" className="bg-gray-900 text-white cursor-pointer px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+            <Link 
+              to="/" 
+              className="bg-gray-900 text-white px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm"
+            >
               EXPLORE COMPANIES
             </Link>
-            <Link to="/contact" className="border border-gray-900 cursor-pointer text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm">
+            <Link 
+              to="/contact" 
+              className="border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm"
+            >
               CONTACT GROUP
             </Link>
           </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-gray-50 p-8">
+              <h3 className="text-xl font-light text-gray-900 mb-4">Industry News</h3>
+              <div className="w-12 h-px bg-gray-400 mb-4"></div>
+              <p className="text-gray-600 mb-4">
+                Stay informed about developments in automotive services and industrial polymers
+              </p>
+            </div>
+            <div className="bg-gray-50 p-8">
+              <h3 className="text-xl font-light text-gray-900 mb-4">Corporate Events</h3>
+              <div className="w-12 h-px bg-gray-400 mb-4"></div>
+              <p className="text-gray-600 mb-4">
+                Join us at conferences, trade shows, and networking events across industries
+              </p>
+            </div>
+          </div>
         </div>
       </section>
+
+      {selectedItem && (
+        <NewsDetailModal item={selectedItem} onClose={handleCloseModal} />
+      )}
     </div>
   );
 };
