@@ -1,14 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 
 const VenbroProducts = () => {
-  const [scrollY, setScrollY] = useState(0);
   const [activeCategory, setActiveCategory] = useState('all');
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const productCategories = [
     { id: 'all', name: 'All Products' },
@@ -169,16 +162,16 @@ const VenbroProducts = () => {
     ? products 
     : products.filter(product => product.category === activeCategory);
 
-  const parallaxOffset = scrollY * 0.3;
 
   return (
     <div className="min-h-screen bg-white">
+      <title>Ceedee's | Venbro Polymer's Products</title>
       {/* Hero Section */}
       <section className="relative py-24 bg-gray-900 text-white overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-20"
           style={{
-            transform: `translateY(${parallaxOffset}px)`,
+            // transform: `translateY(${parallaxOffset}px)`,
             backgroundImage: `url('https://images.unsplash.com/photo-1565793298595-6a879b1d9492?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
           }}
         />

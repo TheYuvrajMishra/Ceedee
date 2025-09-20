@@ -189,6 +189,7 @@ const SKAEServices = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <title>Ceedee's | Shri Krishna Automobile Enterprises' Services</title>
       {/* Hero Section */}
       <section className="relative py-24 bg-gray-900 text-white overflow-hidden">
         <div 
