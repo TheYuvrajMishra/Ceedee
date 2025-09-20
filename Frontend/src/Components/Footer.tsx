@@ -44,9 +44,12 @@ const Footer = () => {
                     </div>
                   </div>
                 </Link>
-                <Link to="/shri-krishna-automobile-enterprises" onClick={() => {
+                <Link
+                  to="/shri-krishna-automobile-enterprises"
+                  onClick={() => {
                     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-                  }}>
+                  }}
+                >
                   <div className="flex items-start space-x-3">
                     <Building2 className="w-4 h-4 text-gray-500 mt-1 flex-shrink-0" />
                     <div>
@@ -102,27 +105,45 @@ const Footer = () => {
                 QUICK LINKS
               </h5>
               <div className="flex flex-wrap gap-6 text-sm text-gray-300">
-                <a href="#" className="hover:text-white transition-colors">
+                <Link
+                  to="/about"
+                  className="hover:text-white transition-colors"
+                >
                   About Us
-                </a>
-                <a href="#" className="hover:text-white transition-colors">
+                </Link>
+                <Link
+                  to="/venbro-polymers"
+                  className="hover:text-white transition-colors"
+                >
                   Venbro Polymers
-                </a>
-                <a href="#" className="hover:text-white transition-colors">
+                </Link>
+                <Link
+                  to="/shri-krishna-automobile-enterprises"
+                  className="hover:text-white transition-colors"
+                >
                   Shri Krishna Automobile Enterprises
-                </a>
-                <a href="#" className="hover:text-white transition-colors">
+                </Link>
+                <Link to="/csr" className="hover:text-white transition-colors">
                   Corporate Social Responsibilities
-                </a>
-                <a href="#" className="hover:text-white transition-colors">
+                </Link>
+                <Link
+                  to="/news-events"
+                  className="hover:text-white transition-colors"
+                >
                   News & Events
-                </a>
-                <a href="#" className="hover:text-white transition-colors">
+                </Link>
+                <Link
+                  to="/contact"
+                  className="hover:text-white transition-colors"
+                >
                   Contact
-                </a>
-                <a href="#" className="hover:text-white transition-colors">
+                </Link>
+                <Link
+                  to="/careers"
+                  className="hover:text-white transition-colors"
+                >
                   Careers
-                </a>
+                </Link>
               </div>
             </div>
 
