@@ -8,7 +8,9 @@ const NAV_LINKS = [
   { to: '/csr', label: 'CSR Activities' },
   { to: '/news-and-events', label: 'News & Events' },
   { to: '/venbro-polymers', label: 'Venbro Polymers' },
-  { to: '/shri-krishna-automobile-enterprises', label: 'Shri Krishna Automobiles' }
+  { to: '/venbro-polymers/products', label: 'Products' },
+  { to: '/shri-krishna-automobile-enterprises', label: 'Shri Krishna Automobiles' },
+  { to: '/shri-krishna-automobile-enterprises/services', label: 'Services' }
 ];
 
 const Header = () => {

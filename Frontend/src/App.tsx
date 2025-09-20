@@ -4,6 +4,8 @@ import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import AdminLogin from "./Pages/Admin/AdminLogin";
 import AdminDashboard from "./Pages/Admin/AdminDashboard";
+import VenbroProducts from "./Pages/Venbro Polymer/Products";
+import SKAEServices from "./Pages/Shri Krishnan/Services";
 
 // Lazily load page components for better performance
 const MainPage = lazy(() => import("./Pages/Main/MainPage"));
@@ -48,7 +50,9 @@ function App() {
             <Route path="/csr" element={<CSR />} />
             <Route path="/news-and-events" element={<NewsAndEvents />} />
             <Route path="/venbro-polymers" element={<Venbro />} />
+            <Route path="/venbro-polymers/products" element={<VenbroProducts />} />
             <Route path="/shri-krishna-automobile-enterprises" element={<SKAELanding />} />
+            <Route path="/shri-krishna-automobile-enterprises/services" element={<SKAEServices />} />
           </Route>
 
           {/* Admin Routes */}
