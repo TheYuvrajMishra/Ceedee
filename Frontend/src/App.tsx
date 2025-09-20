@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense} from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
@@ -6,6 +6,7 @@ import AdminLogin from "./Pages/Admin/AdminLogin";
 import AdminDashboard from "./Pages/Admin/AdminDashboard";
 import VenbroProducts from "./Pages/Venbro Polymer/Products";
 import SKAEServices from "./Pages/Shri Krishnan/Services";
+import ScrollToTop from "./Components/Effects/ScrolltoTop";
 
 // Lazily load page components for better performance
 const MainPage = lazy(() => import("./Pages/Main/MainPage"));
@@ -15,7 +16,6 @@ const CSR = lazy(() => import("./Pages/CSR"));
 const NewsAndEvents = lazy(() => import("./Pages/News&Events"));
 const Venbro = lazy(() => import("./Pages/Venbro Polymer/Venbro"));
 const SKAELanding = lazy(() => import("./Pages/Shri Krishnan/ShriKrishna"));
-
 // Layout component for public-facing pages
 const PublicLayout = () => (
   <>
@@ -37,10 +37,12 @@ const LoadingFallback = () => (
   </div>
 );
 
+
 function App() {
   return (
     <BrowserRouter>
       <Suspense fallback={<LoadingFallback />}>
+      <ScrollToTop>
         <Routes>
           {/* Public Routes */}
           <Route element={<PublicLayout />}>
@@ -73,6 +75,7 @@ function App() {
             }
           />
         </Routes>
+        </ScrollToTop>
       </Suspense>
     </BrowserRouter>
   );

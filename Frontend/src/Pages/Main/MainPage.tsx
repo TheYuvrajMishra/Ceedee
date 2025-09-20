@@ -76,9 +76,12 @@ const CeedeeHomepage = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link to="/" className="bg-white cursor-pointer text-gray-900 hover:bg-gray-100 px-8 py-4 transition-colors duration-300 tracking-wider text-sm font-medium">
+            <button onClick={() => {
+              const el = document.getElementById("Company");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }} className="bg-white cursor-pointer text-gray-900 hover:bg-gray-100 px-8 py-4 transition-colors duration-300 tracking-wider text-sm font-medium">
               EXPLORE OUR COMPANIES
-            </Link>
+            </button>
             <Link to="/contact" className="border cursor-pointer border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 transition-colors duration-300 tracking-wider text-sm font-medium">
               CONTACT US
             </Link>

@@ -226,7 +226,7 @@ const SKAEServices = () => {
               <button
                 key={category.id}
                 onClick={() => setActiveService(category.id)}
-                className={`px-6 py-3 text-sm font-light tracking-wider border transition-all duration-300 ${
+                className={`px-6 py-3 text-sm cursor-pointer font-light tracking-wider border transition-all duration-300 ${
                   activeService === category.id
                     ? 'bg-gray-900 text-white border-gray-900'
                     : 'bg-white text-gray-700 border-gray-300 hover:border-gray-900'
@@ -452,10 +452,10 @@ const SKAEServices = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <button className="bg-gray-900 text-white px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm">
+            <button className="bg-gray-900 cursor-pointer text-white px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm">
               BOOK SERVICE
             </button>
-            <button className="border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm">
+            <button className="border cursor-pointer border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm">
               GET ESTIMATE
             </button>
           </div>

@@ -1,4 +1,5 @@
 import { useState} from 'react';
+import { useNavigate } from 'react-router';
 
 const VenbroProducts = () => {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -106,7 +107,7 @@ const VenbroProducts = () => {
         'Transparent Window Option'
       ],
       applications: ['Crystal Sugar', 'Powdered Sugar', 'Brown Sugar', 'Jaggery', 'Sweeteners'],
-      image: 'https://images.unsplash.com/photo-1559106133-85c9e00e3c77?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://media.istockphoto.com/photos/stacks-of-sacks-picture-id118398910?k=6&m=118398910&s=612x612&w=0&h=XLKBwcquxJsez-3tTcrGT2fCPbfesh9ntXrPUZ1xS94='
     },
     {
       id: 7,
@@ -122,7 +123,7 @@ const VenbroProducts = () => {
         'Various Sizes Available'
       ],
       applications: ['Black Tea', 'Green Tea', 'Herbal Tea', 'Tea Leaves', 'Premium Blends'],
-      image: 'https://images.unsplash.com/photo-1597318110272-a0478630ca29?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://tse4.mm.bing.net/th/id/OIP.nOXKLLVWdQUeI57Yook2-gHaHa?rs=1&pid=ImgDetMain&o=7&rm=3'
     },
     {
       id: 8,
@@ -154,7 +155,7 @@ const VenbroProducts = () => {
         'Custom Sizes Available'
       ],
       applications: ['Activated Charcoal', 'Industrial Carbon', 'Water Treatment', 'Air Purification', 'Chemical Processing'],
-      image: 'https://images.unsplash.com/photo-1558618666-fbd96ceaff1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: 'https://tse3.mm.bing.net/th/id/OIP.dVTrUy09D-52JjTI3Mp3aQHaFj?rs=1&pid=ImgDetMain&o=7&rm=3'
     }
   ];
 
@@ -162,7 +163,7 @@ const VenbroProducts = () => {
     ? products 
     : products.filter(product => product.category === activeCategory);
 
-
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-white">
       <title>Ceedee's | Venbro Polymer's Products</title>
@@ -202,7 +203,7 @@ const VenbroProducts = () => {
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`px-6 py-3 text-sm font-light tracking-wider border transition-all duration-300 ${
+                className={`px-6 py-3 text-sm cursor-pointer font-light tracking-wider border transition-all duration-300 ${
                   activeCategory === category.id
                     ? 'bg-gray-900 text-white border-gray-900'
                     : 'bg-white text-gray-700 border-gray-300 hover:border-gray-900'
@@ -419,10 +420,10 @@ const VenbroProducts = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <button className="bg-gray-900 text-white px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm">
+            <button onClick={()=>navigate("/")} className="bg-gray-900 cursor-pointer text-white px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm">
               REQUEST QUOTE
             </button>
-            <button className="border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm">
+            <button className="border cursor-pointer border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm">
               TECHNICAL SPECS
             </button>
           </div>

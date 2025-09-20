@@ -188,8 +188,8 @@ export const venbroData: LandingPageData = {
     title: "Partner With Excellence",
     description: "Experience two decades of industrial expertise and commitment to quality. Let us provide the perfect packaging solution for your business needs.",
     buttons: {
-      primary: "GET QUOTE",
-      secondary: "EXPLORE PRODUCTS"
+      primary: "EXPLORE PRODUCTS",
+      secondary: "GET QUOTE",
     }
   }
 };

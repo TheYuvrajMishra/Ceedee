@@ -6,7 +6,6 @@ const Venbro = () => {
   const handleButtonClick = (type: string, text: string) => {
     console.log(`Button clicked: ${type} - ${text}`);
   };
-
   return (
     <>
     <title>Ceedee's | Venbro Polymer</title>

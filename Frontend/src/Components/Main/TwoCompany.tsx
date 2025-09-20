@@ -44,7 +44,7 @@ const CompanyCard = ({ company, isLeft, hoveredSide }: CompanyCardProps) => {
   const contentClass = isOther ? "scale-95 opacity-80" : "scale-100 opacity-100";
 
   return (
-    <div className={`relative flex items-center justify-center overflow-hidden transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] ${flexClass} h-[60vh] lg:h-auto min-h-[50vh] lg:min-h-screen`}>
+    <div id="Company" className={`relative flex items-center justify-center overflow-hidden transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] ${flexClass} h-[60vh] lg:h-auto min-h-[50vh] lg:min-h-screen`}>
       <div className="absolute inset-0 h-full overflow-hidden">
         <div className={`w-full h-full bg-cover bg-center bg-fixed transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] ${bgClass}`} style={{ backgroundImage: `url('${backgroundImage}')` }} />
       </div>
