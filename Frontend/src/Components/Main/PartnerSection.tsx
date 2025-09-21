@@ -1,86 +1,185 @@
-import React from 'react';
+import React from "react";
 
 interface Partner {
   id: number;
   name: string;
-  // Future properties can be added here like logo, url, etc.
+  logo?: string; // URL to logo image
 }
 
 const PartnerSection: React.FC = () => {
-  // Partner data array - easy to maintain and modify
+  // Original partner data array
   const partners: Partner[] = [
-    { id: 1, name: 'Partner 1' },
-    { id: 2, name: 'Partner 2' },
-    { id: 3, name: 'Partner 3' },
-    { id: 4, name: 'Partner 4' },
-    { id: 5, name: 'Partner 5' },
+    {
+      id: 1,
+      name: "Maruti Suzuki",
+      logo: "https://logos-world.net/wp-content/uploads/2021/03/Maruti-Suzuki-Logo.png",
+    },
+    {
+      id: 2,
+      name: "Reliance Industries",
+      logo: "https://logos-world.net/wp-content/uploads/2020/11/Reliance-Logo.png",
+    },
+    {
+      id: 3,
+      name: "Tata Group",
+      logo: "https://logos-world.net/wp-content/uploads/2020/11/Tata-Group-Logo.png",
+    },
+    {
+      id: 4,
+      name: "ITC Limited",
+      logo: "https://logos-world.net/wp-content/uploads/2020/11/ITC-Logo.png",
+    },
+    {
+      id: 5,
+      name: "Mahindra Group",
+      logo: "https://logos-world.net/wp-content/uploads/2020/11/Mahindra-Logo.png",
+    },
+    {
+      id: 6,
+      name: "L&T Limited",
+      logo: "https://logos-world.net/wp-content/uploads/2020/11/Larsen-Toubro-Logo.png",
+    },
+    {
+      id: 7,
+      name: "Asian Paints",
+      logo: "https://logos-world.net/wp-content/uploads/2020/11/Asian-Paints-Logo.png",
+    },
+    {
+      id: 8,
+      name: "Godrej Group",
+      logo: "https://logos-world.net/wp-content/uploads/2020/11/Godrej-Logo.png",
+    },
   ];
 
-  // Render a single partner logo
+  // **CHANGE 1: Re-introduce the helper functions from your requested logic**
+
+  // Renders a single partner logo with your specific styling
   const renderPartnerLogo = (partner: Partner) => (
-    <div key={partner.id} className="flex-shrink-0 w-32 h-16 bg-white/10 rounded-lg flex items-center justify-center">
-      <span className="text-white font-light">{partner.name}</span>
+    <div
+      key={partner.id}
+      className="flex-shrink-0 w-48 h-24 bg-white border border-gray-200 flex items-center justify-center mx-4 hover:border-gray-900 transition-colors duration-300"
+    >
+      {partner.logo ? (
+        <img
+          src={partner.logo}
+          alt={partner.name}
+          className="max-w-32 max-h-16 object-contain grayscale hover:grayscale-0 transition-all duration-300"
+          onError={(e) => {
+            const target = e.currentTarget;
+            target.style.display = "none";
+            const nextSibling = target.nextElementSibling as HTMLElement;
+            if (nextSibling) {
+              nextSibling.classList.remove("hidden");
+            }
+          }}
+        />
+      ) : null}
+      <span
+        className={`text-gray-900 font-light text-sm tracking-wider ${
+          partner.logo ? "hidden" : ""
+        }`}
+      >
+        {partner.name.toUpperCase()}
+      </span>
     </div>
   );
 
-  // Render a set of partner logos
+  // Renders a complete set of all partner logos
   const renderPartnerSet = (setIndex: number) => (
-    <div key={setIndex} className="flex items-center space-x-8 mr-8 flex-shrink-0">
+    <div key={setIndex} className="flex items-center flex-shrink-0">
       {partners.map(renderPartnerLogo)}
     </div>
   );
 
   return (
-    // The main container
-    <section className="py-24 bg-gray-900 text-white relative overflow-hidden">
-      
-             {/* Content container */}
-       <div className="relative z-10">
-         <div className="max-w-6xl mx-auto px-6">
-           <div className="text-center mb-16">
-             <h2 className="text-4xl md:text-5xl font-light mb-8">
-               Our Partners
-             </h2>
-             <div className="w-16 h-px bg-white mx-auto mb-8"></div>
-             <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-               Collaborating with industry leaders to deliver exceptional solutions and drive innovation across multiple sectors.
-             </p>
-           </div>
-           {/* Logo marquee */}
-           <div className="flex items-center overflow-hidden">
-               <div className="w-full">
-                 {/* Marquee container */}
-                 <div className="flex animate-marquee">
-                   {/* Generate three sets of logos for seamless marquee effect */}
-                   {[0, 1, 2].map(renderPartnerSet)}
-                 </div>
-               </div>
-           </div>
-         </div>
-       </div>
-       
-       {/* CSS for marquee animation */}
-       <style dangerouslySetInnerHTML={{
-         __html: `
-           @keyframes marquee {
-             0% {
-               transform: translateX(0);
-             }
-             100% {
-               transform: translateX(-33.333%);
-             }
-           }
-           
-           .animate-marquee {
-             animation: marquee 30s linear infinite;
-             width: calc(300%);
-           }
-           
-           .animate-marquee:hover {
-             animation-play-state: paused;
-           }
-         `
-       }} />
+    <section className="py-24 bg-gray-100 relative">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
+            Our Partners
+          </h2>
+          <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Collaborating with industry leaders to deliver exceptional solutions
+            and drive innovation across automotive and industrial sectors.
+          </p>
+        </div>
+        {/* Logo marquee container */}
+        <div className="relative overflow-hidden">
+          {/* **CHANGE 2: Use the render function to generate three sets** */}
+          <div className="flex animate-marquee">
+            {[0, 1, 2].map(renderPartnerSet)}
+          </div>
+
+          {/* Fade gradients on sides */}
+          <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-50 to-transparent pointer-events-none"></div>
+          <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none"></div>
+        </div>
+        {/* Partner categories */}
+        <div className="grid md:grid-cols-3 gap-8 mt-16">
+          <div className="text-center">
+            <h3 className="text-lg font-light text-gray-900 mb-4">
+              Automotive Partners
+            </h3>
+            <div className="w-12 h-px bg-gray-400 mx-auto mb-4"></div>
+            <p className="text-gray-600 text-sm">
+              Leading automotive manufacturers and service providers across
+              India
+            </p>
+          </div>
+          <div className="text-center">
+            <h3 className="text-lg font-light text-gray-900 mb-4">
+              Industrial Clients
+            </h3>
+            <div className="w-12 h-px bg-gray-400 mx-auto mb-4"></div>
+            <p className="text-gray-600 text-sm">
+              Major industrial corporations requiring specialized packaging
+              solutions
+            </p>
+          </div>
+          <div className="text-center">
+            <h3 className="text-lg font-light text-gray-900 mb-4">
+              Strategic Alliances
+            </h3>
+            <div className="w-12 h-px bg-gray-400 mx-auto mb-4"></div>
+            <p className="text-gray-600 text-sm">
+              Long-term partnerships driving innovation and growth across
+              sectors
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* **CHANGE 3: Update CSS to match the triple duplication logic** */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+          @keyframes marquee {
+            0% {
+              transform: translateX(0);
+            }
+            100% {
+              transform: translateX(-33.333%);
+            }
+          }
+          
+          .animate-marquee {
+            animation: marquee 50s linear infinite;
+            width: calc(300%);
+          }
+
+          .animate-marquee:hover {
+            animation-play-state: paused;
+          }
+          
+          @media (max-width: 768px) {
+            .animate-marquee {
+              animation-duration: 60s;
+            }
+          }
+        `,
+        }}
+      />
     </section>
   );
 };
