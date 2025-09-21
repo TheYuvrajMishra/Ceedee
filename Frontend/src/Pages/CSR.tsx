@@ -34,9 +34,118 @@ const statusConfig = {
   Planned: { color: "text-gray-600", bg: "bg-gray-50" },
 };
 
+// --- MODAL COMPONENT ---
+const CSRModal = ({ csr, onClose }: { csr: CSR | null; onClose: () => void }) => {
+  useEffect(() => {
+    if (csr) {
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          onClose();
+        }
+      };
+      document.addEventListener('keydown', handleKeyDown);
+      return () => document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [csr, onClose]);
+
+  if (!csr) return null;
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return "N/A";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  return (
+    <div
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex justify-center items-center p-4"
+      onClick={onClose}
+    >
+      <div
+        className="relative bg-white shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-6 cursor-pointer right-6 text-gray-400 hover:text-gray-700 z-10 text-2xl leading-none"
+        >
+          ×
+        </button>
+
+        <div className="p-8 md:p-12">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-16 h-16 border border-gray-300 flex items-center justify-center text-2xl">
+              {categoryConfig[csr.category].symbol}
+            </div>
+            <div>
+              <p className="text-sm font-light tracking-wider text-gray-600 mb-2">
+                {csr.category.toUpperCase()}
+              </p>
+              <h2 className="text-3xl md:text-4xl font-light text-gray-900">
+                {csr.title}
+              </h2>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 text-gray-600 mb-8 pb-8 border-b border-gray-200">
+            <div
+              className={`px-4 py-2 text-xs font-light tracking-wider border border-gray-300 ${
+                statusConfig[csr.status].bg
+              } ${statusConfig[csr.status].color} self-start`}
+            >
+              {csr.status.toUpperCase()}
+            </div>
+            {csr.location && (
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 border border-gray-400 rounded-full"></div>
+                {csr.location}
+              </div>
+            )}
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 border border-gray-400"></div>
+              <span>{formatDate(csr.startDate)}</span>
+              {csr.endDate && (
+                <>
+                  <span>-</span>
+                  <span>{formatDate(csr.endDate)}</span>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed mb-8">
+            {csr.description.split('\n').map((paragraph, index) => (
+              <p key={index} className="mb-4">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+
+          {csr.impact && (
+            <div className="bg-gray-50 p-8 border-l-2 border-gray-900 mb-8">
+              <h4 className="font-light text-gray-900 mb-4 text-sm tracking-wider">
+                IMPACT & OUTCOMES
+              </h4>
+              <div className="text-gray-700 leading-relaxed italic">
+                {csr.impact.split('\n').map((paragraph, index) => (
+                  <p key={index} className="mb-3">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- CARD COMPONENT ---
-const InitiativeCard = ({ csr, index }: { csr: CSR; index: number }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+const InitiativeCard = ({ csr, index, onClick }: { csr: CSR; index: number; onClick: () => void }) => {
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -56,10 +165,11 @@ const InitiativeCard = ({ csr, index }: { csr: CSR; index: number }) => {
 
   return (
     <div
-      className="bg-white border border-gray-200 hover:border-gray-900 transition-colors duration-300 group"
+      className="bg-white border border-gray-200 hover:border-gray-900 transition-colors duration-300 group cursor-pointer"
       style={{
         transform: `translateY(${scrollY * 0.02 * (index + 1)}px)`,
       }}
+      onClick={onClick}
     >
       <div className="p-8">
         <div className="flex items-start justify-between mb-6">
@@ -94,23 +204,9 @@ const InitiativeCard = ({ csr, index }: { csr: CSR; index: number }) => {
 
         <div className="mb-6">
           <p className="text-gray-700 leading-relaxed">
-            {isExpanded
-              ? csr.description
-              : `${csr.description.slice(0, 150)}${
-                  csr.description.length > 150 ? "..." : ""
-                }`}
+            {csr.description.slice(0, 150)}
+            {csr.description.length > 150 ? "..." : ""}
           </p>
-
-          {isExpanded && csr.impact && (
-            <div className="mt-6 p-6 bg-gray-50 border-l-2 border-gray-900">
-              <h4 className="font-light text-gray-900 mb-3 text-sm tracking-wider">
-                IMPACT & OUTCOMES
-              </h4>
-              <p className="text-gray-700 leading-relaxed italic">
-                {csr.impact}
-              </p>
-            </div>
-          )}
         </div>
 
         <div className="border-t border-gray-200 pt-6 flex items-center justify-between">
@@ -124,14 +220,9 @@ const InitiativeCard = ({ csr, index }: { csr: CSR; index: number }) => {
               </>
             )}
           </div>
-          {(csr.description.length > 150 || csr.impact) && (
-            <button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="text-gray-900 text-sm cursor-pointer font-light tracking-wider hover:underline transition-colors"
-            >
-              {isExpanded ? "SHOW LESS" : "LEARN MORE"}
-            </button>
-          )}
+          <div className="text-gray-900 text-sm font-light tracking-wider hover:underline transition-colors">
+            VIEW DETAILS →
+          </div>
         </div>
       </div>
     </div>
@@ -144,6 +235,7 @@ export default function CSRPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [scrollY, setScrollY] = useState(0);
+  const [selectedCSR, setSelectedCSR] = useState<CSR | null>(null);
   const [filterCategory, setFilterCategory] = useState<"all" | CSR["category"]>(
     "all"
   );
@@ -206,6 +298,14 @@ export default function CSRPage() {
 
   const parallaxOffset = scrollY * 0.3;
 
+  const handleCSRClick = (csr: CSR) => {
+    setSelectedCSR(csr);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedCSR(null);
+  };
+
   const renderContent = () => {
     if (loading) {
       return (
@@ -261,7 +361,12 @@ export default function CSRPage() {
     return (
       <div className="space-y-8">
         {filteredCsrs.map((csr, index) => (
-          <InitiativeCard key={csr._id} csr={csr} index={index} />
+          <InitiativeCard 
+            key={csr._id} 
+            csr={csr} 
+            index={index} 
+            onClick={() => handleCSRClick(csr)}
+          />
         ))}
       </div>
     );
@@ -269,7 +374,6 @@ export default function CSRPage() {
 
   return (
     <div className="min-h-screen bg-white">
-        <title>Ceedee's | Corporate Social Responsibilities</title>
       {/* Hero Section */}
       <section className="relative py-24 bg-gray-900 text-white overflow-hidden">
         <div 
@@ -329,7 +433,7 @@ export default function CSRPage() {
                     <button
                       key={stat}
                       onClick={() => setFilterStatus(stat)}
-                      className={`px-4 py-2 text-sm cursor-pointer font-light tracking-wider border transition-colors duration-200 ${
+                      className={`px-4 py-2 cursor-pointer text-sm font-light tracking-wider border transition-colors duration-200 ${
                         filterStatus === stat
                           ? "bg-gray-900 text-white border-gray-900"
                           : "bg-white text-gray-700 border-gray-300 hover:border-gray-900"
@@ -440,6 +544,11 @@ export default function CSRPage() {
           </div>
         </div>
       </section>
+
+      {/* Modal */}
+      {selectedCSR && (
+        <CSRModal csr={selectedCSR} onClose={handleCloseModal} />
+      )}
     </div>
   );
 }
