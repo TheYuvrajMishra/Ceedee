@@ -234,7 +234,7 @@ const ContactForm = () => {
                                     <button
                                         onClick={handleSubmit}
                                         disabled={loading}
-                                        className="w-full px-8 py-4 bg-gray-900 text-white font-light tracking-wider text-sm hover:bg-black disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                                        className="w-full px-8 py-4 cursor-pointer bg-gray-900 text-white font-light tracking-wider text-sm hover:bg-black disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
                                     >
                                         {loading ? 'SENDING...' : 'SEND MESSAGE'}
                                     </button>

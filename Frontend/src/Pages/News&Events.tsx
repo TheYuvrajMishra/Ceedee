@@ -44,7 +44,7 @@ const Controls = ({ activeFilter, setActiveFilter, activeSort, setActiveSort }: 
         <div className="flex gap-3">
             {filterOptions.map((option) => (
                 <button key={option} onClick={() => setActiveFilter(option)}
-                    className={`px-6 py-3 text-sm font-light tracking-wider border transition-all duration-300 ${
+                    className={`px-6 py-3 text-sm cursor-pointer font-light tracking-wider border transition-all duration-300 ${
                         activeFilter === option ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-700 border-gray-300 hover:border-gray-900'}`}>
                     {option.toUpperCase()}
                 </button>
@@ -92,7 +92,7 @@ const TimelineItem = ({ item, onReadMore, index, scrollY }: {
                 </div>
                 <div className="mt-auto">
                     <button onClick={() => onReadMore(item)} 
-                        className="text-gray-900 text-sm font-light tracking-wider hover:underline transition-colors">
+                        className="text-gray-900 cursor-pointer text-sm font-light tracking-wider hover:underline transition-colors">
                         READ MORE →
                     </button>
                 </div>

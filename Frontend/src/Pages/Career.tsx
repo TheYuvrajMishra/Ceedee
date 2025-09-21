@@ -76,7 +76,7 @@ const ApplicationModal = ({
           <p className="text-sm text-gray-600 mt-1">{job.title}</p>
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 text-gray-400 hover:text-gray-700 text-2xl leading-none"
+            className="absolute top-6 cursor-pointer right-6 text-gray-400 hover:text-gray-700 text-2xl leading-none"
           >
             ×
           </button>
@@ -99,7 +99,7 @@ const ApplicationModal = ({
               </p>
               <button
                 onClick={onClose}
-                className="w-full px-6 py-3 bg-gray-900 text-white font-light tracking-wider text-sm hover:bg-gray-800 transition-colors"
+                className="w-full px-6 py-3 cursor-pointer bg-gray-900 text-white font-light tracking-wider text-sm hover:bg-gray-800 transition-colors"
               >
                 CLOSE
               </button>
@@ -141,14 +141,14 @@ const ApplicationModal = ({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-light tracking-wider text-sm hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-6 cursor-pointer py-3 border border-gray-300 text-gray-700 font-light tracking-wider text-sm hover:bg-gray-50 transition-colors"
                   disabled={submitting}
                 >
                   CANCEL
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-6 py-3 bg-gray-900 text-white font-light tracking-wider text-sm hover:bg-gray-800 disabled:bg-gray-400 transition-colors"
+                  className="flex-1 px-6 py-3 cursor-pointer bg-gray-900 text-white font-light tracking-wider text-sm hover:bg-gray-800 disabled:bg-gray-400 transition-colors"
                   disabled={submitting}
                 >
                   {submitting ? "SUBMITTING..." : "SUBMIT"}
@@ -387,7 +387,7 @@ const CareerPage = () => {
                         )}
                         <button
                           onClick={() => handleOpenModal(job)}
-                          className="bg-gray-900 text-white px-8 py-3 hover:bg-black transition-colors font-light tracking-wider text-sm w-full lg:w-auto"
+                          className="bg-gray-900 cursor-pointer text-white px-8 py-3 hover:bg-black transition-colors font-light tracking-wider text-sm w-full lg:w-auto"
                         >
                           APPLY NOW
                         </button>

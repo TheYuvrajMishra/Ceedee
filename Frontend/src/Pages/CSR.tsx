@@ -127,7 +127,7 @@ const InitiativeCard = ({ csr, index }: { csr: CSR; index: number }) => {
           {(csr.description.length > 150 || csr.impact) && (
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="text-gray-900 text-sm font-light tracking-wider hover:underline transition-colors"
+              className="text-gray-900 text-sm cursor-pointer font-light tracking-wider hover:underline transition-colors"
             >
               {isExpanded ? "SHOW LESS" : "LEARN MORE"}
             </button>
@@ -309,7 +309,7 @@ export default function CSRPage() {
                     <button
                       key={cat}
                       onClick={() => setFilterCategory(cat)}
-                      className={`px-4 py-2 text-sm font-light tracking-wider border transition-colors duration-200 ${
+                      className={`px-4 py-2 text-sm cursor-pointer font-light tracking-wider border transition-colors duration-200 ${
                         filterCategory === cat
                           ? "bg-gray-900 text-white border-gray-900"
                           : "bg-white text-gray-700 border-gray-300 hover:border-gray-900"
@@ -329,7 +329,7 @@ export default function CSRPage() {
                     <button
                       key={stat}
                       onClick={() => setFilterStatus(stat)}
-                      className={`px-4 py-2 text-sm font-light tracking-wider border transition-colors duration-200 ${
+                      className={`px-4 py-2 text-sm cursor-pointer font-light tracking-wider border transition-colors duration-200 ${
                         filterStatus === stat
                           ? "bg-gray-900 text-white border-gray-900"
                           : "bg-white text-gray-700 border-gray-300 hover:border-gray-900"
