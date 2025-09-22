@@ -12,7 +12,7 @@ const PartnerSection: React.FC = () => {
     {
       id: 1,
       name: "Maruti Suzuki",
-      logo: "https://logos-world.net/wp-content/uploads/2021/03/Maruti-Suzuki-Logo.png",
+      logo: "https://logos-world.net/wp-content/uploads/2022/12/Maruti-Suzuki-Logo.png",
     },
     {
       id: 2,
@@ -21,33 +21,33 @@ const PartnerSection: React.FC = () => {
     },
     {
       id: 3,
-      name: "Tata Group",
-      logo: "https://logos-world.net/wp-content/uploads/2020/11/Tata-Group-Logo.png",
+      name: "Tata Motors",
+      logo: "https://logos-world.net/wp-content/uploads/2021/11/Tata-Logo.png",
     },
     {
       id: 4,
       name: "ITC Limited",
-      logo: "https://logos-world.net/wp-content/uploads/2020/11/ITC-Logo.png",
+      logo: "https://cdn.freebiesupply.com/logos/large/2x/itc-limited-logo-png-transparent.png",
     },
     {
       id: 5,
       name: "Mahindra Group",
-      logo: "https://logos-world.net/wp-content/uploads/2020/11/Mahindra-Logo.png",
+      logo: "https://logos-world.net/wp-content/uploads/2022/12/Mahindra-Logo.png",
     },
     {
       id: 6,
       name: "L&T Limited",
-      logo: "https://logos-world.net/wp-content/uploads/2020/11/Larsen-Toubro-Logo.png",
+      logo: "https://workmen.digital.lntecc.com/WISA/Content/Layout/images/logo-blue.png",
     },
     {
       id: 7,
       name: "Asian Paints",
-      logo: "https://logos-world.net/wp-content/uploads/2020/11/Asian-Paints-Logo.png",
+      logo: "https://static.vecteezy.com/system/resources/previews/021/671/857/large_2x/asian-paints-logo-free-png.png",
     },
     {
       id: 8,
       name: "Godrej Group",
-      logo: "https://logos-world.net/wp-content/uploads/2020/11/Godrej-Logo.png",
+      logo: "https://companieslogo.com/img/orig/GODREJCP.NS-b269802a.png?t=1601648486",
     },
   ];
 
