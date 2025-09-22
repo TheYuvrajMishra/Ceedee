@@ -33,14 +33,8 @@ type CompanyCardProps = {
 };
 
 const CompanyCard = ({ company, isLeft, hoveredSide }: CompanyCardProps) => {
-  const {
-    name,
-    subtitle,
-    description,
-    website,
-    buttonText,
-    backgroundImage,
-  } = company;
+  const { name, subtitle, description, website, buttonText, backgroundImage } =
+    company;
   const side = isLeft ? "left" : "right";
   const isHovered = hoveredSide === side;
   const isOther = hoveredSide === (isLeft ? "right" : "left");
@@ -53,10 +47,10 @@ const CompanyCard = ({ company, isLeft, hoveredSide }: CompanyCardProps) => {
     : isResetting
     ? "lg:flex-[0.5]"
     : "lg:flex-1 flex-[unset]";
-  const bgClass = isHovered ? "scale-110 grayscale-none" : "scale-100 grayscale";
-  const overlayClass = isHovered
-    ? "bg-black/60"
-    : "bg-black/75";
+  const bgClass = isHovered
+    ? "scale-110 grayscale-none"
+    : "scale-100 grayscale";
+  const overlayClass = isHovered ? "bg-black/60" : "bg-black/75";
   const contentClass = isOther
     ? "scale-95 opacity-80"
     : "scale-100 opacity-100";
@@ -79,7 +73,7 @@ const CompanyCard = ({ company, isLeft, hoveredSide }: CompanyCardProps) => {
         className={`relative z-10 max-w-lg text-center px-6 sm:px-8 py-12 lg:py-0 transform transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] ${contentClass}`}
       >
         <div className="w-16 h-px bg-white mx-auto mb-6 sm:mb-8"></div>
-        
+
         <h1
           className={`${
             isLeft
@@ -104,7 +98,9 @@ const CompanyCard = ({ company, isLeft, hoveredSide }: CompanyCardProps) => {
           className="group bg-white text-gray-900 hover:bg-gray-100 px-6 sm:px-8 py-2.5 sm:py-3 font-light tracking-wider text-sm cursor-pointer transition-all duration-300 border border-white"
         >
           {buttonText.toUpperCase()}
-          <span className="inline-block ml-3 group-hover:translate-x-1 transition-transform duration-300">→</span>
+          <span className="inline-block ml-3 group-hover:translate-x-1 transition-transform duration-300">
+            →
+          </span>
         </button>
       </div>
     </div>
