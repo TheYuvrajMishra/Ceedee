@@ -1,30 +1,27 @@
 import { useState, useRef, useCallback } from "react";
-import { ArrowRight, Factory, Wrench } from "lucide-react";
 
 const COMPANIES = [
   {
     id: "venbropolymers",
     name: "Venbro Polymers",
-    subtitle: "Polymers",
+    subtitle: "Industrial Excellence",
     description:
-      "Advanced polymer solutions for industrial applications. Delivering quality materials and innovative manufacturing processes.",
+      "Food Grade PP Woven Fabrics, Sacks and Bags for Indian and International markets. 20+ years of manufacturing excellence since 1995.",
     website: "/venbro-polymers",
     buttonText: "Visit Site",
-    icon: Factory,
     backgroundImage:
-      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+      "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
   },
   {
     id: "shrikrishna",
-    name: "Shri Krishna Automobile Enterprises",
-    subtitle: "Automobile Enterprise",
+    name: "SKAE Services",
+    subtitle: "Automotive Excellence",
     description:
-      "Professional automotive services and maintenance solutions. Trusted expertise for commercial and personal vehicles.",
+      "South India's oldest and most trusted Maruti Authorized Service Station since 1986. A-Grade MASS providing comprehensive automotive solutions.",
     website: "/shri-krishna-automobile-enterprises",
     buttonText: "Visit Site",
-    icon: Wrench,
     backgroundImage:
-      "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2132&q=80",
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
   },
 ];
 
@@ -42,7 +39,6 @@ const CompanyCard = ({ company, isLeft, hoveredSide }: CompanyCardProps) => {
     description,
     website,
     buttonText,
-    icon: Icon,
     backgroundImage,
   } = company;
   const side = isLeft ? "left" : "right";
@@ -57,10 +53,10 @@ const CompanyCard = ({ company, isLeft, hoveredSide }: CompanyCardProps) => {
     : isResetting
     ? "lg:flex-[0.5]"
     : "lg:flex-1 flex-[unset]";
-  const bgClass = isHovered ? "blur-sm scale-110" : "blur-lg scale-100";
+  const bgClass = isHovered ? "scale-110 grayscale-none" : "scale-100 grayscale";
   const overlayClass = isHovered
-    ? "bg-gradient-to-br from-black/70 via-black/55 to-black/75 opacity-100"
-    : "bg-gradient-to-br from-black/70 via-black/65 to-black/75 opacity-100";
+    ? "bg-black/60"
+    : "bg-black/75";
   const contentClass = isOther
     ? "scale-95 opacity-80"
     : "scale-100 opacity-100";
@@ -82,9 +78,8 @@ const CompanyCard = ({ company, isLeft, hoveredSide }: CompanyCardProps) => {
       <div
         className={`relative z-10 max-w-lg text-center px-6 sm:px-8 py-12 lg:py-0 transform transition-all duration-1000 ease-[cubic-bezier(0.4,0,0.2,1)] ${contentClass}`}
       >
-        <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-white/10 backdrop-blur-sm rounded-xl mb-6 sm:mb-8 border border-white/20">
-          <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
-        </div>
+        <div className="w-16 h-px bg-white mx-auto mb-6 sm:mb-8"></div>
+        
         <h1
           className={`${
             isLeft
@@ -94,11 +89,11 @@ const CompanyCard = ({ company, isLeft, hoveredSide }: CompanyCardProps) => {
         >
           {name}
         </h1>
-        <h2 className="text-lg sm:text-xl font-normal text-slate-300 mb-6 sm:mb-8 tracking-wider uppercase">
+        <h2 className="text-lg sm:text-xl font-light text-gray-300 mb-6 sm:mb-8 tracking-wider uppercase">
           {subtitle}
         </h2>
         <p
-          className={`text-base sm:text-lg text-slate-400 mb-8 sm:mb-10 leading-relaxed font-light transition-all duration-500 ${
+          className={`text-base sm:text-lg text-gray-300 mb-8 sm:mb-10 leading-relaxed font-light transition-all duration-500 ${
             isOther ? "opacity-0" : "opacity-100"
           }`}
         >
@@ -106,10 +101,10 @@ const CompanyCard = ({ company, isLeft, hoveredSide }: CompanyCardProps) => {
         </p>
         <button
           onClick={() => window.open(website, "_blank")}
-          className="group inline-flex items-center gap-2 sm:gap-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg font-medium border border-white/20 hover:border-white/30 cursor-pointer transition-all duration-300"
+          className="group bg-white text-gray-900 hover:bg-gray-100 px-6 sm:px-8 py-2.5 sm:py-3 font-light tracking-wider text-sm cursor-pointer transition-all duration-300 border border-white"
         >
-          {buttonText}
-          <ArrowRight className="w-4 h-4 group-hover:-rotate-45 transition-all duration-300" />
+          {buttonText.toUpperCase()}
+          <span className="inline-block ml-3 group-hover:translate-x-1 transition-transform duration-300">→</span>
         </button>
       </div>
     </div>
@@ -156,7 +151,7 @@ const TwoCompany = () => {
   return (
     <section
       id="ExploreServices"
-      className="min-h-screen relative overflow-hidden bg-slate-50"
+      className="min-h-screen relative overflow-hidden bg-white"
     >
       <div
         ref={containerRef}
@@ -169,8 +164,8 @@ const TwoCompany = () => {
           isLeft={true}
           hoveredSide={hoveredSide}
         />
-        <div className="hidden lg:block relative md:w-px z-20">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-slate-400 rounded-full" />
+        <div className="hidden lg:block relative w-px z-20 bg-white/30">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 border border-white/50 bg-white/10 backdrop-blur-sm" />
         </div>
         <CompanyCard
           company={COMPANIES[1]}
