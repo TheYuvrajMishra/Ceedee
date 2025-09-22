@@ -34,7 +34,7 @@ import {
 } from "lucide-react";
 import TwoCompany from "../../Components/Main/TwoCompany";
 import PartnerSection from "../../Components/Main/PartnerSection";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const CeedeeHomepage = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -46,7 +46,7 @@ const CeedeeHomepage = () => {
   }, []);
 
   const parallaxOffset = scrollY * 0.3;
-
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-white">
       <title>Ceedee's | Home</title>
@@ -89,7 +89,7 @@ const CeedeeHomepage = () => {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white">
+        <div className="md:block hidden absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white">
           <div className="w-px h-16 bg-white opacity-50 mx-auto mb-2"></div>
           <p className="text-sm tracking-widest">DISCOVER</p>
         </div>
@@ -242,7 +242,7 @@ const CeedeeHomepage = () => {
                   </div>
                 </div>
 
-                <button className="bg-gray-900 cursor-pointer text-white px-6 py-3 hover:bg-gray-800 transition-colors tracking-wider text-sm">
+                <button onClick={()=>navigate("/venbro-polymers")} className="bg-gray-900 cursor-pointer text-white px-6 py-3 hover:bg-gray-800 transition-colors tracking-wider text-sm">
                   EXPLORE VENBRO
                   <ArrowRight className="inline ml-2 w-4 h-4" />
                 </button>
@@ -296,7 +296,7 @@ const CeedeeHomepage = () => {
                   </div>
                 </div>
 
-                <button className="bg-gray-900 cursor-pointer text-white px-6 py-3 hover:bg-gray-800 transition-colors tracking-wider text-sm">
+                <button onClick={()=>navigate("/shri-krishna-automobile-enterprises")} className="bg-gray-900 cursor-pointer text-white px-6 py-3 hover:bg-gray-800 transition-colors tracking-wider text-sm">
                   EXPLORE SKAE
                   <ArrowRight className="inline ml-2 w-4 h-4" />
                 </button>
@@ -449,10 +449,13 @@ const CeedeeHomepage = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
-            <button className="bg-gray-900 text-white cursor-pointer px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm">
+            <button onClick={() => {
+              const el = document.getElementById("Company");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }} className="bg-gray-900 text-white cursor-pointer px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm">
               EXPLORE COMPANIES
             </button>
-            <button className="border border-gray-900 cursor-pointer text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm">
+            <button onClick={()=>navigate("/contact")} className="border border-gray-900 cursor-pointer text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm">
               CONTACT GROUP
             </button>
           </div>
