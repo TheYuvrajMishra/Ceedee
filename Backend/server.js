@@ -149,12 +149,17 @@ app.all('*', (req, res, next) => {
 // Global error handling middleware (must be last)
 app.use(globalErrorHandler);
 
-const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🛡️  Security features enabled: Rate limiting, CORS, Helmet, MongoDB sanitization`);
-});
+// Export Express app for serverless (Vercel). Start server only in non-serverless environments.
+if (process.env.VERCEL) {
+  module.exports = app;
+} else {
+  const PORT = process.env.PORT || 5000;
+  const server = app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🛡️  Security features enabled: Rate limiting, CORS, Helmet, MongoDB sanitization`);
+  });
 
-// Setup graceful shutdown
-gracefulShutdown(server);
+  // Setup graceful shutdown
+  gracefulShutdown(server);
+}
