@@ -79,7 +79,7 @@ export const venbroData: LandingPageData = {
     subtitle: "~By Ceedee Group",
     tagline: "20+ Years of Industrial Experience",
     description: "Maintaining high standards in Food Grade PP Woven Fabrics, Sacks and Bags for Indian and International markets",
-    backgroundImage: "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+    backgroundImage: "https://www.ppilbd.com/wp-content/uploads/2022/07/IMG_20220331_090854_603.jpg",
     buttons: {
       primary: "VIEW PRODUCTS",
       secondary: "CONTACT US"

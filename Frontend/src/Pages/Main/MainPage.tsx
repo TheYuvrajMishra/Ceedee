@@ -215,7 +215,7 @@ const CeedeeHomepage = () => {
                 }}
               >
                 <img
-                  src="https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+                  src="https://www.ppilbd.com/wp-content/uploads/2022/07/IMG_20220331_090854_603.jpg"
                   alt="Venbro Polymers manufacturing"
                   className="w-full h-full object-cover "
                 />
