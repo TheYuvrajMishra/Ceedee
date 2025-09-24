@@ -104,12 +104,6 @@ const CeedeeHomepage = () => {
             </Link>
           </div>
         </div>
-
-        {/* Scroll indicator */}
-        <div className="md:block hidden absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white">
-          <div className="w-px h-16 bg-white opacity-50 mx-auto mb-2"></div>
-          <p className="text-sm tracking-widest">DISCOVER</p>
-        </div>
       </section>
 
       {/* Group Overview */}
