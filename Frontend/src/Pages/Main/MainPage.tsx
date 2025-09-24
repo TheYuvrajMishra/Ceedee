@@ -63,9 +63,20 @@ const CeedeeHomepage = () => {
 
         {/* Hero Content */}
         <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-6">
-          <h1 className="text-5xl md:text-7xl font-light mb-6 tracking-wide">
-            Ceedee Group
-          </h1>
+          <Link to="/" className="flex flex-col items-center mb-6 space-x-3">
+            <div className="w-30 h-30 rounded-lg overflow-hidden">
+              <img
+                src="/logo.png"
+                alt="Company Logo"
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <img
+              src="/logo_title.png"
+              alt="Company Name"
+              className="h-20 object-contain"
+            />
+          </Link>
           <div className="w-32 h-px bg-white mx-auto mb-8"></div>
           <p className="text-xl md:text-2xl font-light mb-6">
             Diversified Excellence Across Industries
@@ -76,13 +87,19 @@ const CeedeeHomepage = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <button onClick={() => {
-              const el = document.getElementById("Company");
-              if (el) el.scrollIntoView({ behavior: "smooth" });
-            }} className="bg-white cursor-pointer text-gray-900 hover:bg-gray-100 px-8 py-4 transition-colors duration-300 tracking-wider text-sm font-medium">
+            <button
+              onClick={() => {
+                const el = document.getElementById("Company");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="bg-white cursor-pointer text-gray-900 hover:bg-gray-100 px-8 py-4 transition-colors duration-300 tracking-wider text-sm font-medium"
+            >
               EXPLORE OUR COMPANIES
             </button>
-            <Link to="/contact" className="border cursor-pointer border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 transition-colors duration-300 tracking-wider text-sm font-medium">
+            <Link
+              to="/contact"
+              className="border cursor-pointer border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 transition-colors duration-300 tracking-wider text-sm font-medium"
+            >
               CONTACT US
             </Link>
           </div>
@@ -115,9 +132,11 @@ const CeedeeHomepage = () => {
             <div className="text-center">
               <div
                 className="w-16 h-16 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-6"
-                style={{
-                  // transform: `translateY(${scrollY * 0.02}px)`,
-                }}
+                style={
+                  {
+                    // transform: `translateY(${scrollY * 0.02}px)`,
+                  }
+                }
               >
                 <Building2 className="w-8 h-8 text-white" />
               </div>
@@ -133,9 +152,11 @@ const CeedeeHomepage = () => {
             <div className="text-center">
               <div
                 className="w-16 h-16 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-6"
-                style={{
-                  // transform: `translateY(${scrollY * 0.03}px)`,
-                }}
+                style={
+                  {
+                    // transform: `translateY(${scrollY * 0.03}px)`,
+                  }
+                }
               >
                 <Award className="w-8 h-8 text-white" />
               </div>
@@ -151,9 +172,11 @@ const CeedeeHomepage = () => {
             <div className="text-center">
               <div
                 className="w-16 h-16 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-6"
-                style={{
-                  // transform: `translateY(${scrollY * 0.025}px)`,
-                }}
+                style={
+                  {
+                    // transform: `translateY(${scrollY * 0.025}px)`,
+                  }
+                }
               >
                 <Users className="w-8 h-8 text-white" />
               </div>
@@ -170,8 +193,8 @@ const CeedeeHomepage = () => {
       </section>
 
       {/* Partner's Section */}
-      <PartnerSection/>
-      
+      <PartnerSection />
+
       {/* Company Showcase */}
       <section className="py-24 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
@@ -194,7 +217,7 @@ const CeedeeHomepage = () => {
                 <img
                   src="https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
                   alt="Venbro Polymers manufacturing"
-                  className="w-full h-full object-cover grayscale"
+                  className="w-full h-full object-cover "
                 />
                 <div className="absolute inset-0 bg-black opacity-20"></div>
               </div>
@@ -242,7 +265,10 @@ const CeedeeHomepage = () => {
                   </div>
                 </div>
 
-                <button onClick={()=>navigate("/venbro-polymers")} className="bg-gray-900 cursor-pointer text-white px-6 py-3 hover:bg-gray-800 transition-colors tracking-wider text-sm">
+                <button
+                  onClick={() => navigate("/venbro-polymers")}
+                  className="bg-gray-900 cursor-pointer text-white px-6 py-3 hover:bg-gray-800 transition-colors tracking-wider text-sm"
+                >
                   EXPLORE VENBRO
                   <ArrowRight className="inline ml-2 w-4 h-4" />
                 </button>
@@ -296,7 +322,12 @@ const CeedeeHomepage = () => {
                   </div>
                 </div>
 
-                <button onClick={()=>navigate("/shri-krishna-automobile-enterprises")} className="bg-gray-900 cursor-pointer text-white px-6 py-3 hover:bg-gray-800 transition-colors tracking-wider text-sm">
+                <button
+                  onClick={() =>
+                    navigate("/shri-krishna-automobile-enterprises")
+                  }
+                  className="bg-gray-900 cursor-pointer text-white px-6 py-3 hover:bg-gray-800 transition-colors tracking-wider text-sm"
+                >
                   EXPLORE SKAE
                   <ArrowRight className="inline ml-2 w-4 h-4" />
                 </button>
@@ -311,7 +342,7 @@ const CeedeeHomepage = () => {
                 <img
                   src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
                   alt="SKAE automobile service"
-                  className="w-full h-full object-cover grayscale"
+                  className="w-full h-full object-cover "
                 />
                 <div className="absolute inset-0 bg-black opacity-20"></div>
               </div>
@@ -449,20 +480,26 @@ const CeedeeHomepage = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
-            <button onClick={() => {
-              const el = document.getElementById("Company");
-              if (el) el.scrollIntoView({ behavior: "smooth" });
-            }} className="bg-gray-900 text-white cursor-pointer px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm">
+            <button
+              onClick={() => {
+                const el = document.getElementById("Company");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="bg-gray-900 text-white cursor-pointer px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm"
+            >
               EXPLORE COMPANIES
             </button>
-            <button onClick={()=>navigate("/contact")} className="border border-gray-900 cursor-pointer text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm">
+            <button
+              onClick={() => navigate("/contact")}
+              className="border border-gray-900 cursor-pointer text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm"
+            >
               CONTACT GROUP
             </button>
           </div>
         </div>
         <TwoCompany />
       </section>
-      <div className="marquee-wrapper py-5 text-3xl bg-black/80 text-white raleway-light">
+      <div className="marquee-wrapper py-5 text-3xl bg-red-500 text-white raleway-light">
         <div className="marquee-content">
           {/* First copy of the text */}
           <div className="marquee-text">

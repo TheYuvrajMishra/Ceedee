@@ -1,5 +1,6 @@
 type LandingPageData = {
   hero: {
+    logo: string;
     title: string;
     subtitle: string;
     tagline: string;
@@ -73,6 +74,7 @@ type LandingPageData = {
 
 export const skaeData: LandingPageData = {
   hero: {
+    logo:"skae_logo.png",
     title: "Sri Krishna Automobile Enterprises",
     subtitle: "~By Ceedee Group",
     tagline: "The Oldest Service Centre in South India",

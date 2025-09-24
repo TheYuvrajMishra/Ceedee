@@ -170,7 +170,7 @@ const VenbroProducts = () => {
       {/* Hero Section */}
       <section className="relative py-24 bg-gray-900 text-white overflow-hidden">
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-20"
+          className="absolute inset-0 bg-cover bg-fixed bg-center opacity-20"
           style={{
             // transform: `translateY(${parallaxOffset}px)`,
             backgroundImage: `url('https://images.unsplash.com/photo-1565793298595-6a879b1d9492?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
@@ -220,19 +220,19 @@ const VenbroProducts = () => {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16">
-            {filteredProducts.map((product, index) => (
+            {filteredProducts.map((product) => (
               <div 
                 key={product.id}
                 className="bg-white border border-gray-200 hover:border-gray-900 transition-colors duration-300 group"
                 style={{
-                  transform: `translateY(${scrollY * 0.02 * (index + 1)}px)`,
+                  // transform: `translateY(${scrollY * 0.02 * (index + 1)}px)`,
                 }}
               >
                 <div className="h-64 overflow-hidden">
                   <img 
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
+                    className="w-full h-full object-cover  group-hover:-0 transition-all duration-300"
                   />
                 </div>
                 
@@ -303,7 +303,7 @@ const VenbroProducts = () => {
               <div 
                 className="w-16 h-16 border border-gray-300 mx-auto mb-6 flex items-center justify-center"
                 style={{
-                  transform: `translateY(${scrollY * 0.02}px)`,
+                  // transform: `translateY(${scrollY * 0.02}px)`,
                 }}
               >
                 <div className="w-8 h-8 border border-gray-500"></div>
@@ -319,7 +319,7 @@ const VenbroProducts = () => {
               <div 
                 className="w-16 h-16 border border-gray-300 mx-auto mb-6 flex items-center justify-center"
                 style={{
-                  transform: `translateY(${scrollY * 0.025}px)`,
+                  // transform: `translateY(${scrollY * 0.025}px)`,
                 }}
               >
                 <div className="w-8 h-8 border border-gray-500 rounded-full"></div>
@@ -335,7 +335,7 @@ const VenbroProducts = () => {
               <div 
                 className="w-16 h-16 border border-gray-300 mx-auto mb-6 flex items-center justify-center"
                 style={{
-                  transform: `translateY(${scrollY * 0.03}px)`,
+                  // transform: `translateY(${scrollY * 0.03}px)`,
                 }}
               >
                 <div className="w-6 h-6 border-2 border-gray-500"></div>
@@ -375,7 +375,7 @@ const VenbroProducts = () => {
             <div 
               className="relative"
               style={{
-                transform: `translateY(${scrollY * 0.1}px)`,
+                // transform: `translateY(${scrollY * 0.1}px)`,
               }}
             >
               <div className="bg-gray-100 p-8 border border-gray-200">

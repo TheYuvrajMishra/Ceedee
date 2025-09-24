@@ -1,5 +1,6 @@
 type LandingPageData = {
   hero: {
+    logo: string;
     title: string;
     subtitle: string;
     tagline: string;
@@ -73,6 +74,7 @@ type LandingPageData = {
 
 export const venbroData: LandingPageData = {
   hero: {
+    logo:"/venbro_logo.png",
     title: "Venbro Polymers",
     subtitle: "~By Ceedee Group",
     tagline: "20+ Years of Industrial Experience",

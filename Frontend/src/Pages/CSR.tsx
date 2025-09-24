@@ -171,6 +171,7 @@ const InitiativeCard = ({ csr, index, onClick }: { csr: CSR; index: number; onCl
       }}
       onClick={onClick}
     >
+      
       <div className="p-8">
         <div className="flex items-start justify-between mb-6">
           <div className="flex items-center gap-4">
@@ -374,6 +375,7 @@ export default function CSRPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <title>Ceedee's | Corporate Social Responsibility</title>
       {/* Hero Section */}
       <section className="relative py-24 bg-gray-900 text-white overflow-hidden">
         <div 

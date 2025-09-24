@@ -193,7 +193,7 @@ const SKAEServices = () => {
       {/* Hero Section */}
       <section className="relative py-24 bg-gray-900 text-white overflow-hidden">
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-20"
+          className="absolute inset-0 bg-cover bg-fixed bg-center opacity-20"
           style={{
             // transform: `translateY(${parallaxOffset}px)`,
             backgroundImage: `url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
@@ -258,7 +258,7 @@ const SKAEServices = () => {
                     <img 
                       src={service.image}
                       alt={service.name}
-                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"
+                      className="w-full h-full object-cover  hover:-0 transition-all duration-300"
                     />
                   </div>
                 </div>

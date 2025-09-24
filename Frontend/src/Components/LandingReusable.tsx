@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router";
 
 // --- TYPE DEFINITIONS (Unchanged) ---
 interface HeroData {
+  logo: string;
   title: string;
   subtitle?: string;
   tagline: string;
@@ -154,9 +155,13 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
           }}
         />
         <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-6">
-          <h1 className="text-4xl md:text-6xl font-light mb-4 tracking-wide">
+          {data.hero.logo === "/venbro_logo.png" ? <><img src={data.hero.logo} className="mx-auto h-40" alt="" /> <h1 className="text-4xl md:text-6xl font-light mb-4 tracking-wide">
             {data.hero.title}
-          </h1>
+          </h1> </>: <img src={data.hero.logo} className="mx-auto h-25 md:h-50" alt="" />}
+          
+          {/* <h1 className="text-4xl md:text-6xl font-light mb-4 tracking-wide">
+            {data.hero.title}
+          </h1> */}
           {data.hero.subtitle && (
             <div className="text-xl md:text-2xl font-light mb-6 opacity-90">
               {data.hero.subtitle}
@@ -197,10 +202,6 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
             </Link>
           </div>
         </div>
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white">
-          <div className="w-px h-16 bg-white opacity-50 mx-auto mb-2"></div>
-          <p className="text-sm tracking-widest">SCROLL</p>
-        </div>
       </section>
 
       {/* Legacy Section */}
@@ -229,7 +230,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
               <img
                 src={data.legacy.image}
                 alt={data.legacy.imageAlt}
-                className="w-full h-full object-cover grayscale"
+                className="w-full h-full object-cover "
               />
             </div>
           </div>
@@ -255,7 +256,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
                   <img
                     src={card.image}
                     alt={card.imageAlt}
-                    className="w-full h-full object-cover grayscale"
+                    className="w-full h-full object-cover "
                   />
                 </div>
                 <h3 className="text-2xl font-light text-gray-900 mb-4">
@@ -282,7 +283,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
               <img
                 src={data.services.image}
                 alt={data.services.imageAlt}
-                className="w-full h-96 object-cover grayscale"
+                className="w-full h-96 object-cover "
               />
             </div>
             <div>
@@ -341,7 +342,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
               <img
                 src={data.certification.image}
                 alt={data.certification.imageAlt}
-                className="w-full h-full object-cover grayscale"
+                className="w-full h-full object-cover "
               />
             </div>
           </div>
@@ -365,7 +366,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
             <img
               src={data.experience.image}
               alt={data.experience.imageAlt}
-              className="w-full h-full object-cover grayscale"
+              className="w-full h-full object-cover "
             />
           </div>
           <div className="grid md:grid-cols-2 gap-12">

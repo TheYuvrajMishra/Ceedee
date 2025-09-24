@@ -63,7 +63,7 @@ const PartnerSection: React.FC = () => {
         <img
           src={partner.logo}
           alt={partner.name}
-          className="max-w-32 max-h-16 object-contain grayscale hover:grayscale-0 transition-all duration-300"
+          className="max-w-32 max-h-16 object-contain  hover:-0 transition-all duration-300"
           onError={(e) => {
             const target = e.currentTarget;
             target.style.display = "none";
