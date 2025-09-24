@@ -26,7 +26,6 @@ handleUncaughtException();
 app.use(helmet(helmetConfig));
 app.use(customSecurityHeaders);
 app.use(globalLimiter);
-app.use(cors())
 
 // SECURITY: Enhanced request size limits and validation
 const REQUEST_LIMITS = {
@@ -86,10 +85,31 @@ app.use(express.urlencoded({
 }));
 
 // SECURITY: Enhanced CORS configuration
+const allowedOrigins = [
+  // Explicit env-configured frontends
+  process.env.FRONTEND_URL,
+  process.env.FRONTEND_URL_2,
+  process.env.FRONTEND_URL_3,
+  // Local development
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'http://localhost:5174'
+].filter(Boolean);
+
+const allowedOriginPatterns = [
+  // Allow Vercel preview/prod frontend domains
+  /https?:\/\/.+\.vercel\.app$/i
+];
+
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? [process.env.FRONTEND_URL || 'https://yourdomain.com']
-    : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174'],
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // Server-to-server, curl, Postman
+    const isAllowed =
+      allowedOrigins.includes(origin) ||
+      allowedOriginPatterns.some((re) => re.test(origin));
+    if (isAllowed) return callback(null, true);
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD'],
   allowedHeaders: [
@@ -103,8 +123,11 @@ app.use(cors({
   ],
   exposedHeaders: ['X-Request-ID', 'X-API-Version'],
   maxAge: 86400,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 204
 }));
+
+// Handle preflight requests early
+app.options('*', cors());
 
 // SECURITY: Sanitize MongoDB queries to prevent NoSQL injection
 app.use(mongoSanitize({
