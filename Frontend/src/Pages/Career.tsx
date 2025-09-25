@@ -175,19 +175,19 @@ const ApplicationModal = ({
                   - Go side-by-side on larger screens (`sm:flex-row`).
               */}
                 <button
+                  type="submit"
+                  className="w-full px-6 py-3 cursor-pointer bg-gray-900 text-white rounded-md font-light tracking-wider text-sm hover:bg-gray-800 disabled:bg-gray-400 transition-colors"
+                  disabled={submitting}
+                >
+                  {submitting ? "SUBMITTING..." : "SUBMIT"}
+                </button>
+                <button
                   type="button"
                   onClick={onClose}
                   className="w-full px-6 cursor-pointer py-3 border border-gray-300 rounded-md text-gray-700 font-light tracking-wider text-sm hover:bg-gray-50 transition-colors"
                   disabled={submitting}
                 >
                   CANCEL
-                </button>
-                <button
-                  type="submit"
-                  className="w-full px-6 py-3 cursor-pointer bg-gray-900 text-white rounded-md font-light tracking-wider text-sm hover:bg-gray-800 disabled:bg-gray-400 transition-colors"
-                  disabled={submitting}
-                >
-                  {submitting ? "SUBMITTING..." : "SUBMIT"}
                 </button>
               </div>
             </form>
