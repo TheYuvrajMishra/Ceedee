@@ -63,7 +63,7 @@ const CeedeeHomepage = () => {
 
         {/* Hero Content */}
         <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-6">
-          <Link to="/" className="flex flex-col items-center mb-6 space-x-3">
+          <Link to="/" className="flex flex-col items-center mt-5 md:mt-0  mb-6 space-x-3">
             <div className="w-30 h-30 rounded-lg overflow-hidden">
               <img
                 src="/logo.png"
@@ -71,11 +71,14 @@ const CeedeeHomepage = () => {
                 className="w-full h-full object-contain"
               />
             </div>
-            <img
+            {/* <img
               src="/logo_title.png"
               alt="Company Name"
               className="h-20 object-contain"
-            />
+            /> */}
+            <h1 className="text-4xl md:text-6xl text-amber-700 font-regular mb-4 tracking-wide">
+            Ceedee Group
+          </h1>
           </Link>
           <div className="w-32 h-px bg-white mx-auto mb-8"></div>
           <p className="text-xl md:text-2xl font-light mb-6">
