@@ -66,37 +66,56 @@ const CSRModal = ({
   };
 
   return (
+    // OVERLAY:
+    // - On mobile (`items-start`), the modal aligns to the top with some padding.
+    // - On larger screens (`sm:items-center`), it centers vertically.
     <div
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex justify-center items-center p-4"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-start sm:items-center justify-center p-4"
       onClick={onClose}
     >
+      {/* MODAL CONTAINER:
+        - `max-h-[90vh]` and `max-w-4xl` ensure it never overflows the screen.
+        - `overflow-y-auto` handles content scrolling within the modal.
+        - Added a top margin/padding for mobile view (`mt-8 sm:mt-0`).
+    */}
       <div
-        className="relative bg-white shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
+        className="relative bg-white shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto mt-8 sm:mt-0"
         onClick={(e) => e.stopPropagation()}
       >
+        {/* CLOSE BUTTON:
+          - Adjusted position to be tighter on mobile and looser on desktop.
+          - Slightly larger font size for an easier tap target.
+      */}
         <button
           onClick={onClose}
-          className="absolute top-6 cursor-pointer right-6 text-gray-400 hover:text-gray-700 z-10 text-2xl leading-none"
+          className="absolute top-4 right-4 md:top-6 md:right-6 text-gray-500 hover:text-gray-900 z-10 text-3xl leading-none transition-colors"
+          aria-label="Close modal"
         >
-          ×
+          &times;
         </button>
 
-        <div className="p-8 md:p-12">
+        {/* CONTENT PADDING: Reduced padding on mobile, increased on desktop. */}
+        <div className="p-6 md:p-12">
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 border border-gray-300 flex items-center justify-center text-2xl">
+            {/* ICON: Smaller on mobile, larger on desktop. */}
+            <div className="w-12 h-12 md:w-16 md:h-16 border border-gray-300 flex items-center justify-center text-xl md:text-2xl flex-shrink-0">
               {categoryConfig[csr.category].symbol}
             </div>
-            <div>
-              <p className="text-sm font-light tracking-wider text-gray-600 mb-2">
+            <div className="min-w-0">
+              {" "}
+              {/* Helps with text wrapping/truncation if needed */}
+              <p className="text-sm font-light tracking-wider text-gray-600 mb-1 md:mb-2">
                 {csr.category.toUpperCase()}
               </p>
-              <h2 className="text-3xl md:text-4xl font-light text-gray-900">
+              {/* TITLE: Font size is already responsive. `break-words` prevents overflow from long words. */}
+              <h2 className="text-3xl md:text-4xl font-light text-gray-900 break-words">
                 {csr.title}
               </h2>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 text-gray-600 mb-8 pb-8 border-b border-gray-200">
+          {/* META INFO: Layout is already responsive (`flex-col sm:flex-row`). */}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-x-6 gap-y-4 text-gray-600 mb-8 pb-8 border-b border-gray-200">
             <div
               className={`px-4 py-2 text-xs font-light tracking-wider border border-gray-300 ${
                 statusConfig[csr.status].bg
@@ -105,13 +124,13 @@ const CSRModal = ({
               {csr.status.toUpperCase()}
             </div>
             {csr.location && (
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 border border-gray-400 rounded-full"></div>
+              <div className="flex items-center gap-2 min-w-0 truncate">
+                <div className="w-3 h-3 border border-gray-400 rounded-full flex-shrink-0"></div>
                 {csr.location}
               </div>
             )}
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 border border-gray-400"></div>
+              <div className="w-3 h-3 border border-gray-400 flex-shrink-0"></div>
               <span>{formatDate(csr.startDate)}</span>
               {csr.endDate && (
                 <>
@@ -122,7 +141,8 @@ const CSRModal = ({
             </div>
           </div>
 
-          <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed mb-8">
+          {/* DESCRIPTION: Use responsive prose classes for optimal reading on any screen size. */}
+          <div className="prose md:prose-lg max-w-none text-gray-800 leading-relaxed mb-8">
             {csr.description.split("\n").map((paragraph, index) => (
               <p key={index} className="mb-4">
                 {paragraph}
@@ -131,13 +151,14 @@ const CSRModal = ({
           </div>
 
           {csr.impact && (
-            <div className="bg-gray-50 p-8 border-l-2 border-gray-900 mb-8">
-              <h4 className="font-light text-gray-900 mb-4 text-sm tracking-wider">
-                IMPACT & OUTCOMES
+            // IMPACT SECTION: Padding is now responsive.
+            <div className="bg-gray-50 p-6 md:p-8 border-l-4 border-gray-800 mb-8">
+              <h4 className="font-light text-gray-900 mb-4 text-sm tracking-wider uppercase">
+                Impact & Outcomes
               </h4>
               <div className="text-gray-700 leading-relaxed italic">
                 {csr.impact.split("\n").map((paragraph, index) => (
-                  <p key={index} className="mb-3">
+                  <p key={index} className="mb-3 last:mb-0">
                     {paragraph}
                   </p>
                 ))}
