@@ -164,70 +164,84 @@ const InitiativeCard = ({ csr, index, onClick }: { csr: CSR; index: number; onCl
   };
 
   return (
-    <div
-      className="bg-white border border-gray-200 hover:border-gray-900 transition-colors duration-300 group cursor-pointer"
-      style={{
-        transform: `translateY(${scrollY * 0.02 * (index + 1)}px)`,
-      }}
-      onClick={onClick}
-    >
-      
-      <div className="p-8">
-        <div className="flex items-start justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 border border-gray-300 flex items-center justify-center text-lg">
-              {categoryConfig[csr.category].symbol}
-            </div>
-            <div>
-              <p className="text-sm font-light tracking-wider text-gray-600 mb-1">
-                {csr.category.toUpperCase()}
-              </p>
-              <h3 className="text-xl font-light text-gray-900 group-hover:text-black transition-colors">
-                {csr.title}
-              </h3>
-            </div>
+  <div
+    // This parallax effect is maintained. It's generally fine on mobile,
+    // but you might consider disabling it on smaller screens for performance if needed.
+    className="bg-white border border-gray-200 hover:border-gray-900 transition-colors duration-300 group cursor-pointer"
+    style={{
+      transform: `translateY(${scrollY * 0.02 * (index + 1)}px)`,
+    }}
+    onClick={onClick}
+  >
+    {/* Use less padding on mobile and increase it for larger screens */}
+    <div className="p-5 md:p-8">
+      {/* Header Section:
+        - On mobile (`flex-col`), the title/category and status badge are stacked vertically with a gap.
+        - On medium screens and up (`md:flex-row`), they switch to a side-by-side layout.
+      */}
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 md:gap-2 mb-6">
+        <div className="flex items-center gap-4">
+          {/* Icon size can be adjusted for mobile vs. desktop if desired, but 12x12 is often fine */}
+          <div className="w-12 h-12 border border-gray-300 flex items-center justify-center text-lg flex-shrink-0">
+            {categoryConfig[csr.category].symbol}
           </div>
-          <div
-            className={`px-3 py-1 text-xs font-light tracking-wider border border-gray-300 ${
-              statusConfig[csr.status].bg
-            } ${statusConfig[csr.status].color}`}
-          >
-            {csr.status.toUpperCase()}
+          <div>
+            <p className="text-sm font-light tracking-wider text-gray-600 mb-1">
+              {csr.category.toUpperCase()}
+            </p>
+            {/* Slightly smaller heading on mobile for better balance */}
+            <h3 className="text-lg md:text-xl font-light text-gray-900 group-hover:text-black transition-colors">
+              {csr.title}
+            </h3>
           </div>
         </div>
-
-        {csr.location && (
-          <div className="flex items-center gap-2 mb-4 text-sm text-gray-600">
-            <div className="w-4 h-4 border border-gray-400 rounded-full"></div>
-            {csr.location}
-          </div>
-        )}
-
-        <div className="mb-6">
-          <p className="text-gray-700 leading-relaxed">
-            {csr.description.slice(0, 150)}
-            {csr.description.length > 150 ? "..." : ""}
-          </p>
+        {/* The status badge aligns to the start of the flex container on mobile */}
+        <div
+          className={`px-3 py-1 text-xs font-light tracking-wider border border-gray-300 self-start md:self-auto ${
+            statusConfig[csr.status].bg
+          } ${statusConfig[csr.status].color}`}
+        >
+          {csr.status.toUpperCase()}
         </div>
+      </div>
 
-        <div className="border-t border-gray-200 pt-6 flex items-center justify-between">
-          <div className="text-xs text-gray-500 flex items-center gap-2">
-            <div className="w-3 h-3 border border-gray-400"></div>
-            <span>{formatDate(csr.startDate)}</span>
-            {csr.endDate && (
-              <>
-                <span>-</span>
-                <span>{formatDate(csr.endDate)}</span>
-              </>
-            )}
-          </div>
-          <div className="text-gray-900 text-sm font-light tracking-wider hover:underline transition-colors">
-            VIEW DETAILS →
-          </div>
+      {csr.location && (
+        <div className="flex items-center gap-2 mb-4 text-sm text-gray-600">
+          <div className="w-4 h-4 border border-gray-400 rounded-full flex-shrink-0"></div>
+          {csr.location}
+        </div>
+      )}
+
+      <div className="mb-6">
+        {/* The description truncation logic remains the same */}
+        <p className="text-gray-700 leading-relaxed">
+          {csr.description.slice(0, 150)}
+          {csr.description.length > 150 ? "..." : ""}
+        </p>
+      </div>
+
+      {/* Footer Section:
+        - On mobile (`flex-col`), the date and "VIEW DETAILS" link are stacked.
+        - On small screens and up (`sm:flex-row`), they sit side-by-side.
+      */}
+      <div className="border-t border-gray-200 pt-6 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="text-xs text-gray-500 flex items-center gap-2">
+          <div className="w-3 h-3 border border-gray-400 flex-shrink-0"></div>
+          <span>{formatDate(csr.startDate)}</span>
+          {csr.endDate && (
+            <>
+              <span>-</span>
+              <span>{formatDate(csr.endDate)}</span>
+            </>
+          )}
+        </div>
+        <div className="text-gray-900 text-sm font-light tracking-wider hover:underline transition-colors">
+          VIEW DETAILS →
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 // --- MAIN PAGE COMPONENT ---
