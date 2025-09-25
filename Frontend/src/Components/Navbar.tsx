@@ -24,6 +24,7 @@ const NAV_LINKS = [
   { to: '/news-and-events', label: 'News & Events', icon: '•'},
   { to: '/careers', label: 'Careers', icon: '•'},
   { to: '/contact', label: 'Contact us', icon: '•'},
+  { to: '/about', label: 'About', icon: '•'},
 ];
 
 const Header = () => {

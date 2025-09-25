@@ -7,6 +7,7 @@ import AdminDashboard from "./Pages/Admin/AdminDashboard";
 import VenbroProducts from "./Pages/Venbro Polymer/Products";
 import SKAEServices from "./Pages/Shri Krishnan/Services";
 import ScrollToTop from "./Components/Effects/ScrolltoTop";
+import About from "./Pages/About";
 
 // Lazily load page components for better performance
 const MainPage = lazy(() => import("./Pages/Main/MainPage"));
@@ -48,6 +49,7 @@ function App() {
           <Route element={<PublicLayout />}>
             <Route path="/" element={<MainPage />} />
             <Route path="/careers" element={<Career />} />
+            <Route path="/about" element={<About />} />
             <Route path="/contact" element={<ContactForm />} />
             <Route path="/csr" element={<CSR />} />
             <Route path="/news-and-events" element={<NewsAndEvents />} />

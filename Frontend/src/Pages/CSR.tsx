@@ -174,20 +174,12 @@ const CSRModal = ({
 // --- CARD COMPONENT ---
 const InitiativeCard = ({
   csr,
-  index,
   onClick,
 }: {
   csr: CSR;
   index: number;
   onClick: () => void;
 }) => {
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return "N/A";
@@ -202,7 +194,7 @@ const InitiativeCard = ({
     <div
       className="bg-white border border-gray-200 hover:border-gray-900 transition-colors duration-300 group cursor-pointer"
       style={{
-        transform: `translateY(${scrollY * 0.02 * (index + 1)}px)`,
+        // transform: `translateY(${scrollY * 0.02 * (index + 1)}px)`,
       }}
       onClick={onClick}
     >
@@ -283,7 +275,7 @@ export default function CSRPage() {
   const [csrs, setCsrs] = useState<CSR[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [scrollY, setScrollY] = useState(0);
+  // const [scrollY, setScrollY] = useState(0);
   const [selectedCSR, setSelectedCSR] = useState<CSR | null>(null);
   const [filterCategory, setFilterCategory] = useState<"all" | CSR["category"]>(
     "all"
@@ -292,11 +284,6 @@ export default function CSRPage() {
     "all"
   );
 
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     const fetchCsrs = async () => {
@@ -345,7 +332,7 @@ export default function CSRPage() {
     "Planned",
   ];
 
-  const parallaxOffset = scrollY * 0.3;
+  // const parallaxOffset = scrollY * 0.3;
 
   const handleCSRClick = (csr: CSR) => {
     setSelectedCSR(csr);
@@ -427,9 +414,9 @@ export default function CSRPage() {
       {/* Hero Section */}
       <section className="relative py-24 bg-gray-900 text-white overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-20"
+          className="absolute inset-0 bg-cover bg-fixed bg-center opacity-20"
           style={{
-            transform: `translateY(${parallaxOffset}px)`,
+            // transform: `translateY(${parallaxOffset}px)`,
             backgroundImage: `url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
           }}
         />
@@ -448,6 +435,309 @@ export default function CSRPage() {
       </section>
 
       {/* Main Content */}
+      {/* Statistics Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
+              Our Impact
+            </h2>
+            <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Measuring our contribution to society and sustainable development
+            </p>
+          </div>
+
+          <div
+            className="grid md:grid-cols-4 gap-8"
+            style={{
+              // transform: `translateY(${scrollY * 0.05}px)`,
+            }}
+          >
+            <div className="text-center">
+              <div className="text-4xl font-light text-gray-900 mb-2">
+                {csrs.filter((c) => c.category === "Education").length}
+              </div>
+              <div className="text-sm text-gray-600 tracking-wider">
+                EDUCATION PROJECTS
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-light text-gray-900 mb-2">
+                {csrs.filter((c) => c.category === "Healthcare").length}
+              </div>
+              <div className="text-sm text-gray-600 tracking-wider">
+                HEALTHCARE INITIATIVES
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-light text-gray-900 mb-2">
+                {csrs.filter((c) => c.category === "Environment").length}
+              </div>
+              <div className="text-sm text-gray-600 tracking-wider">
+                ENVIRONMENT PROJECTS
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-light text-gray-900 mb-2">
+                {csrs.filter((c) => c.status === "Completed").length}
+              </div>
+              <div className="text-sm text-gray-600 tracking-wider">
+                COMPLETED PROJECTS
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* --- NGO & Volunteer Engagement Section --- */}
+      <section className="py-24 bg-gray-50 border-t border-b border-gray-200">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
+              Partnerships & Engagement
+            </h2>
+            <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              We believe in the power of collaboration. Our partnerships with
+              leading NGOs and the dedication of our employee volunteers are
+              central to our community impact.
+            </p>
+          </div>
+
+          {/* NGO Partnerships */}
+          <div className="mb-20">
+            <h3 className="text-2xl font-light text-center text-gray-800 mb-12 tracking-wider">
+              Our Valued NGO Partners
+            </h3>
+            {/* Mock NGO Data: Replace image URLs with your actual partner logos */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+              {[
+                {
+                  name: "Community Builders",
+                  logoUrl:
+                    "https://static.vecteezy.com/system/resources/previews/015/277/729/original/social-organization-logo-social-community-logo-template-illustration-eps-10-free-vector.jpg",
+                },
+                {
+                  name: "Green Earth Alliance",
+                  logoUrl:
+                    "https://static.vecteezy.com/system/resources/previews/024/377/820/non_2x/community-people-care-logo-and-symbols-template-free-vector.jpg",
+                },
+                {
+                  name: "Health for All",
+                  logoUrl:
+                    "https://static.vecteezy.com/system/resources/previews/024/373/483/non_2x/community-people-care-logo-and-symbols-template-free-vector.jpg",
+                },
+                {
+                  name: "Future Scholars",
+                  logoUrl:
+                    "https://tse1.mm.bing.net/th/id/OIP.X-EiPAtHX57-_QEgAO851AAAAA?rs=1&pid=ImgDetMain&o=7&rm=3",
+                },
+              ].map((ngo) => (
+                <div key={ngo.name} className="text-center group">
+                  <a
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cursor-pointer"
+                  >
+                    <img
+                      src={ngo.logoUrl}
+                      alt={`${ngo.name} Logo`}
+                      className="h-20 mx-auto mb-4 filter group-hover:grayscale-0 transition-all duration-300 ease-in-out"
+                    />
+                    <p className="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">
+                      {ngo.name}
+                    </p>
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Employee Volunteering & Impact Story */}
+          <div className="grid md:grid-cols-5 gap-12 items-center">
+            {/* Volunteer Program Details (3/5 width) */}
+            <div className="md:col-span-3">
+              <h3 className="text-3xl font-light text-gray-900 mb-6">
+                Employee Volunteer Program
+              </h3>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                Our employees are our greatest asset in driving change. We
+                provide paid time off for volunteering and match employee
+                donations to empower them to support the causes they care about
+                most.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-8 mb-8 text-center sm:text-left">
+                <div>
+                  <div className="text-4xl font-light text-gray-900">
+                    10,000+
+                  </div>
+                  <div className="text-xs text-gray-600 tracking-wider">
+                    HOURS VOLUNTEERED IN 2024
+                  </div>
+                </div>
+                <div>
+                  <div className="text-4xl font-light text-gray-900">50+</div>
+                  <div className="text-xs text-gray-600 tracking-wider">
+                    NON-PROFITS SUPPORTED
+                  </div>
+                </div>
+              </div>
+              <Link
+                to="/careers#volunteering" // Example link to a section on the careers page
+                className="border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm inline-block"
+              >
+                LEARN MORE
+              </Link>
+            </div>
+
+            {/* Impact Story (2/5 width) */}
+            <div className="md:col-span-2 bg-white p-8 border border-gray-200">
+              <h4 className="font-light text-gray-900 mb-4 text-sm tracking-wider uppercase text-center">
+                Story from the Field
+              </h4>
+              <div className="text-center text-xl text-gray-400 font-light mb-4">
+                &ldquo;
+              </div>
+              <blockquote className="text-center">
+                <p className="text-lg font-light text-gray-800 italic leading-relaxed mb-4">
+                  The literacy program has been a game-changer for our
+                  community's children. Seeing their confidence grow is the
+                  greatest reward.
+                </p>
+                <footer className="text-sm text-gray-600">
+                  - Maria Garcia, Director at Future Scholars
+                </footer>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* --- Visual Impact & Stories Section --- */}
+      <section className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
+              Stories of Real Impact
+            </h2>
+            <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Behind every project are people whose lives have been touched.
+              Explore the tangible differences we're making.
+            </p>
+          </div>
+
+          {/* Image Gallery */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <div className="relative group overflow-hidden">
+              {" "}
+              {/* Image 1 */}
+              <img
+                src="https://tse3.mm.bing.net/th/id/OIP.12S1EbL7bxOLtFmO-IKZ6QHaE8?rs=1&pid=ImgDetMain&o=7&rm=3"
+                alt="Children in an education program"
+                className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"
+              />
+              <div className="absolute inset-0 bg-gray-900/20 bg-opacity-40 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="text-white text-lg font-light">
+                  Supporting local schools with new learning materials.
+                </p>
+              </div>
+            </div>
+            <div className="relative group overflow-hidden">
+              {" "}
+              {/* Image 2 */}
+              <img
+                src="https://tse3.mm.bing.net/th/id/OIP.GEhBS_wUGtcUNIqZRJHihAHaFj?rs=1&pid=ImgDetMain&o=7&rm=3"
+                alt="Community garden project"
+                className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"
+              />
+              <div className="absolute inset-0 bg-gray-900/20 bg-opacity-40 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="text-white text-lg font-light">
+                  Establishing sustainable community gardens for food security.
+                </p>
+              </div>
+            </div>
+            <div className="relative group overflow-hidden">
+              {" "}
+              {/* Image 3 */}
+              <img
+                src="https://tse2.mm.bing.net/th/id/OIP.YDR2AGVtg__2npjQO-m23AHaFj?rs=1&pid=ImgDetMain&o=7&rm=3"
+                alt="Medical outreach program"
+                className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"
+              />
+              <div className="absolute inset-0 bg-gray-900/20 bg-opacity-40 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="text-white text-lg font-light">
+                  Providing essential health check-ups in underserved areas.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Key Achievements & Testimonials */}
+          <div className="grid md:grid-cols-2 gap-12">
+            <div>
+              <h3 className="text-3xl font-light text-gray-900 mb-6">
+                Our Key Achievements
+              </h3>
+              <ul className="list-none space-y-4 text-gray-700 leading-relaxed">
+                <li className="flex items-start">
+                  <span className="text-green-500 text-xl mr-3">✓</span>
+                  <div>
+                    <strong className="font-medium">1,500+ Children Educated:</strong>
+                    Provided access to quality education for over a thousand
+                    children in rural communities.
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 text-xl mr-3">✓</span>
+                  <div>
+                    <strong className="font-medium">500 Hectares Reforested:</strong>
+                    Contributed to environmental sustainability by planting
+                    trees across vast areas.
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 text-xl mr-3">✓</span>
+                  <div>
+                    <strong className="font-medium">20,000 Meals Distributed:</strong>
+                    Supported food banks and community kitchens to combat food
+                    insecurity.
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-3xl font-light text-gray-900 mb-6">
+                Voices from Our Community
+              </h3>
+              <div className="space-y-8">
+                <blockquote className="bg-gray-50 p-6 border-l-4 border-gray-200">
+                  <p className="text-lg font-light text-gray-800 italic leading-relaxed mb-4">
+                    "The clean water project has dramatically improved health
+                    in our village. We are incredibly grateful for Ceedee's
+                    support."
+                  </p>
+                  <footer className="text-sm text-gray-600">
+                    - Aisha Khan, Village Elder
+                  </footer>
+                </blockquote>
+                <blockquote className="bg-gray-50 p-6 border-l-4 border-gray-200">
+                  <p className="text-lg font-light text-gray-800 italic leading-relaxed mb-4">
+                    "Volunteering with Ceedee has allowed me to give back
+                    meaningfully. It's truly rewarding to see the difference we
+                    make."
+                  </p>
+                  <footer className="text-sm text-gray-600">
+                    - David Chen, Ceedee Employee Volunteer
+                  </footer>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Initiatives Section */}
       <section className="py-24 bg-white">
         <div className="max-w-6xl mx-auto px-6">
           {/* Filters */}
@@ -500,62 +790,7 @@ export default function CSRPage() {
           {renderContent()}
         </div>
       </section>
-
-      {/* Statistics Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
-              Our Impact
-            </h2>
-            <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Measuring our contribution to society and sustainable development
-            </p>
-          </div>
-
-          <div
-            className="grid md:grid-cols-4 gap-8"
-            style={{
-              transform: `translateY(${scrollY * 0.05}px)`,
-            }}
-          >
-            <div className="text-center">
-              <div className="text-4xl font-light text-gray-900 mb-2">
-                {csrs.filter((c) => c.category === "Education").length}
-              </div>
-              <div className="text-sm text-gray-600 tracking-wider">
-                EDUCATION PROJECTS
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-light text-gray-900 mb-2">
-                {csrs.filter((c) => c.category === "Healthcare").length}
-              </div>
-              <div className="text-sm text-gray-600 tracking-wider">
-                HEALTHCARE INITIATIVES
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-light text-gray-900 mb-2">
-                {csrs.filter((c) => c.category === "Environment").length}
-              </div>
-              <div className="text-sm text-gray-600 tracking-wider">
-                ENVIRONMENT PROJECTS
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-light text-gray-900 mb-2">
-                {csrs.filter((c) => c.status === "Completed").length}
-              </div>
-              <div className="text-sm text-gray-600 tracking-wider">
-                COMPLETED PROJECTS
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      
       {/* CTA Section */}
       <section className="py-24 bg-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
