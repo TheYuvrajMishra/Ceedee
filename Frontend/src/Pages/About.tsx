@@ -87,7 +87,6 @@ const TimelineItem = ({
   );
 };
 
-
 // --- Main About Page Component ---
 export default function AboutPage() {
   const [scrollY, setScrollY] = useState(0);

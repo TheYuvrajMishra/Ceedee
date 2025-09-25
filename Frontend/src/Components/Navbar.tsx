@@ -22,6 +22,7 @@ const NAV_LINKS = [
   },
   { to: '/csr', label: 'CSR Activities', icon: '•'},
   { to: '/news-and-events', label: 'News & Events', icon: '•'},
+  { to: '/dot-philosophy', label: 'Dot Philosophy', icon: '•'},
   { to: '/careers', label: 'Careers', icon: '•'},
   { to: '/contact', label: 'Contact us', icon: '•'},
   { to: '/about', label: 'About', icon: '•'},
