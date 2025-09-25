@@ -61,36 +61,68 @@ const ApplicationModal = ({
   };
 
   return (
+    // OVERLAY:
+    // - On mobile (`items-start`), the modal aligns to the top.
+    // - On larger screens (`sm:items-center`), it centers vertically.
     <div
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 p-4"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-start sm:items-center justify-center p-4"
       onClick={onClose}
     >
+      {/* MODAL CONTAINER:
+        - Added `relative` to correctly position the close button.
+        - Added `rounded-lg` for a modern look.
+        - Added scrolling (`overflow-y-auto`) and `max-h-[90vh]` for long content or small screens.
+        - Added `mt-12 sm:mt-0` to give it space from the top on mobile.
+    */}
       <div
-        className="bg-white rounded-none shadow-2xl w-full max-w-md"
+        className="relative bg-white rounded-lg shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto mt-12 sm:mt-0"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-8 py-6 border-b border-gray-200">
-          <h3 className="text-2xl font-light text-gray-900">
+        {/* HEADER:
+          - Padding is reduced on mobile (`p-6`) for better use of space.
+          - Heading font size is smaller on mobile (`text-xl`).
+      */}
+        <div className="p-6 border-b border-gray-200">
+          <h3 className="text-xl sm:text-2xl font-light text-gray-900">
             Apply for Position
           </h3>
-          <p className="text-sm text-gray-600 mt-1">{job.title}</p>
+          <p className="text-sm text-gray-600 mt-1 truncate">{job.title}</p>
+          {/* CLOSE BUTTON:
+            - Position is now correct relative to the modal.
+            - Position adjusted to match new padding.
+            - Font size increased for an easier tap target.
+        */}
           <button
             onClick={onClose}
-            className="absolute top-6 cursor-pointer right-6 text-gray-400 hover:text-gray-700 text-2xl leading-none"
+            className="absolute top-4 right-4 text-gray-500 hover:text-gray-900 z-10 text-3xl leading-none transition-colors"
+            aria-label="Close modal"
           >
-            ×
+            &times;
           </button>
         </div>
 
-        <div className="p-8">
+        {/* BODY: Padding is also reduced on mobile to match the header. */}
+        <div className="p-6">
           {submitSuccess ? (
             <div className="text-center">
-              <div className="w-16 h-16 border-2 border-gray-900 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              {/* SUCCESS ICON: Smaller on mobile, larger on desktop. */}
+              <div className="w-12 h-12 sm:w-16 sm:h-16 border-2 border-gray-900 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg
+                  className="w-6 h-6 sm:w-8 sm:h-8 text-gray-900"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
                 </svg>
               </div>
-              <h4 className="text-xl font-light text-gray-900 mb-4">
+              {/* SUCCESS TITLE: Font size is responsive. */}
+              <h4 className="text-lg sm:text-xl font-light text-gray-900 mb-4">
                 Application Submitted
               </h4>
               <p className="text-gray-600 mb-8 leading-relaxed">
@@ -114,7 +146,7 @@ const ApplicationModal = ({
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-gray-900 transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
                   placeholder="Enter your full name"
                   required
                 />
@@ -127,28 +159,32 @@ const ApplicationModal = ({
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-gray-900 transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-gray-900 transition-colors"
                   placeholder="Enter your email address"
                   required
                 />
               </div>
               {submitError && (
-                <div className="p-4 bg-red-50 border border-red-200">
+                <div className="p-4 bg-red-50 border border-red-200 rounded-md">
                   <p className="text-red-700 text-sm">{submitError}</p>
                 </div>
               )}
-              <div className="flex gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                {/* BUTTONS:
+                  - Stack vertically on mobile (`flex-col`).
+                  - Go side-by-side on larger screens (`sm:flex-row`).
+              */}
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 px-6 cursor-pointer py-3 border border-gray-300 text-gray-700 font-light tracking-wider text-sm hover:bg-gray-50 transition-colors"
+                  className="w-full px-6 cursor-pointer py-3 border border-gray-300 rounded-md text-gray-700 font-light tracking-wider text-sm hover:bg-gray-50 transition-colors"
                   disabled={submitting}
                 >
                   CANCEL
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-6 py-3 cursor-pointer bg-gray-900 text-white font-light tracking-wider text-sm hover:bg-gray-800 disabled:bg-gray-400 transition-colors"
+                  className="w-full px-6 py-3 cursor-pointer bg-gray-900 text-white rounded-md font-light tracking-wider text-sm hover:bg-gray-800 disabled:bg-gray-400 transition-colors"
                   disabled={submitting}
                 >
                   {submitting ? "SUBMITTING..." : "SUBMIT"}
@@ -177,8 +213,8 @@ const CareerPage = () => {
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -247,36 +283,45 @@ const CareerPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-        <title>Ceedee's | Careers</title>
-      {/* Hero Section */}
-      <section className="relative py-24 bg-gray-900 text-white overflow-hidden">
-        <div 
+      <title>Ceedee's | Careers</title>
+
+      {/* HERO SECTION:
+        - Padding and font sizes are adjusted for a tighter mobile view.
+    */}
+      <section className="relative py-16 md:py-24 bg-gray-900 text-white overflow-hidden">
+        <div
           className="absolute inset-0 bg-cover bg-center opacity-20"
           style={{
             transform: `translateY(${scrollY * 0.3}px)`,
             backgroundImage: `url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
           }}
         />
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+        {/* Use less horizontal padding on the smallest screens. */}
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
           <h1 className="text-4xl md:text-6xl font-light mb-6 tracking-wide">
             Careers
           </h1>
           <div className="w-24 h-px bg-white mx-auto mb-8"></div>
-          <p className="text-xl font-light mb-4">
+          {/* Responsive font sizes for subtitles. */}
+          <p className="text-lg sm:text-xl font-light mb-4">
             Join Our Growing Team
           </p>
-          <p className="text-lg opacity-90 max-w-3xl mx-auto leading-relaxed">
-            Discover opportunities across our diversified portfolio of companies 
+          <p className="text-base sm:text-lg opacity-90 max-w-3xl mx-auto leading-relaxed">
+            Discover opportunities across our diversified portfolio of companies
             and build a career that makes a difference
           </p>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          {/* Filters */}
-          <div className="mb-16">
+      {/* MAIN CONTENT:
+        - Section padding is reduced on mobile.
+    */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          {/* FILTERS:
+            - The `md:grid-cols-2` class makes this section inherently responsive.
+        */}
+          <div className="mb-12 md:mb-16">
             <div className="grid md:grid-cols-2 gap-8 max-w-2xl">
               <div>
                 <label className="block text-sm font-light text-gray-700 mb-3 tracking-wider">
@@ -285,7 +330,7 @@ const CareerPage = () => {
                 <select
                   value={departmentFilter}
                   onChange={(e) => setDepartmentFilter(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-gray-900 transition-colors bg-white"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-gray-900 transition-colors bg-white"
                 >
                   {departments.map((dep) => (
                     <option key={dep} value={dep}>
@@ -301,7 +346,7 @@ const CareerPage = () => {
                 <select
                   value={typeFilter}
                   onChange={(e) => setTypeFilter(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:border-gray-900 transition-colors bg-white"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-gray-900 transition-colors bg-white"
                 >
                   {jobTypes.map((type) => (
                     <option key={type} value={type}>
@@ -313,24 +358,27 @@ const CareerPage = () => {
             </div>
           </div>
 
-          {/* Job Listings */}
+          {/* JOB LISTINGS */}
           {loading ? (
             <div className="space-y-8">
               {[...Array(3)].map((_, i) => (
-                <div key={i} className="border border-gray-200 p-8 animate-pulse">
-                  <div className="h-6 bg-gray-200 w-3/4 mb-4"></div>
+                <div
+                  key={i}
+                  className="border border-gray-200 p-6 md:p-8 animate-pulse"
+                >
+                  <div className="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
                   <div className="flex gap-8 mb-6">
-                    <div className="h-4 bg-gray-200 w-32"></div>
-                    <div className="h-4 bg-gray-200 w-24"></div>
+                    <div className="h-4 bg-gray-200 rounded w-32"></div>
+                    <div className="h-4 bg-gray-200 rounded w-24"></div>
                   </div>
-                  <div className="h-4 bg-gray-200 w-full mb-2"></div>
-                  <div className="h-4 bg-gray-200 w-5/6"></div>
+                  <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-5/6"></div>
                 </div>
               ))}
             </div>
           ) : error ? (
             <div className="text-center py-16">
-              <div className="border border-red-200 bg-red-50 p-8 max-w-md mx-auto">
+              <div className="border border-red-200 bg-red-50 p-8 max-w-md mx-auto rounded-lg">
                 <p className="text-red-700">{error}</p>
               </div>
             </div>
@@ -351,40 +399,46 @@ const CareerPage = () => {
                     transform: `translateY(${scrollY * 0.02 * (index + 1)}px)`,
                   }}
                 >
-                  <div className="p-8">
+                  {/* JOB CARD: Padding and title size are responsive. */}
+                  <div className="p-6 md:p-8">
                     <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
-                      <div className="flex-1">
-                        <h3 className="text-2xl font-light text-gray-900 mb-4 group-hover:text-black transition-colors">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-xl md:text-2xl font-light text-gray-900 mb-4 group-hover:text-black transition-colors break-words">
                           {job.title}
                         </h3>
-                        
-                        <div className="flex flex-col sm:flex-row gap-6 text-sm text-gray-600 mb-6">
+
+                        <div className="flex flex-col sm:flex-row gap-x-6 gap-y-3 text-sm text-gray-600 mb-6">
                           <div className="flex items-center">
-                            <div className="w-4 h-4 border border-gray-400 rounded-full mr-3"></div>
+                            <div className="w-3 h-3 border border-gray-400 rounded-full mr-3 flex-shrink-0"></div>
                             {job.department}
                           </div>
                           <div className="flex items-center">
-                            <div className="w-4 h-4 border border-gray-400 rounded-full mr-3"></div>
+                            <div className="w-3 h-3 border border-gray-400 rounded-full mr-3 flex-shrink-0"></div>
                             {job.location}
                           </div>
                         </div>
-                        
-                        <p className="text-gray-700 leading-relaxed">
+
+                        <p className="text-gray-700 leading-relaxed break-words">
                           {job.description}
                         </p>
                       </div>
-                      
-                      <div className="lg:text-right flex-shrink-0">
+
+                      <div className="lg:text-right flex-shrink-0 w-full lg:w-auto">
                         <div className="border border-gray-300 px-4 py-2 mb-4 inline-block">
                           <span className="text-xs font-light tracking-wider text-gray-700">
                             {job.type}
                           </span>
                         </div>
-                        {job.salaryRange && (job.salaryRange.min || job.salaryRange.max) && (
-                          <p className="text-sm text-gray-800 mb-6">
-                            {formatSalary(job.salaryRange.min, job.salaryRange.max)}
-                          </p>
-                        )}
+                        {job.salaryRange &&
+                          (job.salaryRange.min || job.salaryRange.max) && (
+                            <p className="text-sm text-gray-800 mb-6">
+                              {formatSalary(
+                                job.salaryRange.min,
+                                job.salaryRange.max
+                              )}
+                            </p>
+                          )}
+                        {/* APPLY BUTTON: `w-full lg:w-auto` makes this perfectly responsive. */}
                         <button
                           onClick={() => handleOpenModal(job)}
                           className="bg-gray-900 cursor-pointer text-white px-8 py-3 hover:bg-black transition-colors font-light tracking-wider text-sm w-full lg:w-auto"
@@ -401,51 +455,67 @@ const CareerPage = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
+      {/* CTA SECTION:
+        - Padding and font sizes are adjusted for mobile.
+    */}
+      <section className="py-16 md:py-24 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-3xl md:text-5xl font-light text-gray-900 mb-8">
             Join Our Mission
           </h2>
           <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
-          <p className="text-lg text-gray-600 mb-12 leading-relaxed">
-            Be part of a diversified group that values excellence, innovation, and 
-            growth across automotive and industrial sectors.
+          <p className="text-base sm:text-lg text-gray-600 mb-12 leading-relaxed">
+            Be part of a diversified group that values excellence, innovation,
+            and growth across automotive and industrial sectors.
           </p>
 
+          {/* CTA BUTTONS: `sm:flex-row` ensures they stack on mobile. */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="bg-gray-900 text-white px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm"
             >
               EXPLORE COMPANIES
             </Link>
-            <Link 
-              to="/contact" 
+            <Link
+              to="/contact"
               className="border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm"
             >
               CONTACT GROUP
             </Link>
           </div>
 
+          {/* INFO CARDS: `md:grid-cols-2` ensures they stack on mobile. */}
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white p-8 shadow-sm">
-              <h3 className="text-xl font-light text-gray-900 mb-4">Industrial Excellence</h3>
+            <div className="bg-white p-6 md:p-8 shadow-sm text-left">
+              <h3 className="text-xl font-light text-gray-900 mb-4">
+                Industrial Excellence
+              </h3>
               <div className="w-12 h-px bg-gray-400 mb-4"></div>
               <p className="text-gray-600 mb-4">
-                Join Venbro Polymers in manufacturing Food Grade PP Woven Fabrics and packaging solutions
+                Join Venbro Polymers in manufacturing Food Grade PP Woven
+                Fabrics and packaging solutions
               </p>
-              <a href="/venbro-polymers" className="text-gray-900 text-sm tracking-wider hover:underline">
+              <a
+                href="/venbro-polymers"
+                className="text-gray-900 text-sm tracking-wider hover:underline font-medium"
+              >
                 LEARN MORE →
               </a>
             </div>
-            <div className="bg-white p-8 shadow-sm">
-              <h3 className="text-xl font-light text-gray-900 mb-4">Automotive Services</h3>
+            <div className="bg-white p-6 md:p-8 shadow-sm text-left">
+              <h3 className="text-xl font-light text-gray-900 mb-4">
+                Automotive Services
+              </h3>
               <div className="w-12 h-px bg-gray-400 mb-4"></div>
               <p className="text-gray-600 mb-4">
-                Be part of South India's longest serving Maruti authorized service station
+                Be part of South India's longest serving Maruti authorized
+                service station
               </p>
-              <a href="/shri-krishna-automobile-enterprises" className="text-gray-900 text-sm tracking-wider hover:underline">
+              <a
+                href="/shri-krishna-automobile-enterprises"
+                className="text-gray-900 text-sm tracking-wider hover:underline font-medium"
+              >
                 LEARN MORE →
               </a>
             </div>
