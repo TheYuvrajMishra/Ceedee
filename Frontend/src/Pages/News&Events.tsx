@@ -67,7 +67,7 @@ const TimelineItem = ({ item, onReadMore, index, scrollY }: {
             </div>
             <div className="flex-shrink-0 w-full lg:w-96 h-80 overflow-hidden">
                 <img src={item.image || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'}
-                    alt={item.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
+                    alt={item.title} className="w-full h-full object-cover  group-hover:-0 transition-all duration-300"
                     onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'; }} />
             </div>
             <div className="flex-1 min-w-0 h-80 flex flex-col">
@@ -113,7 +113,7 @@ const Modal = ({ item, onClose }: { item: NewsEvent; onClose: () => void }) => {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex justify-center items-center p-4" onClick={onClose}>
             <div className="relative bg-white shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
                 <button onClick={onClose} className="absolute top-6 cursor-pointer right-6 text-white hover:text-gray-700 z-10 text-2xl leading-none">×</button>
-                {item.image && <img src={item.image} alt={item.title} className="w-full h-64 object-cover grayscale" />}
+                {item.image && <img src={item.image} alt={item.title} className="w-full h-64 object-cover " />}
                 <div className="p-8 md:p-12">
                     <span className="px-3 py-1 text-xs font-light tracking-wider bg-gray-100 text-gray-900 border border-gray-300 mb-6 inline-block">
                         {item.type.toUpperCase()}
