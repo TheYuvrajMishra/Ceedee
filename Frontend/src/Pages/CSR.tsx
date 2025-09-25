@@ -35,16 +35,22 @@ const statusConfig = {
 };
 
 // --- MODAL COMPONENT ---
-const CSRModal = ({ csr, onClose }: { csr: CSR | null; onClose: () => void }) => {
+const CSRModal = ({
+  csr,
+  onClose,
+}: {
+  csr: CSR | null;
+  onClose: () => void;
+}) => {
   useEffect(() => {
     if (csr) {
       const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') {
+        if (event.key === "Escape") {
           onClose();
         }
       };
-      document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
     }
   }, [csr, onClose]);
 
@@ -117,7 +123,7 @@ const CSRModal = ({ csr, onClose }: { csr: CSR | null; onClose: () => void }) =>
           </div>
 
           <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed mb-8">
-            {csr.description.split('\n').map((paragraph, index) => (
+            {csr.description.split("\n").map((paragraph, index) => (
               <p key={index} className="mb-4">
                 {paragraph}
               </p>
@@ -130,7 +136,7 @@ const CSRModal = ({ csr, onClose }: { csr: CSR | null; onClose: () => void }) =>
                 IMPACT & OUTCOMES
               </h4>
               <div className="text-gray-700 leading-relaxed italic">
-                {csr.impact.split('\n').map((paragraph, index) => (
+                {csr.impact.split("\n").map((paragraph, index) => (
                   <p key={index} className="mb-3">
                     {paragraph}
                   </p>
@@ -145,13 +151,21 @@ const CSRModal = ({ csr, onClose }: { csr: CSR | null; onClose: () => void }) =>
 };
 
 // --- CARD COMPONENT ---
-const InitiativeCard = ({ csr, index, onClick }: { csr: CSR; index: number; onClick: () => void }) => {
+const InitiativeCard = ({
+  csr,
+  index,
+  onClick,
+}: {
+  csr: CSR;
+  index: number;
+  onClick: () => void;
+}) => {
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const formatDate = (dateString?: string) => {
@@ -164,84 +178,83 @@ const InitiativeCard = ({ csr, index, onClick }: { csr: CSR; index: number; onCl
   };
 
   return (
-  <div
-    // This parallax effect is maintained. It's generally fine on mobile,
-    // but you might consider disabling it on smaller screens for performance if needed.
-    className="bg-white border border-gray-200 hover:border-gray-900 transition-colors duration-300 group cursor-pointer"
-    style={{
-      transform: `translateY(${scrollY * 0.02 * (index + 1)}px)`,
-    }}
-    onClick={onClick}
-  >
-    {/* Use less padding on mobile and increase it for larger screens */}
-    <div className="p-5 md:p-8">
-      {/* Header Section:
-        - On mobile (`flex-col`), the title/category and status badge are stacked vertically with a gap.
-        - On medium screens and up (`md:flex-row`), they switch to a side-by-side layout.
-      */}
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 md:gap-2 mb-6">
-        <div className="flex items-center gap-4">
-          {/* Icon size can be adjusted for mobile vs. desktop if desired, but 12x12 is often fine */}
-          <div className="w-12 h-12 border border-gray-300 flex items-center justify-center text-lg flex-shrink-0">
-            {categoryConfig[csr.category].symbol}
+    <div
+      className="bg-white border border-gray-200 hover:border-gray-900 transition-colors duration-300 group cursor-pointer"
+      style={{
+        transform: `translateY(${scrollY * 0.02 * (index + 1)}px)`,
+      }}
+      onClick={onClick}
+    >
+      <div className="p-5 md:p-8">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 md:gap-2 mb-6">
+          <div className="flex items-center gap-4 min-w-0">
+            {" "}
+            {/* Add min-w-0 here to allow child text to truncate */}
+            <div className="w-12 h-12 border border-gray-300 flex items-center justify-center text-lg flex-shrink-0">
+              {categoryConfig[csr.category].symbol}
+            </div>
+            {/* Add min-w-0 to the text container to ensure truncation works */}
+            <div className="min-w-0">
+              <p className="text-sm font-light tracking-wider text-gray-600 mb-1 truncate">
+                {" "}
+                {/* Add truncate */}
+                {csr.category.toUpperCase()}
+              </p>
+              <h3 className="text-lg md:text-xl font-light text-gray-900 group-hover:text-black transition-colors truncate">
+                {" "}
+                {/* Add truncate */}
+                {csr.title}
+              </h3>
+            </div>
           </div>
-          <div>
-            <p className="text-sm font-light tracking-wider text-gray-600 mb-1">
-              {csr.category.toUpperCase()}
-            </p>
-            {/* Slightly smaller heading on mobile for better balance */}
-            <h3 className="text-lg md:text-xl font-light text-gray-900 group-hover:text-black transition-colors">
-              {csr.title}
-            </h3>
+          <div
+            className={`px-3 py-1 text-xs font-light tracking-wider border border-gray-300 self-start md:self-auto ${
+              statusConfig[csr.status].bg
+            } ${statusConfig[csr.status].color}`}
+          >
+            {csr.status.toUpperCase()}
           </div>
         </div>
-        {/* The status badge aligns to the start of the flex container on mobile */}
-        <div
-          className={`px-3 py-1 text-xs font-light tracking-wider border border-gray-300 self-start md:self-auto ${
-            statusConfig[csr.status].bg
-          } ${statusConfig[csr.status].color}`}
-        >
-          {csr.status.toUpperCase()}
-        </div>
-      </div>
 
-      {csr.location && (
-        <div className="flex items-center gap-2 mb-4 text-sm text-gray-600">
-          <div className="w-4 h-4 border border-gray-400 rounded-full flex-shrink-0"></div>
-          {csr.location}
-        </div>
-      )}
+        {csr.location && (
+          // Add truncate and min-w-0 to handle long location names
+          <div className="flex items-center gap-2 mb-4 text-sm text-gray-600 min-w-0 truncate">
+            <div className="w-4 h-4 border border-gray-400 rounded-full flex-shrink-0"></div>
+            {/* Text will now truncate with an ellipsis if it's too long */}
+            {csr.location}
+          </div>
+        )}
 
-      <div className="mb-6">
-        {/* The description truncation logic remains the same */}
-        <p className="text-gray-700 leading-relaxed">
-          {csr.description.slice(0, 150)}
-          {csr.description.length > 150 ? "..." : ""}
-        </p>
-      </div>
-
-      {/* Footer Section:
-        - On mobile (`flex-col`), the date and "VIEW DETAILS" link are stacked.
-        - On small screens and up (`sm:flex-row`), they sit side-by-side.
-      */}
-      <div className="border-t border-gray-200 pt-6 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="text-xs text-gray-500 flex items-center gap-2">
-          <div className="w-3 h-3 border border-gray-400 flex-shrink-0"></div>
-          <span>{formatDate(csr.startDate)}</span>
-          {csr.endDate && (
-            <>
-              <span>-</span>
-              <span>{formatDate(csr.endDate)}</span>
-            </>
-          )}
+        <div className="mb-6">
+          {/* This JS-based slicing already handles overflow for the description.
+            For multi-line CSS truncation, you would use the @tailwindcss/line-clamp plugin.
+        */}
+          <p className="text-gray-700 leading-relaxed break-words">
+            {" "}
+            {/* Use break-words for better wrapping */}
+            {csr.description.slice(0, 150)}
+            {csr.description.length > 150 ? "..." : ""}
+          </p>
         </div>
-        <div className="text-gray-900 text-sm font-light tracking-wider hover:underline transition-colors">
-          VIEW DETAILS →
+
+        <div className="border-t border-gray-200 pt-6 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="text-xs text-gray-500 flex items-center gap-2">
+            <div className="w-3 h-3 border border-gray-400 flex-shrink-0"></div>
+            <span>{formatDate(csr.startDate)}</span>
+            {csr.endDate && (
+              <>
+                <span>-</span>
+                <span>{formatDate(csr.endDate)}</span>
+              </>
+            )}
+          </div>
+          <div className="text-gray-900 text-sm font-light tracking-wider hover:underline transition-colors">
+            VIEW DETAILS →
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
 };
 
 // --- MAIN PAGE COMPONENT ---
@@ -260,8 +273,8 @@ export default function CSRPage() {
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -376,10 +389,10 @@ export default function CSRPage() {
     return (
       <div className="space-y-8">
         {filteredCsrs.map((csr, index) => (
-          <InitiativeCard 
-            key={csr._id} 
-            csr={csr} 
-            index={index} 
+          <InitiativeCard
+            key={csr._id}
+            csr={csr}
+            index={index}
             onClick={() => handleCSRClick(csr)}
           />
         ))}
@@ -392,7 +405,7 @@ export default function CSRPage() {
       <title>Ceedee's | Corporate Social Responsibility</title>
       {/* Hero Section */}
       <section className="relative py-24 bg-gray-900 text-white overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center opacity-20"
           style={{
             transform: `translateY(${parallaxOffset}px)`,
@@ -404,12 +417,11 @@ export default function CSRPage() {
             Social Responsibility
           </h1>
           <div className="w-24 h-px bg-white mx-auto mb-8"></div>
-          <p className="text-xl font-light mb-4">
-            Creating Positive Impact
-          </p>
+          <p className="text-xl font-light mb-4">Creating Positive Impact</p>
           <p className="text-lg opacity-90 max-w-3xl mx-auto leading-relaxed">
-            We are committed to creating a positive impact on society and the 
-            environment through sustainable initiatives and community development.
+            We are committed to creating a positive impact on society and the
+            environment through sustainable initiatives and community
+            development.
           </p>
         </div>
       </section>
@@ -481,7 +493,7 @@ export default function CSRPage() {
             </p>
           </div>
 
-          <div 
+          <div
             className="grid md:grid-cols-4 gap-8"
             style={{
               transform: `translateY(${scrollY * 0.05}px)`,
@@ -489,27 +501,35 @@ export default function CSRPage() {
           >
             <div className="text-center">
               <div className="text-4xl font-light text-gray-900 mb-2">
-                {csrs.filter(c => c.category === 'Education').length}
+                {csrs.filter((c) => c.category === "Education").length}
               </div>
-              <div className="text-sm text-gray-600 tracking-wider">EDUCATION PROJECTS</div>
+              <div className="text-sm text-gray-600 tracking-wider">
+                EDUCATION PROJECTS
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-light text-gray-900 mb-2">
-                {csrs.filter(c => c.category === 'Healthcare').length}
+                {csrs.filter((c) => c.category === "Healthcare").length}
               </div>
-              <div className="text-sm text-gray-600 tracking-wider">HEALTHCARE INITIATIVES</div>
+              <div className="text-sm text-gray-600 tracking-wider">
+                HEALTHCARE INITIATIVES
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-light text-gray-900 mb-2">
-                {csrs.filter(c => c.category === 'Environment').length}
+                {csrs.filter((c) => c.category === "Environment").length}
               </div>
-              <div className="text-sm text-gray-600 tracking-wider">ENVIRONMENT PROJECTS</div>
+              <div className="text-sm text-gray-600 tracking-wider">
+                ENVIRONMENT PROJECTS
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-light text-gray-900 mb-2">
-                {csrs.filter(c => c.status === 'Completed').length}
+                {csrs.filter((c) => c.status === "Completed").length}
               </div>
-              <div className="text-sm text-gray-600 tracking-wider">COMPLETED PROJECTS</div>
+              <div className="text-sm text-gray-600 tracking-wider">
+                COMPLETED PROJECTS
+              </div>
             </div>
           </div>
         </div>
@@ -523,19 +543,19 @@ export default function CSRPage() {
           </h2>
           <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
           <p className="text-lg text-gray-600 mb-12 leading-relaxed">
-            Partner with Ceedee Group in creating positive change and sustainable 
-            development across communities and industries.
+            Partner with Ceedee Group in creating positive change and
+            sustainable development across communities and industries.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="bg-gray-900 text-white px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm"
             >
               EXPLORE COMPANIES
             </Link>
-            <Link 
-              to="/contact" 
+            <Link
+              to="/contact"
               className="border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm"
             >
               CONTACT US
@@ -544,17 +564,23 @@ export default function CSRPage() {
 
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-gray-50 p-8">
-              <h3 className="text-xl font-light text-gray-900 mb-4">Community Development</h3>
+              <h3 className="text-xl font-light text-gray-900 mb-4">
+                Community Development
+              </h3>
               <div className="w-12 h-px bg-gray-400 mb-4"></div>
               <p className="text-gray-600 mb-4">
-                Supporting local communities through education, healthcare, and sustainable initiatives
+                Supporting local communities through education, healthcare, and
+                sustainable initiatives
               </p>
             </div>
             <div className="bg-gray-50 p-8">
-              <h3 className="text-xl font-light text-gray-900 mb-4">Environmental Responsibility</h3>
+              <h3 className="text-xl font-light text-gray-900 mb-4">
+                Environmental Responsibility
+              </h3>
               <div className="w-12 h-px bg-gray-400 mb-4"></div>
               <p className="text-gray-600 mb-4">
-                Committed to sustainable practices and environmental conservation across all operations
+                Committed to sustainable practices and environmental
+                conservation across all operations
               </p>
             </div>
           </div>
@@ -562,9 +588,7 @@ export default function CSRPage() {
       </section>
 
       {/* Modal */}
-      {selectedCSR && (
-        <CSRModal csr={selectedCSR} onClose={handleCloseModal} />
-      )}
+      {selectedCSR && <CSRModal csr={selectedCSR} onClose={handleCloseModal} />}
     </div>
   );
 }
