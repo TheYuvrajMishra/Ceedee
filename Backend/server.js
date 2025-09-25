@@ -93,12 +93,12 @@ const allowedOrigins = [
   // Local development
   'http://localhost:3000',
   'http://localhost:5173',
-  'http://localhost:5174'
+  'http://localhost:5150'
 ].filter(Boolean);
 
 const allowedOriginPatterns = [
   // Allow Vercel preview/prod frontend domains
-  /https?:\/\/.+\.vercel\.app$/i
+  /https?:\/\/.+\.vercel\.app$/i,
 ];
 
 app.use(cors({
