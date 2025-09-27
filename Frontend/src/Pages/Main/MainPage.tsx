@@ -211,7 +211,7 @@ const CeedeeHomepage = () => {
 
       {/* Company Showcase */}
       <section className="py-24 bg-gray-50" id="Company">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-screen mx-auto px-12">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
               Our Companies
