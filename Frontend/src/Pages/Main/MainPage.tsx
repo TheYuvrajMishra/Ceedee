@@ -1,208 +1,302 @@
-import { useEffect, useState } from "react";
 import {
   ArrowRight,
   Award,
   Users,
-  Building2,
   Factory,
   Car,
   Package,
   Heart,
-  TrendingUp,
   Handshake,
-  Shield,
   Target,
-  Globe,
 } from "lucide-react";
 import TwoCompany from "../../Components/Main/TwoCompany";
 import PartnerSection from "../../Components/Main/PartnerSection";
 import { Link, useNavigate } from "react-router";
-
+import { motion } from "framer-motion";
 const CeedeeHomepage = () => {
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const parallaxOffset = scrollY * 0.3;
   const navigate = useNavigate();
+
+  const stakeholders = [
+    {
+      id: "vendors",
+      title: "For Vendors",
+      benefits: [
+        "Long-term partnerships",
+        "Timely payments",
+        "Growth opportunities",
+        "Technical support",
+      ],
+      image:
+        "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+      gridClass: "lg:col-span-2 md:col-span-2",
+    },
+    {
+      id: "investors",
+      title: "For Investors",
+      benefits: [
+        "Diversified portfolio",
+        "Sustainable returns",
+        "Growth trajectory",
+        "Market leadership",
+      ],
+      image:
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+      gridClass: "lg:row-span-2",
+    },
+    {
+      id: "employees",
+      title: "For Employees",
+      benefits: [
+        "Career development",
+        "Skill enhancement",
+        "Job security",
+        "Innovation culture",
+      ],
+      image:
+        "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+      gridClass: "",
+    },
+    {
+      id: "community",
+      title: "For Community",
+      benefits: [
+        "Employment creation",
+        "Local sourcing",
+        "CSR initiatives",
+        "Economic development",
+      ],
+      image:
+        "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+      gridClass: "",
+    },
+  ];
   return (
     <div className="min-h-screen bg-white">
       <title>Ceedee's | Home</title>
+
       {/* Hero Section with Parallax */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative bg-gradient-to-b from-amber-400/10 via-white via-50% to-white h-screen flex items-center justify-center overflow-hidden">
         {/* Parallax Background */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-fixed bg-cover bg-center h-160 w-360 mx-auto mt-17 rounded-none md:rounded-2xl"
           style={{
-            transform: `translateY(${parallaxOffset}px)`,
             backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
           }}
         />
 
         {/* Hero Content */}
-        <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-6">
-          <Link to="/" className="flex flex-col items-center mt-5 md:mt-0  mb-6 space-x-3">
-            <div className="w-30 h-30 rounded-lg overflow-hidden">
-              <img
-                src="/logo.png"
-                alt="Company Logo"
-                className="w-full h-full object-contain"
-              />
+        <div className="relative z-20 container mx-auto px-6 -mt-40 text-white">
+          <div className="grid md:grid-cols-2 gap-35 items-center">
+            {/* Left Column: Headline & Pills */}
+            <div className="flex flex-col gap-8 text-center md:text-left">
+              <h1 className="text-4xl md:mt-0 mt-50 md:text-4xl lg:text-6xl font-thin leading-tight tracking-tight">
+                Building Trust, Creating Value, Empowering Communities
+              </h1>
+              <div className="flex items-center justify-center md:justify-start gap-3 flex-wrap">
+                <span className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-sm font-medium">
+                  Polymers
+                </span>
+                <span className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-sm font-medium">
+                  Autmobiles
+                </span>
+                <span className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-sm font-medium">
+                  Solutions
+                </span>
+              </div>
             </div>
-            <h1 className="text-4xl md:text-6xl text-amber-700 font-regular mb-4 tracking-wide">
-            Ceedee Group
-          </h1>
-          </Link>
-          <div className="w-32 h-px bg-white mx-auto mb-8"></div>
-          <p className="text-xl md:text-2xl font-light mb-6">
-            Building Trust, Creating Value, Empowering Communities
-          </p>
-          <p className="text-lg opacity-90 max-w-4xl mx-auto leading-relaxed mb-12">
-            A legacy of excellence spanning decades, creating opportunities for investors, 
-            partners, and communities while delivering sustainable solutions across industries
-          </p>
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <button
-              onClick={() => {
-                const el = document.getElementById("Company");
-                if (el) el.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="bg-white cursor-pointer text-gray-900 hover:bg-gray-100 px-8 py-4 transition-colors duration-300 tracking-wider text-sm font-medium"
-            >
-              EXPLORE OUR COMPANIES
-            </button>
-            <Link
-              to="/contact"
-              className="border cursor-pointer border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 transition-colors duration-300 tracking-wider text-sm font-medium"
-            >
-              PARTNER WITH US
-            </Link>
+            {/* Right Column: Description & CTA */}
+            <div className="flex flex-col gap-8 -mt-25 md:mt-0  items-center md:items-end">
+              <p className="md:text-lg text-sm text-white/80 max-w-md leading-relaxed text-center md:text-right">
+                A legacy of excellence spanning decades, creating opportunities
+                while delivering sustainable solutions across industries.
+              </p>
+              <div className="flex flex-col items-center md:flex-row gap-3">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-3 bg-white text-gray-900 hover:bg-gray-200 px-6 py-3 rounded-full font-semibold transition-colors duration-300 group"
+                >
+                  <span className="text-sm">Explore Our Partners</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </Link>
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: "auto" }}
+                  transition={{
+                    duration: 0.5,
+                  }}
+                  className="overflow-hidden" // Hides the content until the container expands
+                >
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center gap-3 border-white border text-white hover:bg-gray-200 hover:text-black px-6 py-3 rounded-full font-semibold transition-colors duration-300 group whitespace-nowrap"
+                  >
+                    {/* 'whitespace-nowrap' is important to prevent text from wrapping during the animation */}
+                    <span className="text-sm">Partner With Us</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="transition-transform duration-300 group-hover:translate-x-1"
+                    >
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </Link>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+          <div className="marquee-wrapper border-t border-b border-t-white/20 border-b-white/20 md:-mb-60 md:mt-50 mt-10 rounded-full py-2 text-sm md:text-2xl bg-white/5 text-white raleway-light">
+            <div className="marquee-content">
+              {/* First copy of the text */}
+              <div className="marquee-text">
+                Building Trust • Creating Value • Empowering Communities •
+                Excellence in Partnership • Sustainable Growth • Community
+                Impact...
+              </div>
+              {/* Second copy (the duplicate for the seamless effect) */}
+              <div className="marquee-text" aria-hidden="true">
+                Building Trust • Creating Value • Empowering Communities •
+                Excellence in Partnership • Sustainable Growth • Community
+                Impact...
+              </div>
+              <div className="marquee-text" aria-hidden="true">
+                Building Trust • Creating Value • Empowering Communities •
+                Excellence in Partnership • Sustainable Growth • Community
+                Impact...
+              </div>
+              <div className="marquee-text" aria-hidden="true">
+                Building Trust • Creating Value • Empowering Communities •
+                Excellence in Partnership • Sustainable Growth • Community
+                Impact...
+              </div>
+              <div className="marquee-text" aria-hidden="true">
+                Building Trust • Creating Value • Empowering Communities •
+                Excellence in Partnership • Sustainable Growth • Community
+                Impact...
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Company Identity & Legacy */}
-      <section className="py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
-              Our Legacy of Excellence
-            </h2>
-            <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
-            <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              Ceedee Group represents decades of entrepreneurial excellence and visionary leadership,
-              building a trusted brand that creates lasting value for all stakeholders while contributing 
-              to community development and economic growth.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-12">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Building2 className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-xl font-light text-gray-900 mb-4">
-                Strategic Portfolio
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Diversified business model across automotive and industrial sectors, 
-                creating resilient growth opportunities for investors and partners.
+      <section className="py-12 bg-white">
+        <div className="max-w-screen mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            {/* Left Column: Main Heading and Description */}
+            <div>
+              <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8 leading-tight">
+                A Legacy of{" "}
+                <span className="font-bold">Entrepreneurial Excellence</span>
+              </h2>
+              <div className="w-16 h-px bg-gray-900 mb-8"></div>
+              <p className="text-lg text-gray-700 max-w-2xl leading-relaxed">
+                Ceedee's Group represents decades of visionary leadership,
+                building a trusted brand that creates lasting value for all
+                stakeholders while contributing to community development and
+                economic growth.
               </p>
             </div>
 
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Shield className="w-8 h-8 text-white" />
+            {/* Right Column: Supporting Points */}
+            <div className="space-y-8">
+              <div className="bg-gray-50 rounded-4xl border border-gray-200 p-8">
+                <div className="w-3 h-3 border border-gray-400 rounded-full mb-4"></div>
+                <h3 className="text-2xl font-regular text-gray-900 mb-3">
+                  Strategic Portfolio
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Our diversified business model across automotive and
+                  industrial sectors creates resilient growth opportunities for
+                  investors and partners.
+                </p>
               </div>
-              <h3 className="text-xl font-light text-gray-900 mb-4">
-                Trusted Brand
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Building lasting relationships through transparent operations, 
-                ethical business practices, and unwavering commitment to quality excellence.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="w-16 h-16 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Heart className="w-8 h-8 text-white" />
+              <div className="bg-gray-50 rounded-4xl border border-gray-200 p-8">
+                <div className="w-3 h-3 border border-gray-400 rounded-full mb-4"></div>
+                <h3 className="text-2xl font-regular text-gray-900 mb-3">
+                  Community Commitment
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  We are deeply invested in social upliftment, fostering
+                  education, innovation, and sustainable practices in the
+                  communities we serve.
+                </p>
               </div>
-              <h3 className="text-xl font-light text-gray-900 mb-4">
-                Community Impact
-              </h3>
-              <p className="text-gray-600 leading-relaxed">
-                Creating employment opportunities, supporting local communities, 
-                and contributing to sustainable economic development across regions.
-              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stakeholder Value Proposition */}
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
-              Value Creation for All
-            </h2>
-            <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
-            <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              We create sustainable value for vendors, investors, employees, and communities 
-              through innovative business practices and strategic growth initiatives.
-            </p>
-          </div>
+      {/* Grid Container */}
+      <section className="py-0 px-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {stakeholders.map((stakeholder) => (
+            <div
+              key={stakeholder.id}
+              className={`relative min-h-[300px] lg:min-h-[350px] transition-all rounded-4xl duration-300 group overflow-hidden ${stakeholder.gridClass}`}
+            >
+              {/* Background Image */}
+              <div className="absolute inset-0">
+                <img
+                  src={stakeholder.image}
+                  className="w-full h-full object-cover transition-all duration-500"
+                  alt={stakeholder.title}
+                />
+                <div className="absolute inset-0 bg-black/60 transition-colors duration-300"></div>
+              </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <Handshake className="w-12 h-12 text-gray-900 mb-4" />
-              <h3 className="text-xl font-light text-gray-900 mb-4">For Vendors</h3>
-              <ul className="text-gray-600 space-y-2 text-sm">
-                <li>• Long-term partnerships</li>
-                <li>• Timely payments</li>
-                <li>• Growth opportunities</li>
-                <li>• Technical support</li>
-              </ul>
-            </div>
+              {/* Content */}
+              <div className="absolute inset-0 flex flex-col justify-between p-8">
+                {/* Top Section */}
+                <div className="flex justify-between items-start">
+                  <div className="w-12 h-px bg-white opacity-70"></div>
+                  <div className="w-4 h-4 border border-white/50"></div>
+                </div>
 
-            <div className="bg-white p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <TrendingUp className="w-12 h-12 text-gray-900 mb-4" />
-              <h3 className="text-xl font-light text-gray-900 mb-4">For Investors</h3>
-              <ul className="text-gray-600 space-y-2 text-sm">
-                <li>• Diversified portfolio</li>
-                <li>• Sustainable returns</li>
-                <li>• Growth trajectory</li>
-                <li>• Market leadership</li>
-              </ul>
-            </div>
+                {/* Bottom Section */}
+                <div>
+                  <h3 className="text-2xl font-light text-white mb-6 tracking-wide">
+                    {stakeholder.title}
+                  </h3>
+                  <div className="space-y-3">
+                    {stakeholder.benefits.map((benefit, benefitIndex) => (
+                      <div key={benefitIndex} className="flex items-start">
+                        <div className="w-2 h-2 border border-white/70 mt-2 mr-3 flex-shrink-0"></div>
+                        <span className="text-white/90 text-sm font-light leading-relaxed">
+                          {benefit}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
 
-            <div className="bg-white p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <Users className="w-12 h-12 text-gray-900 mb-4" />
-              <h3 className="text-xl font-light text-gray-900 mb-4">For Employees</h3>
-              <ul className="text-gray-600 space-y-2 text-sm">
-                <li>• Career development</li>
-                <li>• Skill enhancement</li>
-                <li>• Job security</li>
-                <li>• Innovation culture</li>
-              </ul>
+              {/* Hover Overlay */}
+              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
             </div>
-
-            <div className="bg-white p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <Globe className="w-12 h-12 text-gray-900 mb-4" />
-              <h3 className="text-xl font-light text-gray-900 mb-4">For Community</h3>
-              <ul className="text-gray-600 space-y-2 text-sm">
-                <li>• Employment creation</li>
-                <li>• Local sourcing</li>
-                <li>• CSR initiatives</li>
-                <li>• Economic development</li>
-              </ul>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -218,8 +312,8 @@ const CeedeeHomepage = () => {
             </h2>
             <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
             <p className="text-lg text-gray-600 max-w-4xl mx-auto">
-              Industry-leading companies with proven track records, creating value 
-              across automotive and industrial sectors
+              Industry-leading companies with proven track records, creating
+              value across automotive and industrial sectors
             </p>
           </div>
 
@@ -228,9 +322,11 @@ const CeedeeHomepage = () => {
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div
                 className="relative h-96"
-                style={{
-                  // transform: `translateY(${scrollY * 0.01}px)`,
-                }}
+                style={
+                  {
+                    // transform: `translateY(${scrollY * 0.01}px)`,
+                  }
+                }
               >
                 <img
                   src="https://www.ppilbd.com/wp-content/uploads/2022/07/IMG_20220331_090854_603.jpg"
@@ -316,7 +412,8 @@ const CeedeeHomepage = () => {
                   <p>
                     <span className="font-medium">"A" Grade MASS</span> -
                     Longest Serving Maruti Authorized Service Station providing
-                    comprehensive automotive solutions with 500+ direct and indirect employment.
+                    comprehensive automotive solutions with 500+ direct and
+                    indirect employment.
                   </p>
                   <p>
                     <span className="font-medium">3Q Service Excellence</span> -
@@ -353,9 +450,11 @@ const CeedeeHomepage = () => {
 
               <div
                 className="relative h-96 order-1 lg:order-2"
-                style={{
-                  // transform: `translateY(${scrollY * 0.03}px)`,
-                }}
+                style={
+                  {
+                    // transform: `translateY(${scrollY * 0.03}px)`,
+                  }
+                }
               >
                 <img
                   src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
@@ -378,8 +477,9 @@ const CeedeeHomepage = () => {
             </h2>
             <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
             <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              Our commitment extends beyond business success to creating positive impact 
-              in communities, supporting sustainable development, and fostering inclusive growth.
+              Our commitment extends beyond business success to creating
+              positive impact in communities, supporting sustainable
+              development, and fostering inclusive growth.
             </p>
           </div>
 
@@ -392,8 +492,9 @@ const CeedeeHomepage = () => {
                 Employment Generation
               </h3>
               <p className="text-gray-600 leading-relaxed mb-4">
-                Creating 1000+ direct and indirect employment opportunities across our group companies, 
-                supporting families and local economies.
+                Creating 1000+ direct and indirect employment opportunities
+                across our group companies, supporting families and local
+                economies.
               </p>
               <div className="text-2xl font-light text-green-600">1000+</div>
               <div className="text-sm text-gray-500">Jobs Created</div>
@@ -407,8 +508,9 @@ const CeedeeHomepage = () => {
                 Local Sourcing
               </h3>
               <p className="text-gray-600 leading-relaxed mb-4">
-                Supporting local vendors and suppliers, promoting regional economic growth 
-                through strategic partnerships and procurement policies.
+                Supporting local vendors and suppliers, promoting regional
+                economic growth through strategic partnerships and procurement
+                policies.
               </p>
               <div className="text-2xl font-light text-blue-600">70%</div>
               <div className="text-sm text-gray-500">Local Sourcing</div>
@@ -422,8 +524,9 @@ const CeedeeHomepage = () => {
                 Community Development
               </h3>
               <p className="text-gray-600 leading-relaxed mb-4">
-                Investing in education, healthcare, and infrastructure development 
-                in local communities, creating lasting positive impact.
+                Investing in education, healthcare, and infrastructure
+                development in local communities, creating lasting positive
+                impact.
               </p>
               <div className="text-2xl font-light text-purple-600">₹5Cr+</div>
               <div className="text-sm text-gray-500">Community Investment</div>
@@ -486,8 +589,8 @@ const CeedeeHomepage = () => {
                 Partnership Focus
               </h4>
               <p className="text-gray-600 text-sm">
-                Building long-term partnerships with customers, suppliers, 
-                and stakeholders for mutual growth
+                Building long-term partnerships with customers, suppliers, and
+                stakeholders for mutual growth
               </p>
             </div>
           </div>
@@ -503,8 +606,8 @@ const CeedeeHomepage = () => {
             </h2>
             <div className="w-16 h-px bg-white mx-auto mb-8"></div>
             <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-              Decades of proven performance creating value for stakeholders 
-              and building lasting relationships across industries
+              Decades of proven performance creating value for stakeholders and
+              building lasting relationships across industries
             </p>
           </div>
 
@@ -514,21 +617,27 @@ const CeedeeHomepage = () => {
               <div className="text-sm text-gray-400 tracking-wider">
                 OLDEST SERVICE CENTRE
               </div>
-              <div className="text-xs text-gray-500 mt-1">South India Legacy</div>
+              <div className="text-xs text-gray-500 mt-1">
+                South India Legacy
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-light mb-2">1995</div>
               <div className="text-sm text-gray-400 tracking-wider">
                 POLYMERS ESTABLISHED
               </div>
-              <div className="text-xs text-gray-500 mt-1">Industrial Excellence</div>
+              <div className="text-xs text-gray-500 mt-1">
+                Industrial Excellence
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-light mb-2">₹300Cr</div>
               <div className="text-sm text-gray-400 tracking-wider">
                 REVENUE TARGET
               </div>
-              <div className="text-xs text-gray-500 mt-1">Growth Trajectory</div>
+              <div className="text-xs text-gray-500 mt-1">
+                Growth Trajectory
+              </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-light mb-2">1000+</div>
@@ -549,8 +658,9 @@ const CeedeeHomepage = () => {
           </h2>
           <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
           <p className="text-lg text-gray-600 mb-12 leading-relaxed">
-            Discover partnership opportunities with Ceedee Group - where vision meets execution,
-            and success creates lasting impact for businesses, communities, and stakeholders.
+            Discover partnership opportunities with Ceedee Group - where vision
+            meets execution, and success creates lasting impact for businesses,
+            communities, and stakeholders.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
@@ -577,20 +687,25 @@ const CeedeeHomepage = () => {
         <div className="marquee-content">
           {/* First copy of the text */}
           <div className="marquee-text">
-            Building Trust • Creating Value • Empowering Communities • Excellence in Partnership • Sustainable Growth • Community Impact...
+            Building Trust • Creating Value • Empowering Communities •
+            Excellence in Partnership • Sustainable Growth • Community Impact...
           </div>
           {/* Second copy (the duplicate for the seamless effect) */}
           <div className="marquee-text" aria-hidden="true">
-            Building Trust • Creating Value • Empowering Communities • Excellence in Partnership • Sustainable Growth • Community Impact...
+            Building Trust • Creating Value • Empowering Communities •
+            Excellence in Partnership • Sustainable Growth • Community Impact...
           </div>
           <div className="marquee-text" aria-hidden="true">
-            Building Trust • Creating Value • Empowering Communities • Excellence in Partnership • Sustainable Growth • Community Impact...
+            Building Trust • Creating Value • Empowering Communities •
+            Excellence in Partnership • Sustainable Growth • Community Impact...
           </div>
           <div className="marquee-text" aria-hidden="true">
-            Building Trust • Creating Value • Empowering Communities • Excellence in Partnership • Sustainable Growth • Community Impact...
+            Building Trust • Creating Value • Empowering Communities •
+            Excellence in Partnership • Sustainable Growth • Community Impact...
           </div>
           <div className="marquee-text" aria-hidden="true">
-            Building Trust • Creating Value • Empowering Communities • Excellence in Partnership • Sustainable Growth • Community Impact...
+            Building Trust • Creating Value • Empowering Communities •
+            Excellence in Partnership • Sustainable Growth • Community Impact...
           </div>
         </div>
       </div>

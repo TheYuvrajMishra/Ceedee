@@ -57,7 +57,7 @@ const PartnerSection: React.FC = () => {
   const renderPartnerLogo = (partner: Partner) => (
     <div
       key={partner.id}
-      className="flex-shrink-0 w-48 h-24 bg-white border border-gray-200 flex items-center justify-center mx-4 hover:border-gray-900 transition-colors duration-300"
+      className="flex-shrink-0 rounded-2xl w-48 h-24 bg-white border border-gray-200 flex items-center justify-center mx-4 hover:border-gray-900 transition-colors duration-300"
     >
       {partner.logo ? (
         <img
@@ -92,8 +92,8 @@ const PartnerSection: React.FC = () => {
   );
 
   return (
-    <section className="py-24 bg-gray-100 relative">
-      <div className="max-w-6xl mx-auto px-6">
+    <section className="py-12 mb-12 mt-12 max-w-357 mx-auto border border-black/20 hover:shadow-lg shadow-sm transition-all duration-150 rounded-4xl p-6 relative">
+      <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
             Our Partners
@@ -166,10 +166,6 @@ const PartnerSection: React.FC = () => {
           .animate-marquee {
             animation: marquee 50s linear infinite;
             width: calc(300%);
-          }
-
-          .animate-marquee:hover {
-            animation-play-state: paused;
           }
           
           @media (max-width: 768px) {

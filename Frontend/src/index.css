@@ -16,7 +16,7 @@
 /* The inner container that holds and animates the text blocks */
 .marquee-content {
   display: flex; /* Places text blocks side-by-side */
-  animation: scroll 7s linear infinite; /* Apply the animation */
+  animation: scroll 20s linear infinite; /* Apply the animation */
 }
 
 /* Prevents the text blocks from shrinking */
@@ -38,7 +38,7 @@
      * brings the second copy to the exact start position of the first one,
      * creating a seamless loop.
      */
-    transform: translateX(-50%);
+    transform: translateX(-100%);
   }
 }
 

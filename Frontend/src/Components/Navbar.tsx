@@ -55,21 +55,19 @@ const Header = () => {
   const headerClasses = isScrolled
     ? 'bg-white/95 backdrop-blur-lg shadow-sm'
     : 'bg-transparent';
-  const textClasses = isScrolled ? 'text-slate-800' : 'text-white';
-  const logoFilter = isScrolled ? '' : 'brightness-0 invert';
 
   // --- RENDER ---
   return (
     <>
-      <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${headerClasses}`}>
+      <header className={`fixed top-0 w-full z-50 transition-all md:rounded-t md:rounded-4xl rounded-none duration-300 ${headerClasses}`}>
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-16">
             
             {/* Left: Logo */}
             <div className="flex-shrink-0">
               <Link to="/" onClick={scrollToTop} className="flex items-center gap-3">
                 <img src="/logo.png" alt="Company Logo" className="h-10 w-auto" />
-                <img src="/logo_title.png" alt="Company Name" className={`h-6 w-auto transition-all duration-300 ${logoFilter}`} />
+                <img src="/logo_title.png" alt="Company Name" className={`h-6 w-auto transition-all duration-300`} />
               </Link>
             </div>
 
@@ -79,7 +77,7 @@ const Header = () => {
                 <div key={link.label} className="relative group">
                   {link.children ? (
                     <>
-                      <button className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${textClasses} hover:bg-black/5`}>
+                      <button className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 hover:bg-black/5`}>
                         <span>{link.label}</span>
                         <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
                       </button>
@@ -100,7 +98,7 @@ const Header = () => {
                     <Link
                       to={link.to || '#'}
                       onClick={scrollToTop}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${textClasses} hover:bg-black/5 ${location.pathname === link.to ? (isScrolled ? 'bg-slate-100' : 'bg-white/10') : ''}`}
+                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 hover:bg-black/5 ${location.pathname === link.to ? (isScrolled ? 'bg-slate-100' : 'bg-white/10') : ''}`}
                     >
                       {link.label}
                     </Link>
@@ -113,10 +111,10 @@ const Header = () => {
             <div className="flex items-center gap-2">
               <div className="justify-self-end">
               <Link to="/contact" onClick={scrollToTop} className={`relative inline-flex items-center justify-center text-sm font-semibold border-2 transition-all duration-300 overflow-hidden group ${
-                isScrolled ? 'border-amber-600 text-amber-600 hover:text-white' : 'border-white text-white hover:text-gray-900'
+                isScrolled ? 'border-amber-600 text-amber-600 hover:text-amber-200' : 'border-amber-400 text-black hover:text-gray-900'
               } px-3 sm:px-4 py-2`}>
                 <span className={`absolute inset-0 transition-transform duration-500 ease-out transform origin-left scale-x-0 group-hover:scale-x-100 ${
-                  isScrolled ? 'bg-amber-600' : 'bg-white'
+                  isScrolled ? 'bg-amber-600' : 'bg-amber-600'
                 }`} />
                 <span className="relative z-10 flex items-center gap-2">
                   <Mail className="w-4 h-4" />
@@ -127,7 +125,7 @@ const Header = () => {
 
               <button
                 onClick={toggleMenu}
-                className={`lg:hidden p-2 rounded-full transition-colors duration-300 ${textClasses} hover:bg-black/10`}
+                className={`lg:hidden p-2 rounded-full transition-colors duration-300 hover:bg-black/10`}
                 aria-label="Toggle menu"
               >
                 {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
