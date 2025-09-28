@@ -521,7 +521,7 @@ const CeedeeHomepage = () => {
 
 
       {/* Group Statistics */}
-      <section className="py-24 mb-12 bg-gray-900 rounded-4xl w-355 mx-auto text-white">
+      <section className="py-24 mb-12 bg-gray-900 rounded-4xl max-w-355 mx-auto text-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light mb-8">
@@ -674,7 +674,7 @@ const CeedeeHomepage = () => {
 
       <TwoCompany />
       {/* Call to Action */}
-      <section className="pt-24 bg-gray-50">
+      <section className="pt-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
             Join Our Growth Story
@@ -692,15 +692,17 @@ const CeedeeHomepage = () => {
                 const el = document.getElementById("Company");
                 if (el) el.scrollIntoView({ behavior: "smooth" });
               }}
-              className="bg-gray-900 text-white cursor-pointer px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm"
+              className="bg-gray-900 group rounded-full text-white cursor-pointer px-8 py-3 hover:bg-gray-800 transition-colors duration-300 tracking-wider text-sm"
             >
               EXPLORE OPPORTUNITIES
+              <ArrowRight className="inline ml-2 w-4 h-4 transition-all duration-150 group-hover:translate-x-1 translate-x-0" />
             </button>
             <button
               onClick={() => navigate("/contact")}
-              className="border border-gray-900 cursor-pointer text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm"
+              className="border group rounded-full border-gray-900 cursor-pointer text-gray-900 hover:bg-gray-900 hover:text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm"
             >
               BECOME A PARTNER
+              <ArrowRight className="inline ml-2 w-4 h-4 transition-all duration-150 group-hover:translate-x-1 translate-x-0" />
             </button>
           </div>
         </div>
