@@ -1,13 +1,5 @@
 import {
-  ArrowRight,
-  Award,
-  Users,
-  Factory,
-  Car,
-  Package,
-  Heart,
-  Handshake,
-  Target,
+  ArrowRight
 } from "lucide-react";
 import TwoCompany from "../../Components/Main/TwoCompany";
 import PartnerSection from "../../Components/Main/PartnerSection";
@@ -320,25 +312,16 @@ const CeedeeHomepage = () => {
           {/* Venbro Polymers */}
           <div className="mb-24">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div
-                className="relative h-96"
-                style={
-                  {
-                    // transform: `translateY(${scrollY * 0.01}px)`,
-                  }
-                }
-              >
+              <div className="relative h-96">
                 <img
                   src="https://www.ppilbd.com/wp-content/uploads/2022/07/IMG_20220331_090854_603.jpg"
                   alt="Venbro Polymers manufacturing"
-                  className="w-full h-full object-cover "
+                  className="w-full h-full object-cover rounded-4xl"
                 />
-                <div className="absolute inset-0 bg-black opacity-20"></div>
               </div>
 
               <div>
                 <div className="flex items-center mb-6">
-                  <Factory className="w-8 h-8 text-gray-900 mr-4" />
                   <h3 className="text-3xl font-light text-gray-900">
                     Venbro Polymers
                   </h3>
@@ -365,13 +348,13 @@ const CeedeeHomepage = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-6 mb-8">
-                  <div className="bg-white p-4 shadow-sm">
+                  <div className="bg-white rounded-4xl py-6 p-4 shadow-sm">
                     <div className="text-2xl font-light text-gray-900">
                       1995
                     </div>
                     <div className="text-sm text-gray-600">Established</div>
                   </div>
-                  <div className="bg-white p-4 shadow-sm">
+                  <div className="bg-white rounded-4xl py-6 p-4 shadow-sm">
                     <div className="text-2xl font-light text-gray-900">
                       ₹300Cr
                     </div>
@@ -381,10 +364,10 @@ const CeedeeHomepage = () => {
 
                 <button
                   onClick={() => navigate("/venbro-polymers")}
-                  className="bg-gray-900 cursor-pointer text-white px-6 py-3 hover:bg-gray-800 transition-colors tracking-wider text-sm"
+                  className="bg-gray-900 group rounded-full cursor-pointer text-white px-6 py-3 hover:bg-gray-800 transition-colors tracking-wider text-sm"
                 >
                   EXPLORE VENBRO
-                  <ArrowRight className="inline ml-2 w-4 h-4" />
+                  <ArrowRight className="inline ml-2 w-4 h-4 transition-all duration-150 group-hover:translate-x-1 translate-x-0" />
                 </button>
               </div>
             </div>
@@ -395,7 +378,6 @@ const CeedeeHomepage = () => {
             <div className="grid lg:grid-cols-2 gap-16 items-center">
               <div className="order-2 lg:order-1">
                 <div className="flex items-center mb-6">
-                  <Car className="w-8 h-8 text-gray-900 mr-4" />
                   <h3 className="text-3xl font-light text-gray-900">
                     Sri Krishna Automobile Enterprises
                   </h3>
@@ -423,13 +405,13 @@ const CeedeeHomepage = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-6 mb-8">
-                  <div className="bg-white p-4 shadow-sm">
+                  <div className="bg-white rounded-4xl py-6 p-4 shadow-sm">
                     <div className="text-2xl font-light text-gray-900">
                       1986
                     </div>
                     <div className="text-sm text-gray-600">Since</div>
                   </div>
-                  <div className="bg-white p-4 shadow-sm">
+                  <div className="bg-white rounded-4xl py-6 p-4 shadow-sm">
                     <div className="text-2xl font-light text-gray-900">
                       A-Grade
                     </div>
@@ -441,27 +423,19 @@ const CeedeeHomepage = () => {
                   onClick={() =>
                     navigate("/shri-krishna-automobile-enterprises")
                   }
-                  className="bg-gray-900 cursor-pointer text-white px-6 py-3 hover:bg-gray-800 transition-colors tracking-wider text-sm"
+                  className="bg-gray-900 rounded-full cursor-pointer text-white px-6 py-3 hover:bg-gray-800 group transition-colors tracking-wider text-sm"
                 >
                   EXPLORE SKAE
-                  <ArrowRight className="inline ml-2 w-4 h-4" />
+                  <ArrowRight className="inline ml-2 w-4 h-4 transition-all duration-150 group-hover:translate-x-1 translate-x-0" />
                 </button>
               </div>
 
-              <div
-                className="relative h-96 order-1 lg:order-2"
-                style={
-                  {
-                    // transform: `translateY(${scrollY * 0.03}px)`,
-                  }
-                }
-              >
+              <div className="relative h-96 order-1 lg:order-2">
                 <img
                   src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
                   alt="SKAE automobile service"
-                  className="w-full h-full object-cover "
+                  className="w-full h-full object-cover rounded-4xl"
                 />
-                <div className="absolute inset-0 bg-black opacity-20"></div>
               </div>
             </div>
           </div>
@@ -470,9 +444,9 @@ const CeedeeHomepage = () => {
 
       {/* CSR & Community Impact */}
       <section className="py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
+        <div className="max-w-screen mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-5">
               Community & Social Responsibility
             </h2>
             <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
@@ -483,122 +457,71 @@ const CeedeeHomepage = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-12">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Users className="w-8 h-8 text-white" />
+          <div className="grid md:grid-cols-3 gap-5">
+            {/* Card 1: Employment Generation */}
+            <div className="border rounded-4xl border-gray-200 p-8 flex flex-col">
+              <div className="flex-grow">
+                <h3 className="text-2xl font-light text-gray-900 mb-4">
+                  Employment Generation
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Creating direct and indirect employment opportunities across
+                  our group companies, supporting families and local economies.
+                </p>
               </div>
-              <h3 className="text-xl font-light text-gray-900 mb-4">
-                Employment Generation
-              </h3>
-              <p className="text-gray-600 leading-relaxed mb-4">
-                Creating 1000+ direct and indirect employment opportunities
-                across our group companies, supporting families and local
-                economies.
-              </p>
-              <div className="text-2xl font-light text-green-600">1000+</div>
-              <div className="text-sm text-gray-500">Jobs Created</div>
+              <div className="border-t border-gray-200 mt-8 pt-6">
+                <div className="text-4xl font-light text-gray-900">1000+</div>
+                <div className="text-sm text-gray-500 tracking-wider">
+                  JOBS CREATED
+                </div>
+              </div>
             </div>
 
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Target className="w-8 h-8 text-white" />
+            {/* Card 2: Local Sourcing */}
+            <div className="border rounded-4xl border-gray-200 p-8 flex flex-col">
+              <div className="flex-grow">
+                <h3 className="text-2xl font-light text-gray-900 mb-4">
+                  Local Sourcing
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Supporting local vendors and suppliers to promote regional
+                  economic growth through strategic partnerships and procurement
+                  policies.
+                </p>
               </div>
-              <h3 className="text-xl font-light text-gray-900 mb-4">
-                Local Sourcing
-              </h3>
-              <p className="text-gray-600 leading-relaxed mb-4">
-                Supporting local vendors and suppliers, promoting regional
-                economic growth through strategic partnerships and procurement
-                policies.
-              </p>
-              <div className="text-2xl font-light text-blue-600">70%</div>
-              <div className="text-sm text-gray-500">Local Sourcing</div>
+              <div className="border-t border-gray-200 mt-8 pt-6">
+                <div className="text-4xl font-light text-gray-900">70%</div>
+                <div className="text-sm text-gray-500 tracking-wider">
+                  OF SOURCING IS LOCAL
+                </div>
+              </div>
             </div>
 
-            <div className="text-center">
-              <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Heart className="w-8 h-8 text-white" />
+            {/* Card 3: Community Development */}
+            <div className="border rounded-4xl border-gray-200 p-8 flex flex-col">
+              <div className="flex-grow">
+                <h3 className="text-2xl font-light text-gray-900 mb-4">
+                  Community Development
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  Investing in education, healthcare, and infrastructure to
+                  create lasting positive impact and empower local communities.
+                </p>
               </div>
-              <h3 className="text-xl font-light text-gray-900 mb-4">
-                Community Development
-              </h3>
-              <p className="text-gray-600 leading-relaxed mb-4">
-                Investing in education, healthcare, and infrastructure
-                development in local communities, creating lasting positive
-                impact.
-              </p>
-              <div className="text-2xl font-light text-purple-600">₹5Cr+</div>
-              <div className="text-sm text-gray-500">Community Investment</div>
+              <div className="border-t border-gray-200 mt-8 pt-6">
+                <div className="text-4xl font-light text-gray-900">₹5Cr+</div>
+                <div className="text-sm text-gray-500 tracking-wider">
+                  INVESTED IN COMMUNITY
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services Overview */}
-      <section className="py-24 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
-              Comprehensive Solutions
-            </h2>
-            <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
-            <p className="text-lg text-gray-600 max-w-4xl mx-auto">
-              From industrial packaging to automotive excellence, we provide
-              comprehensive solutions that create value across sectors
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center p-6 bg-white hover:shadow-lg transition-all duration-300">
-              <Package className="w-12 h-12 text-gray-900 mx-auto mb-4" />
-              <h4 className="text-lg font-light text-gray-900 mb-3">
-                Industrial Packaging
-              </h4>
-              <p className="text-gray-600 text-sm">
-                Food Grade PP Woven Fabrics, Sacks and Bags for diverse
-                industries with international quality standards
-              </p>
-            </div>
-
-            <div className="text-center p-6 bg-white hover:shadow-lg transition-all duration-300">
-              <Car className="w-12 h-12 text-gray-900 mx-auto mb-4" />
-              <h4 className="text-lg font-light text-gray-900 mb-3">
-                Automobile Service
-              </h4>
-              <p className="text-gray-600 text-sm">
-                Comprehensive Maruti service and multi-brand automotive
-                solutions with customer-centric approach
-              </p>
-            </div>
-
-            <div className="text-center p-6 bg-white hover:shadow-lg transition-all duration-300">
-              <Award className="w-12 h-12 text-gray-900 mx-auto mb-4" />
-              <h4 className="text-lg font-light text-gray-900 mb-3">
-                Quality Assurance
-              </h4>
-              <p className="text-gray-600 text-sm">
-                ISO 9002, ZED, and A-Grade certifications ensuring excellence
-                and reliability across all operations
-              </p>
-            </div>
-
-            <div className="text-center p-6 bg-white hover:shadow-lg transition-all duration-300">
-              <Handshake className="w-12 h-12 text-gray-900 mx-auto mb-4" />
-              <h4 className="text-lg font-light text-gray-900 mb-3">
-                Partnership Focus
-              </h4>
-              <p className="text-gray-600 text-sm">
-                Building long-term partnerships with customers, suppliers, and
-                stakeholders for mutual growth
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Group Statistics */}
-      <section className="py-24 bg-gray-900 text-white">
+      <section className="py-24 mb-12 bg-gray-900 rounded-4xl w-355 mx-auto text-white">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light mb-8">
@@ -650,6 +573,106 @@ const CeedeeHomepage = () => {
         </div>
       </section>
 
+
+      {/* Services Overview */}
+      <section className="py-24 mb-12 rounded-4xl max-w-355 mx-auto border border-black/5 bg-gray-50">
+        <div className=" mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
+              Comprehensive Solutions
+            </h2>
+            <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
+            <p className="text-lg text-gray-600 max-w-4xl mx-auto">
+              From industrial packaging to automotive excellence, we provide
+              comprehensive solutions that create value across sectors.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Card 1: Industrial Packaging */}
+            <div className="bg-white rounded-4xl overflow-hidden group transition-all duration-300 hover:shadow-xl">
+              <div className="h-48 overflow-hidden">
+                <img
+                  src="https://hubs.com.sg/mt-content/uploads/2024/07/industry-packaging.jpg"
+                  alt="Woven industrial fabric rolls"
+                  className="w-full h-full object-cover filter  group-hover:-0 transition-all duration-300 ease-in-out transform group-hover:scale-110"
+                />
+              </div>
+              <div className="p-6">
+                <h4 className="text-xl font-light text-gray-900 mb-3">
+                  Industrial Packaging
+                </h4>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Food Grade PP Woven Fabrics, Sacks and Bags for diverse
+                  industries with international quality standards.
+                </p>
+              </div>
+            </div>
+
+            {/* Card 2: Automobile Service */}
+            <div className="bg-white rounded-4xl overflow-hidden group transition-all duration-300 hover:shadow-xl">
+              <div className="h-48 overflow-hidden">
+                <img
+                  src="https://specializedtruckandauto.com/wp-content/uploads/engine-repair-scaled.jpeg"
+                  alt="Mechanic working on a car engine"
+                  className="w-full h-full object-cover filter  group-hover:-0 transition-all duration-300 ease-in-out transform group-hover:scale-110"
+                />
+              </div>
+              <div className="p-6">
+                <h4 className="text-xl font-light text-gray-900 mb-3">
+                  Automobile Service
+                </h4>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Comprehensive Maruti service and multi-brand automotive
+                  solutions with a customer-centric approach.
+                </p>
+              </div>
+            </div>
+
+            {/* Card 3: Quality Assurance */}
+            <div className="bg-white rounded-4xl overflow-hidden group transition-all duration-300 hover:shadow-xl">
+              <div className="h-48 overflow-hidden">
+                <img
+                  src="https://tse4.mm.bing.net/th/id/OIP.3-yZl6H_DTg_MHP83PDksgHaD7?rs=1&pid=ImgDetMain&o=7&rm=3"
+                  alt="Team reviewing quality documents"
+                  className="w-full h-full object-cover filter  group-hover:-0 transition-all duration-300 ease-in-out transform group-hover:scale-110"
+                />
+              </div>
+              <div className="p-6">
+                <h4 className="text-xl font-light text-gray-900 mb-3">
+                  Quality Assurance
+                </h4>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  ISO 9002, ZED, and A-Grade certifications ensuring excellence
+                  and reliability across all operations.
+                </p>
+              </div>
+            </div>
+
+            {/* Card 4: Partnership Focus */}
+            <div className="bg-white rounded-4xl overflow-hidden group transition-all duration-300 hover:shadow-xl">
+              <div className="h-48 overflow-hidden">
+                <img
+                  src="https://img.freepik.com/premium-vector/partnership-abstract-concept-vector-illustration_107173-20406.jpg?w=2000"
+                  alt="Business professionals shaking hands"
+                  className="w-full h-full object-cover filter  group-hover:-0 transition-all duration-300 ease-in-out transform group-hover:scale-110"
+                />
+              </div>
+              <div className="p-6">
+                <h4 className="text-xl font-light text-gray-900 mb-3">
+                  Partnership Focus
+                </h4>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Building long-term partnerships with customers, suppliers, and
+                  stakeholders for mutual growth and success.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <TwoCompany />
       {/* Call to Action */}
       <section className="pt-24 bg-gray-50">
         <div className="max-w-4xl mx-auto px-6 text-center">
@@ -681,34 +704,7 @@ const CeedeeHomepage = () => {
             </button>
           </div>
         </div>
-        <TwoCompany />
       </section>
-      <div className="marquee-wrapper py-5 text-3xl bg-red-500 text-white raleway-light">
-        <div className="marquee-content">
-          {/* First copy of the text */}
-          <div className="marquee-text">
-            Building Trust • Creating Value • Empowering Communities •
-            Excellence in Partnership • Sustainable Growth • Community Impact...
-          </div>
-          {/* Second copy (the duplicate for the seamless effect) */}
-          <div className="marquee-text" aria-hidden="true">
-            Building Trust • Creating Value • Empowering Communities •
-            Excellence in Partnership • Sustainable Growth • Community Impact...
-          </div>
-          <div className="marquee-text" aria-hidden="true">
-            Building Trust • Creating Value • Empowering Communities •
-            Excellence in Partnership • Sustainable Growth • Community Impact...
-          </div>
-          <div className="marquee-text" aria-hidden="true">
-            Building Trust • Creating Value • Empowering Communities •
-            Excellence in Partnership • Sustainable Growth • Community Impact...
-          </div>
-          <div className="marquee-text" aria-hidden="true">
-            Building Trust • Creating Value • Empowering Communities •
-            Excellence in Partnership • Sustainable Growth • Community Impact...
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
