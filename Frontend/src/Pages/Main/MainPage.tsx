@@ -1,10 +1,7 @@
-import {
-  ArrowRight
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import TwoCompany from "../../Components/Main/TwoCompany";
 import PartnerSection from "../../Components/Main/PartnerSection";
 import { Link, useNavigate } from "react-router";
-import { motion } from "framer-motion";
 const CeedeeHomepage = () => {
   const navigate = useNavigate();
 
@@ -103,59 +100,25 @@ const CeedeeHomepage = () => {
                 A legacy of excellence spanning decades, creating opportunities
                 while delivering sustainable solutions across industries.
               </p>
-              <div className="flex flex-col items-center md:flex-row gap-3">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-3 bg-white text-gray-900 hover:bg-gray-200 px-6 py-3 rounded-full font-semibold transition-colors duration-300 group"
-                >
-                  <span className="text-sm">Explore Our Partners</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="transition-transform duration-300 group-hover:translate-x-1"
-                  >
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </Link>
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: "auto" }}
-                  transition={{
-                    duration: 0.5,
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
+                <button
+                  onClick={() => {
+                    const el = document.getElementById("ExploreServices");
+                    if (el) el.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="overflow-hidden" // Hides the content until the container expands
+                  className="bg-white group rounded-full text-black cursor-pointer px-8 py-3 hover:bg-white/95 transition-colors duration-300 tracking-wider text-sm"
                 >
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center gap-3 border-white border text-white hover:bg-gray-200 hover:text-black px-6 py-3 rounded-full font-semibold transition-colors duration-300 group whitespace-nowrap"
-                  >
-                    {/* 'whitespace-nowrap' is important to prevent text from wrapping during the animation */}
-                    <span className="text-sm">Partner With Us</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="transition-transform duration-300 group-hover:translate-x-1"
-                    >
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                  </Link>
-                </motion.div>
+                  EXPLORE OPPORTUNITIES
+                  <ArrowRight className="inline ml-2 w-4 h-4 transition-all duration-150 group-hover:translate-x-1 translate-x-0" />
+                </button>
+                <Link
+                  to={"/contact"}
+                  onClick={() => navigate("/contact")}
+                  className="border group rounded-full border-white cursor-pointer text-white hover:bg-white hover:text-black px-8 py-3 transition-colors duration-300 tracking-wider text-sm"
+                >
+                  BECOME A PARTNER
+                  <ArrowRight className="inline ml-2 w-4 h-4 transition-all duration-150 group-hover:translate-x-1 translate-x-0" />
+                </Link>
               </div>
             </div>
           </div>
@@ -295,6 +258,11 @@ const CeedeeHomepage = () => {
       {/* Partner's Section */}
       <PartnerSection />
 
+      <div id="ExploreServices">
+        <TwoCompany />
+      </div>
+
+      
       {/* Company Showcase */}
       <section className="py-24" id="Company">
         <div className="max-w-screen mx-auto px-12">
@@ -519,7 +487,6 @@ const CeedeeHomepage = () => {
         </div>
       </section>
 
-
       {/* Group Statistics */}
       <section className="py-24 mb-12 bg-gray-900 rounded-4xl max-w-355 mx-auto text-white">
         <div className="max-w-6xl mx-auto px-6">
@@ -572,7 +539,6 @@ const CeedeeHomepage = () => {
           </div>
         </div>
       </section>
-
 
       {/* Services Overview */}
       <section className="py-24 mb-12 rounded-4xl max-w-355 mx-auto border border-black/5 bg-gray-50">
@@ -672,7 +638,6 @@ const CeedeeHomepage = () => {
         </div>
       </section>
 
-      <TwoCompany />
       {/* Call to Action */}
       <section className="pt-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
