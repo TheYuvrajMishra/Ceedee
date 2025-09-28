@@ -83,7 +83,7 @@ const Header = () => {
                         <span>{link.label}</span>
                         <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
                       </button>
-                      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 bg-white rounded-lg shadow-xl border border-slate-100 p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2">
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 bg-white rounded-lg shadow-xl p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 -translate-y-2">
                         {link.children.map((child) => (
                           <Link
                             key={child.to}
