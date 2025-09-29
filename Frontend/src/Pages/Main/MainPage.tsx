@@ -205,12 +205,12 @@ const CeedeeHomepage = () => {
       </section>
 
       {/* Grid Container */}
-      <section className="py-0 px-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="py-0 sm:py-12 md:py-16 px-4 sm:px-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {stakeholders.map((stakeholder) => (
             <div
               key={stakeholder.id}
-              className={`relative min-h-[300px] lg:min-h-[350px] transition-all rounded-4xl duration-300 group overflow-hidden ${stakeholder.gridClass}`}
+              className={`relative min-h-[280px] sm:min-h-[300px] lg:min-h-[350px] transition-all rounded-2xl sm:rounded-3xl duration-300 group overflow-hidden ${stakeholder.gridClass}`}
             >
               {/* Background Image */}
               <div className="absolute inset-0">
@@ -222,24 +222,22 @@ const CeedeeHomepage = () => {
                 <div className="absolute inset-0 bg-black/60 transition-colors duration-300"></div>
               </div>
 
-              {/* Content */}
-              <div className="absolute inset-0 flex flex-col justify-between p-8">
-                {/* Top Section */}
+              {/* Content - Made responsive */}
+              <div className="absolute inset-0 flex flex-col justify-between p-6 sm:p-8">
                 <div className="flex justify-between items-start">
-                  <div className="w-12 h-px bg-white opacity-70"></div>
-                  <div className="w-4 h-4 border border-white/50"></div>
+                  <div className="w-8 sm:w-12 h-px bg-white opacity-70"></div>
+                  <div className="w-3 h-3 sm:w-4 sm:h-4 border border-white/50"></div>
                 </div>
 
-                {/* Bottom Section */}
                 <div>
-                  <h3 className="text-2xl font-light text-white mb-6 tracking-wide">
+                  <h3 className="text-xl sm:text-2xl font-light text-white mb-4 sm:mb-6 tracking-wide">
                     {stakeholder.title}
                   </h3>
-                  <div className="space-y-3">
+                  <div className="space-y-2 sm:space-y-3">
                     {stakeholder.benefits.map((benefit, benefitIndex) => (
                       <div key={benefitIndex} className="flex items-start">
-                        <div className="w-2 h-2 border border-white/70 mt-2 mr-3 flex-shrink-0"></div>
-                        <span className="text-white/90 text-sm font-light leading-relaxed">
+                        <div className="w-2 h-2 border border-white/70 mt-1.5 sm:mt-2 mr-2 sm:mr-3 flex-shrink-0"></div>
+                        <span className="text-white/90 text-xs sm:text-sm font-light leading-relaxed">
                           {benefit}
                         </span>
                       </div>
@@ -248,7 +246,6 @@ const CeedeeHomepage = () => {
                 </div>
               </div>
 
-              {/* Hover Overlay */}
               <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
             </div>
           ))}
@@ -262,51 +259,50 @@ const CeedeeHomepage = () => {
         <TwoCompany />
       </div>
 
-      
       {/* Company Showcase */}
-      <section className="py-24" id="Company">
-        <div className="max-w-screen mx-auto px-12">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24" id="Company">
+        <div className="max-w-screen mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-gray-900 mb-6 sm:mb-8">
               Our Companies
             </h2>
-            <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
-            <p className="text-lg text-gray-600 max-w-4xl mx-auto">
+            <div className="w-12 sm:w-16 h-px bg-gray-900 mx-auto mb-6 sm:mb-8"></div>
+            <p className="text-base sm:text-lg text-gray-600 max-w-4xl mx-auto px-4">
               Industry-leading companies with proven track records, creating
               value across automotive and industrial sectors
             </p>
           </div>
 
           {/* Venbro Polymers */}
-          <div className="mb-24">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div className="relative h-96">
+          <div className="mb-16 sm:mb-20 md:mb-24">
+            <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
+              <div className="relative h-64 sm:h-80 md:h-96">
                 <img
                   src="https://www.ppilbd.com/wp-content/uploads/2022/07/IMG_20220331_090854_603.jpg"
                   alt="Venbro Polymers manufacturing"
-                  className="w-full h-full object-cover rounded-4xl"
+                  className="w-full h-full object-cover rounded-2xl sm:rounded-3xl"
                 />
               </div>
 
-              <div>
-                <div className="flex items-center mb-6">
-                  <h3 className="text-3xl font-light text-gray-900">
+              <div className="px-4 sm:px-0">
+                <div className="flex items-center mb-4 sm:mb-6">
+                  <h3 className="text-2xl sm:text-3xl font-light text-gray-900">
                     Venbro Polymers
                   </h3>
                 </div>
-                <div className="w-16 h-px bg-gray-900 mb-6"></div>
+                <div className="w-12 sm:w-16 h-px bg-gray-900 mb-4 sm:mb-6"></div>
 
-                <div className="space-y-4 text-gray-700 leading-relaxed mb-8">
-                  <p className="text-lg">
+                <div className="space-y-3 sm:space-y-4 text-gray-700 leading-relaxed mb-6 sm:mb-8">
+                  <p className="text-base sm:text-lg">
                     <span className="font-medium">20+ Years</span> of excellence
                     in Food Grade PP Woven Fabrics, Sacks and Bags
                   </p>
-                  <p>
+                  <p className="text-sm sm:text-base">
                     Serving Indian and International markets since{" "}
                     <span className="font-medium">1995</span> under the
                     leadership of D.Venkateswaran and D. Shanmugasundaram.
                   </p>
-                  <p>
+                  <p className="text-sm sm:text-base">
                     <span className="font-medium">
                       ISO 9002 & ZED Certified
                     </span>{" "}
@@ -315,75 +311,75 @@ const CeedeeHomepage = () => {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-6 mb-8">
-                  <div className="bg-white rounded-4xl py-6 p-4 shadow-sm">
-                    <div className="text-2xl font-light text-gray-900">
+                <div className="grid grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                  <div className="bg-white rounded-2xl sm:rounded-3xl py-4 sm:py-6 p-3 sm:p-4 shadow-sm">
+                    <div className="text-xl sm:text-2xl font-light text-gray-900">
                       1995
                     </div>
-                    <div className="text-sm text-gray-600">Established</div>
+                    <div className="text-xs sm:text-sm text-gray-600">Established</div>
                   </div>
-                  <div className="bg-white rounded-4xl py-6 p-4 shadow-sm">
-                    <div className="text-2xl font-light text-gray-900">
+                  <div className="bg-white rounded-2xl sm:rounded-3xl py-4 sm:py-6 p-3 sm:p-4 shadow-sm">
+                    <div className="text-xl sm:text-2xl font-light text-gray-900">
                       ₹300Cr
                     </div>
-                    <div className="text-sm text-gray-600">Revenue Target</div>
+                    <div className="text-xs sm:text-sm text-gray-600">Revenue Target</div>
                   </div>
                 </div>
 
                 <button
                   onClick={() => navigate("/venbro-polymers")}
-                  className="bg-gray-900 group rounded-full cursor-pointer text-white px-6 py-3 hover:bg-gray-800 transition-colors tracking-wider text-sm"
+                  className="bg-gray-900 group rounded-full cursor-pointer text-white px-5 sm:px-6 py-2.5 sm:py-3 hover:bg-gray-800 transition-colors tracking-wider text-xs sm:text-sm w-full sm:w-auto"
                 >
                   EXPLORE VENBRO
-                  <ArrowRight className="inline ml-2 w-4 h-4 transition-all duration-150 group-hover:translate-x-1 translate-x-0" />
+                  <ArrowRight className="inline ml-2 w-3 h-3 sm:w-4 sm:h-4 transition-all duration-150 group-hover:translate-x-1 translate-x-0" />
                 </button>
               </div>
             </div>
           </div>
 
-          {/* Sri Krishna Automobile Enterprises */}
+          {/* Sri Krishna Automobile - Fixed order classes */}
           <div>
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div className="order-2 lg:order-1">
-                <div className="flex items-center mb-6">
-                  <h3 className="text-3xl font-light text-gray-900">
+            <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
+              <div className="lg:order-1 order-2 px-4 sm:px-0">
+                <div className="flex items-center mb-4 sm:mb-6">
+                  <h3 className="text-2xl sm:text-3xl font-light text-gray-900">
                     Sri Krishna Automobile Enterprises
                   </h3>
                 </div>
-                <div className="w-16 h-px bg-gray-900 mb-6"></div>
+                <div className="w-12 sm:w-16 h-px bg-gray-900 mb-4 sm:mb-6"></div>
 
-                <div className="space-y-4 text-gray-700 leading-relaxed mb-8">
-                  <p className="text-lg">
+                <div className="space-y-3 sm:space-y-4 text-gray-700 leading-relaxed mb-6 sm:mb-8">
+                  <p className="text-base sm:text-lg">
                     <span className="font-medium">
                       The Oldest Service Centre
                     </span>{" "}
                     in South India since 1986
                   </p>
-                  <p>
+                  <p className="text-sm sm:text-base">
                     <span className="font-medium">"A" Grade MASS</span> -
                     Longest Serving Maruti Authorized Service Station providing
                     comprehensive automotive solutions with 500+ direct and
                     indirect employment.
                   </p>
-                  <p>
+                  <p className="text-sm sm:text-base">
                     <span className="font-medium">3Q Service Excellence</span> -
                     Quick and Quality Services at Quite low prices, operating 6
                     days a week with customer-first approach.
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-6 mb-8">
-                  <div className="bg-white rounded-4xl py-6 p-4 shadow-sm">
-                    <div className="text-2xl font-light text-gray-900">
+                <div className="grid grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                  <div className="bg-white rounded-2xl sm:rounded-3xl py-4 sm:py-6 p-3 sm:p-4 shadow-sm">
+                    <div className="text-xl sm:text-2xl font-light text-gray-900">
                       1986
                     </div>
-                    <div className="text-sm text-gray-600">Since</div>
+                    <div className="text-xs sm:text-sm text-gray-600">Since</div>
                   </div>
-                  <div className="bg-white rounded-4xl py-6 p-4 shadow-sm">
-                    <div className="text-2xl font-light text-gray-900">
+                  <div className="bg-white rounded-2xl sm:rounded-3xl py-4 sm:py-6 p-3 sm:p-4 shadow-sm">
+                    <div className="text-xl sm:text-2xl font-light text-gray-900">
                       A-Grade
                     </div>
-                    <div className="text-sm text-gray-600">MASS Certified</div>
+                    <div className="text-xs sm:text-sm text-gray-600">MASS Certified</div>
                   </div>
                 </div>
 
@@ -391,18 +387,18 @@ const CeedeeHomepage = () => {
                   onClick={() =>
                     navigate("/shri-krishna-automobile-enterprises")
                   }
-                  className="bg-gray-900 rounded-full cursor-pointer text-white px-6 py-3 hover:bg-gray-800 group transition-colors tracking-wider text-sm"
+                  className="bg-gray-900 rounded-full cursor-pointer text-white px-5 sm:px-6 py-2.5 sm:py-3 hover:bg-gray-800 group transition-colors tracking-wider text-xs sm:text-sm w-full sm:w-auto"
                 >
                   EXPLORE SKAE
-                  <ArrowRight className="inline ml-2 w-4 h-4 transition-all duration-150 group-hover:translate-x-1 translate-x-0" />
+                  <ArrowRight className="inline ml-2 w-3 h-3 sm:w-4 sm:h-4 transition-all duration-150 group-hover:translate-x-1 translate-x-0" />
                 </button>
               </div>
 
-              <div className="relative h-96 order-1 lg:order-2">
+              <div className="relative h-64 sm:h-80 md:h-96 lg:order-2 order-1">
                 <img
                   src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
                   alt="SKAE automobile service"
-                  className="w-full h-full object-cover rounded-4xl"
+                  className="w-full h-full object-cover rounded-2xl sm:rounded-3xl"
                 />
               </div>
             </div>
@@ -488,152 +484,95 @@ const CeedeeHomepage = () => {
       </section>
 
       {/* Group Statistics */}
-      <section className="py-24 mb-12 bg-gray-900 rounded-4xl max-w-355 mx-auto text-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light mb-8">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 mb-8 sm:mb-12 bg-gray-900 rounded-2xl sm:rounded-3xl max-w-355 mx-4 sm:mx-auto text-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-6 sm:mb-8">
               Trust Through Numbers
             </h2>
-            <div className="w-16 h-px bg-white mx-auto mb-8"></div>
-            <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+            <div className="w-12 sm:w-16 h-px bg-white mx-auto mb-6 sm:mb-8"></div>
+            <p className="text-base sm:text-lg text-gray-300 max-w-3xl mx-auto">
               Decades of proven performance creating value for stakeholders and
               building lasting relationships across industries
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-4xl font-light mb-2">1986</div>
-              <div className="text-sm text-gray-400 tracking-wider">
-                OLDEST SERVICE CENTRE
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            {[
+              { stat: "1986", label: "OLDEST SERVICE CENTRE", sublabel: "South India Legacy" },
+              { stat: "1995", label: "POLYMERS ESTABLISHED", sublabel: "Industrial Excellence" },
+              { stat: "₹300Cr", label: "REVENUE TARGET", sublabel: "Growth Trajectory" },
+              { stat: "1000+", label: "EMPLOYMENT GOAL", sublabel: "Community Impact" }
+            ].map((item, index) => (
+              <div key={index} className="text-center">
+                <div className="text-3xl sm:text-4xl font-light mb-2">{item.stat}</div>
+                <div className="text-xs sm:text-sm text-gray-400 tracking-wider">
+                  {item.label}
+                </div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {item.sublabel}
+                </div>
               </div>
-              <div className="text-xs text-gray-500 mt-1">
-                South India Legacy
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-light mb-2">1995</div>
-              <div className="text-sm text-gray-400 tracking-wider">
-                POLYMERS ESTABLISHED
-              </div>
-              <div className="text-xs text-gray-500 mt-1">
-                Industrial Excellence
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-light mb-2">₹300Cr</div>
-              <div className="text-sm text-gray-400 tracking-wider">
-                REVENUE TARGET
-              </div>
-              <div className="text-xs text-gray-500 mt-1">
-                Growth Trajectory
-              </div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-light mb-2">1000+</div>
-              <div className="text-sm text-gray-400 tracking-wider">
-                EMPLOYMENT GOAL
-              </div>
-              <div className="text-xs text-gray-500 mt-1">Community Impact</div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Services Overview */}
-      <section className="py-24 mb-12 rounded-4xl max-w-355 mx-auto border border-black/5 bg-gray-50">
-        <div className=" mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 mb-8 sm:mb-12 rounded-2xl sm:rounded-3xl max-w-355 mx-4 sm:mx-auto border border-black/5 bg-gray-50">
+        <div className="mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-gray-900 mb-6 sm:mb-8">
               Comprehensive Solutions
             </h2>
-            <div className="w-16 h-px bg-gray-900 mx-auto mb-8"></div>
-            <p className="text-lg text-gray-600 max-w-4xl mx-auto">
+            <div className="w-12 sm:w-16 h-px bg-gray-900 mx-auto mb-6 sm:mb-8"></div>
+            <p className="text-base sm:text-lg text-gray-600 max-w-4xl mx-auto">
               From industrial packaging to automotive excellence, we provide
               comprehensive solutions that create value across sectors.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Card 1: Industrial Packaging */}
-            <div className="bg-white rounded-4xl overflow-hidden group transition-all duration-300 hover:shadow-xl">
-              <div className="h-48 overflow-hidden">
-                <img
-                  src="https://hubs.com.sg/mt-content/uploads/2024/07/industry-packaging.jpg"
-                  alt="Woven industrial fabric rolls"
-                  className="w-full h-full object-cover filter  group-hover:-0 transition-all duration-300 ease-in-out transform group-hover:scale-110"
-                />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            {[
+              {
+                title: "Industrial Packaging",
+                description: "Food Grade PP Woven Fabrics, Sacks and Bags for diverse industries with international quality standards.",
+                image: "https://hubs.com.sg/mt-content/uploads/2024/07/industry-packaging.jpg"
+              },
+              {
+                title: "Automobile Service",
+                description: "Comprehensive Maruti service and multi-brand automotive solutions with a customer-centric approach.",
+                image: "https://specializedtruckandauto.com/wp-content/uploads/engine-repair-scaled.jpeg"
+              },
+              {
+                title: "Quality Assurance",
+                description: "ISO 9002, ZED, and A-Grade certifications ensuring excellence and reliability across all operations.",
+                image: "https://tse4.mm.bing.net/th/id/OIP.3-yZl6H_DTg_MHP83PDksgHaD7?rs=1&pid=ImgDetMain"
+              },
+              {
+                title: "Partnership Focus",
+                description: "Building long-term partnerships with customers, suppliers, and stakeholders for mutual growth and success.",
+                image: "https://img.freepik.com/premium-vector/partnership-abstract-concept-vector-illustration_107173-20406.jpg"
+              }
+            ].map((service, index) => (
+              <div key={index} className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden group transition-all duration-300 hover:shadow-xl">
+                <div className="h-40 sm:h-48 overflow-hidden">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full h-full object-cover transition-all duration-300 ease-in-out transform group-hover:scale-110"
+                  />
+                </div>
+                <div className="p-5 sm:p-6">
+                  <h4 className="text-lg sm:text-xl font-light text-gray-900 mb-2 sm:mb-3">
+                    {service.title}
+                  </h4>
+                  <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
               </div>
-              <div className="p-6">
-                <h4 className="text-xl font-light text-gray-900 mb-3">
-                  Industrial Packaging
-                </h4>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Food Grade PP Woven Fabrics, Sacks and Bags for diverse
-                  industries with international quality standards.
-                </p>
-              </div>
-            </div>
-
-            {/* Card 2: Automobile Service */}
-            <div className="bg-white rounded-4xl overflow-hidden group transition-all duration-300 hover:shadow-xl">
-              <div className="h-48 overflow-hidden">
-                <img
-                  src="https://specializedtruckandauto.com/wp-content/uploads/engine-repair-scaled.jpeg"
-                  alt="Mechanic working on a car engine"
-                  className="w-full h-full object-cover filter  group-hover:-0 transition-all duration-300 ease-in-out transform group-hover:scale-110"
-                />
-              </div>
-              <div className="p-6">
-                <h4 className="text-xl font-light text-gray-900 mb-3">
-                  Automobile Service
-                </h4>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Comprehensive Maruti service and multi-brand automotive
-                  solutions with a customer-centric approach.
-                </p>
-              </div>
-            </div>
-
-            {/* Card 3: Quality Assurance */}
-            <div className="bg-white rounded-4xl overflow-hidden group transition-all duration-300 hover:shadow-xl">
-              <div className="h-48 overflow-hidden">
-                <img
-                  src="https://tse4.mm.bing.net/th/id/OIP.3-yZl6H_DTg_MHP83PDksgHaD7?rs=1&pid=ImgDetMain&o=7&rm=3"
-                  alt="Team reviewing quality documents"
-                  className="w-full h-full object-cover filter  group-hover:-0 transition-all duration-300 ease-in-out transform group-hover:scale-110"
-                />
-              </div>
-              <div className="p-6">
-                <h4 className="text-xl font-light text-gray-900 mb-3">
-                  Quality Assurance
-                </h4>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  ISO 9002, ZED, and A-Grade certifications ensuring excellence
-                  and reliability across all operations.
-                </p>
-              </div>
-            </div>
-
-            {/* Card 4: Partnership Focus */}
-            <div className="bg-white rounded-4xl overflow-hidden group transition-all duration-300 hover:shadow-xl">
-              <div className="h-48 overflow-hidden">
-                <img
-                  src="https://img.freepik.com/premium-vector/partnership-abstract-concept-vector-illustration_107173-20406.jpg?w=2000"
-                  alt="Business professionals shaking hands"
-                  className="w-full h-full object-cover filter  group-hover:-0 transition-all duration-300 ease-in-out transform group-hover:scale-110"
-                />
-              </div>
-              <div className="p-6">
-                <h4 className="text-xl font-light text-gray-900 mb-3">
-                  Partnership Focus
-                </h4>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Building long-term partnerships with customers, suppliers, and
-                  stakeholders for mutual growth and success.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
