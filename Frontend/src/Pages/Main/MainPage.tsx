@@ -5,61 +5,6 @@ import { Link, useNavigate } from "react-router";
 import LegacyBentoGrid from "../../Components/Main/LegacyBento";
 const CeedeeHomepage = () => {
   const navigate = useNavigate();
-
-  const stakeholders = [
-    {
-      id: "vendors",
-      title: "For Vendors",
-      benefits: [
-        "Long-term partnerships",
-        "Timely payments",
-        "Growth opportunities",
-        "Technical support",
-      ],
-      image:
-        "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-      gridClass: "lg:col-span-2 md:col-span-2",
-    },
-    {
-      id: "investors",
-      title: "For Investors",
-      benefits: [
-        "Diversified portfolio",
-        "Sustainable returns",
-        "Growth trajectory",
-        "Market leadership",
-      ],
-      image:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-      gridClass: "lg:row-span-2",
-    },
-    {
-      id: "employees",
-      title: "For Employees",
-      benefits: [
-        "Career development",
-        "Skill enhancement",
-        "Job security",
-        "Innovation culture",
-      ],
-      image:
-        "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-      gridClass: "",
-    },
-    {
-      id: "community",
-      title: "For Community",
-      benefits: [
-        "Employment creation",
-        "Local sourcing",
-        "CSR initiatives",
-        "Economic development",
-      ],
-      image:
-        "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
-      gridClass: "",
-    },
-  ];
   return (
     <div className="min-h-screen bg-white">
       <title>Ceedee's | Home</title>
