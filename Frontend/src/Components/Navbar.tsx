@@ -111,7 +111,7 @@ const Header = () => {
             <div className="flex items-center gap-2">
               <div className="justify-self-end">
               <Link to="/contact" onClick={scrollToTop} className={`relative inline-flex items-center justify-center text-sm font-semibold border-2 transition-all duration-300 overflow-hidden group ${
-                isScrolled ? 'border-amber-600 text-amber-600 hover:text-amber-200' : 'border-amber-400 text-black hover:text-gray-900'
+                isScrolled ? 'border-amber-600 text-amber-600 hover:text-amber-200' : 'border-amber-400 text-amber-600 hover:text-white'
               } px-3 sm:px-4 py-2`}>
                 <span className={`absolute inset-0 transition-transform duration-500 ease-out transform origin-left scale-x-0 group-hover:scale-x-100 ${
                   isScrolled ? 'bg-amber-600' : 'bg-amber-600'
