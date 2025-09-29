@@ -74,7 +74,7 @@ const CeedeeHomepage = () => {
         />
 
         {/* Hero Content */}
-        <div className="relative z-20 container mx-auto px-6 -mt-40 text-white">
+        <div className="relative z-20 container mx-auto px-6 md:-mt-40 -mt-10 text-white">
           <div className="grid md:grid-cols-2 gap-35 items-center">
             {/* Left Column: Headline & Pills */}
             <div className="flex flex-col gap-8 text-center md:text-left">
@@ -122,7 +122,7 @@ const CeedeeHomepage = () => {
               </div>
             </div>
           </div>
-          <div className="marquee-wrapper border-t border-b border-t-white/20 border-b-white/20 md:-mb-60 md:mt-50 mt-10 rounded-full py-2 text-sm md:text-2xl bg-white/5 text-white raleway-light">
+          <div className="marquee-wrapper md:block hidden border-t border-b border-t-white/20 border-b-white/20 md:-mb-60 md:mt-50 -mt-7 rounded-full py-2 text-sm md:text-2xl bg-white/5 text-white raleway-light">
             <div className="marquee-content">
               {/* First copy of the text */}
               <div className="marquee-text">
