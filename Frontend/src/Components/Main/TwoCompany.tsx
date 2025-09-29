@@ -95,7 +95,7 @@ const CompanyCard = ({ company, isLeft, hoveredSide }: CompanyCardProps) => {
         </p>
         <button
           onClick={() => window.open(website, "_blank")}
-          className="group bg-white text-gray-900 hover:bg-gray-100 px-6 sm:px-8 py-2.5 sm:py-3 font-light tracking-wider text-sm cursor-pointer transition-all duration-300 border border-white"
+          className="group bg-white rounded-full text-regular text-gray-900 hover:bg-gray-100 px-6 sm:px-8 py-2.5 sm:py-3 font-light tracking-wider text-sm cursor-pointer transition-all duration-300 border border-white"
         >
           {buttonText.toUpperCase()}
           <span className="inline-block ml-3 group-hover:translate-x-1 transition-transform duration-300">
