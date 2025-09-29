@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import TwoCompany from "../../Components/Main/TwoCompany";
 import PartnerSection from "../../Components/Main/PartnerSection";
 import { Link, useNavigate } from "react-router";
+import LegacyBentoGrid from "../../Components/Main/LegacyBento";
 const CeedeeHomepage = () => {
   const navigate = useNavigate();
 
@@ -67,7 +68,7 @@ const CeedeeHomepage = () => {
       <section className="relative bg-gradient-to-b from-amber-400/10 via-white via-50% to-white h-screen flex items-center justify-center overflow-hidden">
         {/* Parallax Background */}
         <div
-          className="absolute inset-0 bg-fixed bg-cover bg-center h-160 w-360 mx-auto mt-17 rounded-none md:rounded-2xl"
+          className="absolute inset-0 bg-fixed bg-cover bg-center h-160 w-360 mx-auto mt-17 rounded-none md:rounded-2xl shadow-[inset_0_0_40px_rgba(0,0,0,1)]"
           style={{
             backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
           }}
@@ -156,101 +157,9 @@ const CeedeeHomepage = () => {
         </div>
       </section>
 
-      {/* Company Identity & Legacy */}
-      <section className="py-12 bg-white">
-        <div className="max-w-screen mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            {/* Left Column: Main Heading and Description */}
-            <div>
-              <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8 leading-tight">
-                A Legacy of{" "}
-                <span className="font-bold">Entrepreneurial Excellence</span>
-              </h2>
-              <div className="w-16 h-px bg-gray-900 mb-8"></div>
-              <p className="text-lg text-gray-700 max-w-2xl leading-relaxed">
-                Ceedee's Group represents decades of visionary leadership,
-                building a trusted brand that creates lasting value for all
-                stakeholders while contributing to community development and
-                economic growth.
-              </p>
-            </div>
+      
 
-            {/* Right Column: Supporting Points */}
-            <div className="space-y-8">
-              <div className="bg-gray-50 rounded-4xl border border-gray-200 p-8">
-                <div className="w-3 h-3 border border-gray-400 rounded-full mb-4"></div>
-                <h3 className="text-2xl font-regular text-gray-900 mb-3">
-                  Strategic Portfolio
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Our diversified business model across automotive and
-                  industrial sectors creates resilient growth opportunities for
-                  investors and partners.
-                </p>
-              </div>
-              <div className="bg-gray-50 rounded-4xl border border-gray-200 p-8">
-                <div className="w-3 h-3 border border-gray-400 rounded-full mb-4"></div>
-                <h3 className="text-2xl font-regular text-gray-900 mb-3">
-                  Community Commitment
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  We are deeply invested in social upliftment, fostering
-                  education, innovation, and sustainable practices in the
-                  communities we serve.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Grid Container */}
-      <section className="py-0 sm:py-12 md:py-16 px-4 sm:px-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {stakeholders.map((stakeholder) => (
-            <div
-              key={stakeholder.id}
-              className={`relative min-h-[280px] sm:min-h-[300px] lg:min-h-[350px] transition-all rounded-2xl sm:rounded-3xl duration-300 group overflow-hidden ${stakeholder.gridClass}`}
-            >
-              {/* Background Image */}
-              <div className="absolute inset-0">
-                <img
-                  src={stakeholder.image}
-                  className="w-full h-full object-cover transition-all duration-500"
-                  alt={stakeholder.title}
-                />
-                <div className="absolute inset-0 bg-black/60 transition-colors duration-300"></div>
-              </div>
-
-              {/* Content - Made responsive */}
-              <div className="absolute inset-0 flex flex-col justify-between p-6 sm:p-8">
-                <div className="flex justify-between items-start">
-                  <div className="w-8 sm:w-12 h-px bg-white opacity-70"></div>
-                  <div className="w-3 h-3 sm:w-4 sm:h-4 border border-white/50"></div>
-                </div>
-
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-light text-white mb-4 sm:mb-6 tracking-wide">
-                    {stakeholder.title}
-                  </h3>
-                  <div className="space-y-2 sm:space-y-3">
-                    {stakeholder.benefits.map((benefit, benefitIndex) => (
-                      <div key={benefitIndex} className="flex items-start">
-                        <div className="w-2 h-2 border border-white/70 mt-1.5 sm:mt-2 mr-2 sm:mr-3 flex-shrink-0"></div>
-                        <span className="text-white/90 text-xs sm:text-sm font-light leading-relaxed">
-                          {benefit}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-5 transition-opacity duration-300"></div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <LegacyBentoGrid/>
 
       {/* Partner's Section */}
       <PartnerSection />
@@ -423,8 +332,8 @@ const CeedeeHomepage = () => {
 
           <div className="grid md:grid-cols-3 gap-5">
             {/* Card 1: Employment Generation */}
-            <div className="border rounded-4xl border-gray-200 p-8 flex flex-col">
-              <div className="flex-grow">
+            <div className="border rounded-4xl shadow-[inset_0_0_20px_rgba(0,0,0,0.2)] hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.2)] transition-all duration-150 border-gray-200 p-8 flex flex-col">
+              <div className="flex-grow ">
                 <h3 className="text-2xl font-light text-gray-900 mb-4">
                   Employment Generation
                 </h3>
@@ -442,7 +351,7 @@ const CeedeeHomepage = () => {
             </div>
 
             {/* Card 2: Local Sourcing */}
-            <div className="border rounded-4xl border-gray-200 p-8 flex flex-col">
+            <div className="border rounded-4xl shadow-[inset_0_0_20px_rgba(0,0,0,0.2)] hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.2)] transition-all duration-150  border-gray-200 p-8 flex flex-col">
               <div className="flex-grow">
                 <h3 className="text-2xl font-light text-gray-900 mb-4">
                   Local Sourcing
@@ -462,7 +371,7 @@ const CeedeeHomepage = () => {
             </div>
 
             {/* Card 3: Community Development */}
-            <div className="border rounded-4xl border-gray-200 p-8 flex flex-col">
+            <div className="border rounded-4xl shadow-[inset_0_0_20px_rgba(0,0,0,0.2)] hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.2)] transition-all duration-150  border-gray-200 p-8 flex flex-col">
               <div className="flex-grow">
                 <h3 className="text-2xl font-light text-gray-900 mb-4">
                   Community Development
@@ -519,7 +428,7 @@ const CeedeeHomepage = () => {
       </section>
 
       {/* Services Overview */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 mb-8 sm:mb-12 rounded-2xl sm:rounded-3xl max-w-355 mx-4 sm:mx-auto border border-black/5 bg-gray-50">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 mb-8 sm:mb-12 rounded-2xl sm:rounded-3xl max-w-355 mx-4 sm:mx-auto border border-black/5 bg-gray-50 shadow-[inset_0_0_20px_rgba(0,0,0,0.2)]">
         <div className="mx-auto px-4 sm:px-6">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-gray-900 mb-6 sm:mb-8">
