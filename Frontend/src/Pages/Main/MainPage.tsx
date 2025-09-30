@@ -102,9 +102,7 @@ const CeedeeHomepage = () => {
         </div>
       </section>
 
-      
-
-      <LegacyBentoGrid/>
+      <LegacyBentoGrid />
 
       {/* Partner's Section */}
       <PartnerSection />
@@ -170,13 +168,17 @@ const CeedeeHomepage = () => {
                     <div className="text-xl sm:text-2xl font-light text-gray-900">
                       1995
                     </div>
-                    <div className="text-xs sm:text-sm text-gray-600">Established</div>
+                    <div className="text-xs sm:text-sm text-gray-600">
+                      Established
+                    </div>
                   </div>
                   <div className="bg-white rounded-2xl sm:rounded-3xl py-4 sm:py-6 p-3 sm:p-4 shadow-sm">
                     <div className="text-xl sm:text-2xl font-light text-gray-900">
                       ₹300Cr
                     </div>
-                    <div className="text-xs sm:text-sm text-gray-600">Revenue Target</div>
+                    <div className="text-xs sm:text-sm text-gray-600">
+                      Revenue Target
+                    </div>
                   </div>
                 </div>
 
@@ -227,13 +229,17 @@ const CeedeeHomepage = () => {
                     <div className="text-xl sm:text-2xl font-light text-gray-900">
                       1986
                     </div>
-                    <div className="text-xs sm:text-sm text-gray-600">Since</div>
+                    <div className="text-xs sm:text-sm text-gray-600">
+                      Since
+                    </div>
                   </div>
                   <div className="bg-white rounded-2xl sm:rounded-3xl py-4 sm:py-6 p-3 sm:p-4 shadow-sm">
                     <div className="text-xl sm:text-2xl font-light text-gray-900">
                       A-Grade
                     </div>
-                    <div className="text-xs sm:text-sm text-gray-600">MASS Certified</div>
+                    <div className="text-xs sm:text-sm text-gray-600">
+                      MASS Certified
+                    </div>
                   </div>
                 </div>
 
@@ -353,13 +359,31 @@ const CeedeeHomepage = () => {
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {[
-              { stat: "1986", label: "OLDEST SERVICE CENTRE", sublabel: "South India Legacy" },
-              { stat: "1995", label: "POLYMERS ESTABLISHED", sublabel: "Industrial Excellence" },
-              { stat: "₹300Cr", label: "REVENUE TARGET", sublabel: "Growth Trajectory" },
-              { stat: "1000+", label: "EMPLOYMENT GOAL", sublabel: "Community Impact" }
+              {
+                stat: "1986",
+                label: "OLDEST SERVICE CENTRE",
+                sublabel: "South India Legacy",
+              },
+              {
+                stat: "1995",
+                label: "POLYMERS ESTABLISHED",
+                sublabel: "Industrial Excellence",
+              },
+              {
+                stat: "₹300Cr",
+                label: "REVENUE TARGET",
+                sublabel: "Growth Trajectory",
+              },
+              {
+                stat: "1000+",
+                label: "EMPLOYMENT GOAL",
+                sublabel: "Community Impact",
+              },
             ].map((item, index) => (
               <div key={index} className="text-center">
-                <div className="text-3xl sm:text-4xl font-light mb-2">{item.stat}</div>
+                <div className="text-3xl sm:text-4xl font-light mb-2">
+                  {item.stat}
+                </div>
                 <div className="text-xs sm:text-sm text-gray-400 tracking-wider">
                   {item.label}
                 </div>
@@ -390,26 +414,37 @@ const CeedeeHomepage = () => {
             {[
               {
                 title: "Industrial Packaging",
-                description: "Food Grade PP Woven Fabrics, Sacks and Bags for diverse industries with international quality standards.",
-                image: "https://hubs.com.sg/mt-content/uploads/2024/07/industry-packaging.jpg"
+                description:
+                  "Food Grade PP Woven Fabrics, Sacks and Bags for diverse industries with international quality standards.",
+                image:
+                  "https://hubs.com.sg/mt-content/uploads/2024/07/industry-packaging.jpg",
               },
               {
                 title: "Automobile Service",
-                description: "Comprehensive Maruti service and multi-brand automotive solutions with a customer-centric approach.",
-                image: "https://specializedtruckandauto.com/wp-content/uploads/engine-repair-scaled.jpeg"
+                description:
+                  "Comprehensive Maruti service and multi-brand automotive solutions with a customer-centric approach.",
+                image:
+                  "https://specializedtruckandauto.com/wp-content/uploads/engine-repair-scaled.jpeg",
               },
               {
                 title: "Quality Assurance",
-                description: "ISO 9002, ZED, and A-Grade certifications ensuring excellence and reliability across all operations.",
-                image: "https://tse4.mm.bing.net/th/id/OIP.3-yZl6H_DTg_MHP83PDksgHaD7?rs=1&pid=ImgDetMain"
+                description:
+                  "ISO 9002, ZED, and A-Grade certifications ensuring excellence and reliability across all operations.",
+                image:
+                  "https://tse4.mm.bing.net/th/id/OIP.3-yZl6H_DTg_MHP83PDksgHaD7?rs=1&pid=ImgDetMain",
               },
               {
                 title: "Partnership Focus",
-                description: "Building long-term partnerships with customers, suppliers, and stakeholders for mutual growth and success.",
-                image: "https://img.freepik.com/premium-vector/partnership-abstract-concept-vector-illustration_107173-20406.jpg"
-              }
+                description:
+                  "Building long-term partnerships with customers, suppliers, and stakeholders for mutual growth and success.",
+                image:
+                  "https://img.freepik.com/premium-vector/partnership-abstract-concept-vector-illustration_107173-20406.jpg",
+              },
             ].map((service, index) => (
-              <div key={index} className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden group transition-all duration-300 hover:shadow-xl">
+              <div
+                key={index}
+                className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden group transition-all duration-300 hover:shadow-xl"
+              >
                 <div className="h-40 sm:h-48 overflow-hidden">
                   <img
                     src={service.image}
