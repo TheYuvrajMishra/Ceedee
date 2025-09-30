@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import TwoCompany from "../../Components/Main/TwoCompany";
 import PartnerSection from "../../Components/Main/PartnerSection";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import LegacyBentoGrid from "../../Components/Main/LegacyBento";
 import { HeroSection } from "../../Components/Main/Hero";
 const CeedeeHomepage = () => {
