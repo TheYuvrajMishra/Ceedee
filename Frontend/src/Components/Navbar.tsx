@@ -1,7 +1,6 @@
 import { Menu, X, ChevronDown, Mail, Twitter, Linkedin, Instagram, Building2, Car, Target } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
 // Updated data structure with meaningful Lucide icons
 const NAV_LINKS = [
   {
@@ -51,10 +50,13 @@ const Header = () => {
   const closeMenu = () => setIsMenuOpen(false);
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
+  const isHome = location.pathname === '/';
+
+  const isNotHomeEfx = isHome ? "md:bg-transparent":"md:bg-white/95";
   // --- STYLES ---
-  const headerClasses = isScrolled
+  const headerClasses = isScrolled && isHome
     ? 'md:bg-white/95 md:backdrop-blur-lg md:shadow-sm bg-white/95 backdrop-blur-lg shadow-sm'
-    : 'md:bg-transparent bg-white/95';
+    : `${isNotHomeEfx} bg-white/95`;
 
   // --- RENDER ---
   return (
