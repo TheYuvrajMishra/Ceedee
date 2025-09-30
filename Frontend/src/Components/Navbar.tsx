@@ -53,8 +53,8 @@ const Header = () => {
 
   // --- STYLES ---
   const headerClasses = isScrolled
-    ? 'bg-white/95 backdrop-blur-lg shadow-sm'
-    : 'bg-transparent';
+    ? 'md:bg-white/95 md:backdrop-blur-lg md:shadow-sm bg-white/95 backdrop-blur-lg shadow-sm'
+    : 'md:bg-transparent bg-white/95';
 
   // --- RENDER ---
   return (

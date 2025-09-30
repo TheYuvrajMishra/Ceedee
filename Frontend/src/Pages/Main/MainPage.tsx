@@ -3,6 +3,7 @@ import TwoCompany from "../../Components/Main/TwoCompany";
 import PartnerSection from "../../Components/Main/PartnerSection";
 import { Link, useNavigate } from "react-router";
 import LegacyBentoGrid from "../../Components/Main/LegacyBento";
+import { HeroSection } from "../../Components/Main/Hero";
 const CeedeeHomepage = () => {
   const navigate = useNavigate();
   return (
@@ -10,97 +11,7 @@ const CeedeeHomepage = () => {
       <title>Ceedee's | Home</title>
 
       {/* Hero Section with Parallax */}
-      <section className="relative bg-gradient-to-b from-amber-400/10 via-white via-50% to-white h-screen flex items-center justify-center overflow-hidden">
-        {/* Parallax Background */}
-        <div
-          className="absolute inset-0 bg-fixed bg-cover bg-center h-160 w-360 mx-auto mt-17 rounded-none md:rounded-2xl shadow-[inset_0_0_40px_rgba(0,0,0,1)]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
-          }}
-        />
-
-        {/* Hero Content */}
-        <div className="relative z-20 container mx-auto px-6 md:-mt-40 -mt-10 text-white">
-          <div className="grid md:grid-cols-2 gap-35 items-center">
-            {/* Left Column: Headline & Pills */}
-            <div className="flex flex-col gap-8 text-center md:text-left">
-              <h1 className="text-4xl md:mt-0 mt-50 md:text-4xl lg:text-6xl font-thin leading-tight tracking-tight">
-                Building Trust, Creating Value, Empowering Communities
-              </h1>
-              <div className="flex items-center justify-center md:justify-start gap-3 flex-wrap">
-                <span className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-sm font-medium">
-                  Polymers
-                </span>
-                <span className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-sm font-medium">
-                  Autmobiles
-                </span>
-                <span className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-sm font-medium">
-                  Solutions
-                </span>
-              </div>
-            </div>
-
-            {/* Right Column: Description & CTA */}
-            <div className="flex flex-col gap-8 -mt-25 md:mt-0  items-center md:items-end">
-              <p className="md:text-lg text-sm text-white/80 max-w-md leading-relaxed text-center md:text-right">
-                A legacy of excellence spanning decades, creating opportunities
-                while delivering sustainable solutions across industries.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-20">
-                <button
-                  onClick={() => {
-                    const el = document.getElementById("ExploreServices");
-                    if (el) el.scrollIntoView({ behavior: "smooth" });
-                  }}
-                  className="bg-white group rounded-full text-black cursor-pointer px-8 py-3 hover:bg-white/95 transition-colors duration-300 tracking-wider text-sm"
-                >
-                  EXPLORE OPPORTUNITIES
-                  <ArrowRight className="inline ml-2 w-4 h-4 transition-all duration-150 group-hover:translate-x-1 translate-x-0" />
-                </button>
-                <Link
-                  to={"/contact"}
-                  onClick={() => navigate("/contact")}
-                  className="border group rounded-full border-white cursor-pointer text-white hover:bg-white hover:text-black px-8 py-3 transition-colors duration-300 tracking-wider text-sm"
-                >
-                  BECOME A PARTNER
-                  <ArrowRight className="inline ml-2 w-4 h-4 transition-all duration-150 group-hover:translate-x-1 translate-x-0" />
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="marquee-wrapper md:block hidden border-t border-b border-t-white/20 border-b-white/20 md:-mb-60 md:mt-50 -mt-7 rounded-full py-2 text-sm md:text-2xl bg-white/5 text-white raleway-light">
-            <div className="marquee-content">
-              {/* First copy of the text */}
-              <div className="marquee-text">
-                Building Trust • Creating Value • Empowering Communities •
-                Excellence in Partnership • Sustainable Growth • Community
-                Impact...
-              </div>
-              {/* Second copy (the duplicate for the seamless effect) */}
-              <div className="marquee-text" aria-hidden="true">
-                Building Trust • Creating Value • Empowering Communities •
-                Excellence in Partnership • Sustainable Growth • Community
-                Impact...
-              </div>
-              <div className="marquee-text" aria-hidden="true">
-                Building Trust • Creating Value • Empowering Communities •
-                Excellence in Partnership • Sustainable Growth • Community
-                Impact...
-              </div>
-              <div className="marquee-text" aria-hidden="true">
-                Building Trust • Creating Value • Empowering Communities •
-                Excellence in Partnership • Sustainable Growth • Community
-                Impact...
-              </div>
-              <div className="marquee-text" aria-hidden="true">
-                Building Trust • Creating Value • Empowering Communities •
-                Excellence in Partnership • Sustainable Growth • Community
-                Impact...
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection/>
 
       <LegacyBentoGrid />
 
