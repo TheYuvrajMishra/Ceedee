@@ -6,6 +6,21 @@
   to { transform: rotate(360deg); }
 }
 
+/* Scroll indicator animation */
+@keyframes scrollIndicator {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+}
+
 
 /* The outer container that hides the overflowing text */
 .marquee-wrapper {
@@ -16,7 +31,7 @@
 /* The inner container that holds and animates the text blocks */
 .marquee-content {
   display: flex; /* Places text blocks side-by-side */
-  animation: scroll 25s linear infinite; /* Apply the animation */
+  animation: marqueeScroll 25s linear infinite; /* Apply the animation */
   width: fit-content;
 }
 
@@ -28,7 +43,7 @@
 }
 
 /* Define the scrolling animation */
-@keyframes scroll {
+@keyframes marqueeScroll {
   from {
     transform: translateX(0);
   }
