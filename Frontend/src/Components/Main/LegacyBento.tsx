@@ -11,11 +11,10 @@ const BentoCard: React.FC<BentoCardProps> = ({ children, className = "" }) => {
     <div
       className={`relative flex flex-col rounded-4xl bg-slate-50 p-8
                  border border-slate-200/80
-                 md:shadow-[inset_0_0_40px_rgba(0,0,0,0.1)]
+                 
                  ${className}`}
     >
-      {/* Inner Shadow for Depth - UPDATED for stronger effect */}
-      <div className="pointer-events-none absolute inset-0 rounded-4xl shadow-[inset_0_2px_8px_rgba(0,0,0,0.08)]" />
+      <div className="pointer-events-none absolute inset-0 rounded-4xl" />
       
       {/* Card Content */}
       <div className="relative z-10 h-full flex flex-col">
@@ -172,8 +171,7 @@ const LegacyBentoGrid = () => {
               >
                 <img src={stakeholder.image} className="absolute inset-0 w-full h-full object-cover" alt={stakeholder.title} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
-                {/* Inner Shadow for Depth - UPDATED for stronger effect */}
-                <div className="absolute inset-0 rounded-4xl shadow-[inset_0_0_40px_rgba(0,0,0,1)]" />
+                <div className="absolute inset-0 rounded-4xl" />
                 
                 <div className="absolute inset-0 flex flex-col justify-end p-8 text-white">
                   <h3 className="text-2xl font-light mb-4 tracking-wide">

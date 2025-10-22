@@ -92,7 +92,7 @@ const PartnerSection: React.FC = () => {
   );
 
   return (
-    <section className="py-12 mb-12 mt-6 md:max-w-357 mx-auto border border-black/20 transition-all duration-150 rounded-4xl p-6 relative shadow-[inset_0_0_40px_rgba(0,0,0,0.1)]">
+    <section className="py-12 mb-12 mt-6 md:max-w-355 mx-auto border border-black/10 transition-all duration-150 rounded-4xl p-6 relative">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
