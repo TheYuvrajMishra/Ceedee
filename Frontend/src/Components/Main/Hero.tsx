@@ -6,13 +6,13 @@ export function HeroSection() {
 
   return (
     // Base classes for flex centering are kept, as they are essential
-    <section className="relative bg-gradient-to-b from-amber-400/10 via-white via-50% to-white h-screen flex items-center justify-center overflow-hidden mb-6">
+    <section className="relative bg-gradient-to-b from-amber-400/10 via-white via-50% to-white h-screen flex items-center justify-center overflow-hidden">
       
       {/* 1. BACKGROUND: Your exact desktop dimensions are restored. */}
       <div
         className="absolute bg-fixed bg-cover bg-center 
                    inset-4 rounded-2xl 
-                   md:inset-auto md:h-160 md:w-360 md:mx-auto md:mt-17 md:rounded-4xl 
+                   md:inset-auto md:h-160 md:w-360 md:mx-auto md:mt-12 md:rounded-none
                    shadow-[inset_0_0_40px_rgba(0,0,0,1)]"
         style={{
           backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
@@ -73,7 +73,7 @@ export function HeroSection() {
           </div>
         </div>
         
-        {/* 4. MARQUEE: Your exact margins (mt-50, -mb-60) are restored. */}
+        {/* 4. MARQUEE: Your exact margins (mt-50, -mb-60) are restored.
         <div className="marquee-wrapper md:block hidden border-t border-b border-t-white/20 border-b-white/20 rounded-full py-2 text-sm md:text-2xl bg-white/5 text-white md:mt-50 md:-mb-60">
           <div className="marquee-content">
             <div className="marquee-text">
@@ -83,7 +83,7 @@ export function HeroSection() {
               Building Trust • Creating Value • Empowering Communities • Excellence in Partnership • Sustainable Growth •
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );

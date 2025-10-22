@@ -9,12 +9,12 @@ interface BentoCardProps {
 const BentoCard: React.FC<BentoCardProps> = ({ children, className = "" }) => {
   return (
     <div
-      className={`relative flex flex-col rounded-4xl bg-slate-50 p-8
+      className={`relative flex flex-col  bg-slate-50 p-8
                  border border-slate-200/80
                  
                  ${className}`}
     >
-      <div className="pointer-events-none absolute inset-0 rounded-4xl" />
+      <div className="pointer-events-none absolute inset-0 " />
       
       {/* Card Content */}
       <div className="relative z-10 h-full flex flex-col">
@@ -143,8 +143,8 @@ const cardData: Card[] = [
 // --- Main LegacyBentoGrid Component ---
 const LegacyBentoGrid = () => {
   return (
-    <section className="py-16 md:py-3 px-4 md:px-8">
-      <div className="md:w-355  mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6">
+    <section className="py-16 md:py-3 px-4">
+      <div className="md:w-357 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6">
         {cardData.map((card) => {
           if (card.type === 'text') {
             return (
@@ -167,11 +167,11 @@ const LegacyBentoGrid = () => {
             return (
               <div
                 key={stakeholder.id}
-                className={`relative min-h-[350px] md:min-h-[400px] rounded-4xl overflow-hidden ${card.className}`}
+                className={`relative min-h-[350px] md:min-h-[400px]  overflow-hidden ${card.className}`}
               >
                 <img src={stakeholder.image} className="absolute inset-0 w-full h-full object-cover" alt={stakeholder.title} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
-                <div className="absolute inset-0 rounded-4xl" />
+                <div className="absolute inset-0 " />
                 
                 <div className="absolute inset-0 flex flex-col justify-end p-8 text-white">
                   <h3 className="text-2xl font-light mb-4 tracking-wide">

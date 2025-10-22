@@ -11,13 +11,32 @@ const CeedeeHomepage = () => {
       <title>Ceedee's | Home</title>
 
       {/* Hero Section with Parallax */}
-      <HeroSection/>
+      <HeroSection />
+      
+      {/* Marquee Section */}
+      <div className="marquee-wrapper mx-auto md:block hidden border-t border-b border-t-black/20 font-thin border-b-black/20 py-2 text-sm md:text-2xl bg-black/5 text-black mb-2">
+        <div className="marquee-content">
+          <div className="marquee-text">
+            Building Trust • Creating Value • Empowering Communities •
+            Excellence in Partnership • Sustainable Growth •
+          </div>
+          <div className="marquee-text" aria-hidden="true">
+            Building Trust • Creating Value • Empowering Communities •
+            Excellence in Partnership • Sustainable Growth •
+          </div>
+          <div className="marquee-text" aria-hidden="true">
+            Building Trust • Creating Value • Empowering Communities •
+            Excellence in Partnership • Sustainable Growth •
+          </div>
+        </div>
+      </div>
 
       <LegacyBentoGrid />
 
       <div id="ExploreServices" className="py-5">
         <TwoCompany />
       </div>
+
 
       {/* Company Showcase */}
       <section className="py-12 sm:py-16 md:py-20 lg:py-24" id="Company">
@@ -40,7 +59,7 @@ const CeedeeHomepage = () => {
                 <img
                   src="https://www.ppilbd.com/wp-content/uploads/2022/07/IMG_20220331_090854_603.jpg"
                   alt="Venbro Polymers manufacturing"
-                  className="w-full h-full object-cover rounded-2xl sm:rounded-3xl"
+                  className="w-full h-full object-cover  sm:"
                 />
               </div>
 
@@ -72,7 +91,7 @@ const CeedeeHomepage = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
-                  <div className="bg-white rounded-2xl sm:rounded-3xl py-4 sm:py-6 p-3 sm:p-4 shadow-sm">
+                  <div className="bg-white  py-4 sm:py-6 p-3 sm:p-4 shadow-sm">
                     <div className="text-xl sm:text-2xl font-light text-gray-900">
                       1995
                     </div>
@@ -80,7 +99,7 @@ const CeedeeHomepage = () => {
                       Established
                     </div>
                   </div>
-                  <div className="bg-white rounded-2xl sm:rounded-3xl py-4 sm:py-6 p-3 sm:p-4 shadow-sm">
+                  <div className="bg-white  py-4 sm:py-6 p-3 sm:p-4 shadow-sm">
                     <div className="text-xl sm:text-2xl font-light text-gray-900">
                       ₹300Cr
                     </div>
@@ -133,7 +152,7 @@ const CeedeeHomepage = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
-                  <div className="bg-white rounded-2xl sm:rounded-3xl py-4 sm:py-6 p-3 sm:p-4 shadow-sm">
+                  <div className="bg-white  py-4 sm:py-6 p-3 sm:p-4 shadow-sm">
                     <div className="text-xl sm:text-2xl font-light text-gray-900">
                       1986
                     </div>
@@ -141,7 +160,7 @@ const CeedeeHomepage = () => {
                       Since
                     </div>
                   </div>
-                  <div className="bg-white rounded-2xl sm:rounded-3xl py-4 sm:py-6 p-3 sm:p-4 shadow-sm">
+                  <div className="bg-white  py-4 sm:py-6 p-3 sm:p-4 shadow-sm">
                     <div className="text-xl sm:text-2xl font-light text-gray-900">
                       A-Grade
                     </div>
@@ -166,7 +185,7 @@ const CeedeeHomepage = () => {
                 <img
                   src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
                   alt="SKAE automobile service"
-                  className="w-full h-full object-cover rounded-2xl sm:rounded-3xl"
+                  className="w-full h-full object-cover  sm:"
                 />
               </div>
             </div>
@@ -178,7 +197,7 @@ const CeedeeHomepage = () => {
       <PartnerSection />
 
       {/* Group Statistics */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 mb-8 sm:mb-12 bg-gray-900 rounded-2xl sm:rounded-3xl max-w-355 mx-4 sm:mx-auto text-white">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 mb-8 sm:mb-12 bg-gray-900  max-w-355 mx-4 sm:mx-auto text-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-6 sm:mb-8">
@@ -230,7 +249,6 @@ const CeedeeHomepage = () => {
         </div>
       </section>
 
-
       {/* CSR & Community Impact */}
       <section className="py-24 bg-white">
         <div className="max-w-screen mx-auto px-6">
@@ -248,7 +266,7 @@ const CeedeeHomepage = () => {
 
           <div className="grid md:grid-cols-3 gap-5">
             {/* Card 1: Employment Generation */}
-            <div className="border rounded-4xl hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.2)] transition-all duration-150 border-gray-200 p-8 flex flex-col">
+            <div className="border  hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.2)] transition-all duration-250 border-gray-200 p-8 flex flex-col">
               <div className="flex-grow ">
                 <h3 className="text-2xl font-light text-gray-900 mb-4">
                   Employment Generation
@@ -267,7 +285,7 @@ const CeedeeHomepage = () => {
             </div>
 
             {/* Card 2: Local Sourcing */}
-            <div className="border rounded-4xl hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.2)] transition-all duration-150  border-gray-200 p-8 flex flex-col">
+            <div className="border  hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.2)] transition-all duration-250  border-gray-200 p-8 flex flex-col">
               <div className="flex-grow">
                 <h3 className="text-2xl font-light text-gray-900 mb-4">
                   Local Sourcing
@@ -287,7 +305,7 @@ const CeedeeHomepage = () => {
             </div>
 
             {/* Card 3: Community Development */}
-            <div className="border rounded-4xl hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.2)] transition-all duration-150  border-gray-200 p-8 flex flex-col">
+            <div className="border  hover:shadow-[inset_0_0_10px_rgba(0,0,0,0.2)] transition-all duration-250  border-gray-200 p-8 flex flex-col">
               <div className="flex-grow">
                 <h3 className="text-2xl font-light text-gray-900 mb-4">
                   Community Development
@@ -307,7 +325,6 @@ const CeedeeHomepage = () => {
           </div>
         </div>
       </section>
-
 
       {/* Call to Action */}
       <section className="pt-24">

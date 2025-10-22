@@ -61,7 +61,7 @@ const Header = () => {
   // --- RENDER ---
   return (
     <>
-      <header className={`fixed top-0 w-full z-50 transition-all md:rounded-t md:rounded-4xl rounded-none duration-300 ${headerClasses}`}>
+      <header className={`fixed top-0 w-full z-50 transition-all md:rounded-t rounded-none duration-300 ${headerClasses}`}>
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             

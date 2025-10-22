@@ -147,7 +147,7 @@ const TwoCompany = () => {
   return (
     <section
       
-      className="h-full rounded-4xl max-w-355 mx-auto relative overflow-hidden bg-white"
+      className="h-full max-w-357 mx-auto relative overflow-hidden bg-white"
     >
       <div
         ref={containerRef}

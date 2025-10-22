@@ -16,14 +16,15 @@
 /* The inner container that holds and animates the text blocks */
 .marquee-content {
   display: flex; /* Places text blocks side-by-side */
-  animation: scroll 20s linear infinite; /* Apply the animation */
+  animation: scroll 25s linear infinite; /* Apply the animation */
+  width: fit-content;
 }
 
 /* Prevents the text blocks from shrinking */
 .marquee-text {
   flex-shrink: 0;
   white-space: nowrap; /* Ensures text stays on one line */
-  padding-right: 5px; /* Adds some space between the repeated texts */
+  padding-right: 2rem; /* Adds space between the repeated texts */
 }
 
 /* Define the scrolling animation */
@@ -33,12 +34,11 @@
   }
   to {
     /*
-     * We translate by -50%. Because the .marquee-content is 200% the
-     * width of the text (since it has two copies), moving it by 50%
-     * brings the second copy to the exact start position of the first one,
-     * creating a seamless loop.
+     * We translate by -50%. Because the .marquee-content has two copies,
+     * moving it by 50% brings the second copy to the exact start position 
+     * of the first one, creating a seamless loop.
      */
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 
