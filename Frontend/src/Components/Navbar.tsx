@@ -26,11 +26,19 @@ const NAV_LINKS = [
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const location = useLocation();
 
   // --- HOOKS ---
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+      
+      // Calculate scroll progress
+      const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (window.scrollY / windowHeight) * 100;
+      setScrollProgress(scrolled);
+    };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -61,7 +69,15 @@ const Header = () => {
   // --- RENDER ---
   return (
     <>
-      <header className={`fixed top-0 w-full z-50 transition-all md:rounded-t rounded-none duration-300 ${headerClasses}`}>
+      <header className={`fixed top-0 w-full z-99 transition-all md:rounded-t rounded-none duration-300 ${headerClasses}`}>
+        {/* Scroll Progress Bar - Only visible on desktop */}
+        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-200/50 hidden md:block">
+          <div 
+            className="h-full bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 transition-all duration-150 ease-out"
+            style={{ width: `${scrollProgress}%` }}
+          />
+        </div>
+        
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             
