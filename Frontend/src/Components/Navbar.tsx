@@ -62,14 +62,14 @@ const Header = () => {
 
   const isNotHomeEfx = isHome ? "md:bg-transparent":"md:bg-white/95";
   // --- STYLES ---
-  const headerClasses = isScrolled && isHome
+  const headerClasses = isScrolled
     ? 'md:bg-white/95 md:backdrop-blur-lg md:shadow-sm bg-white/95 backdrop-blur-lg shadow-sm'
-    : `${isNotHomeEfx} bg-white/95`;
+    : `${isNotHomeEfx} md:bg-transparent bg-white/95`;
 
   // --- RENDER ---
   return (
     <>
-      <header className={`fixed top-0 w-full z-99 transition-all md:rounded-t rounded-none duration-300 ${headerClasses}`}>
+      <header className={`fixed top-0 w-full z-50 transition-all md:rounded-t rounded-none duration-300 ${headerClasses}`}>
         {/* Scroll Progress Bar - Only visible on desktop */}
         <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gray-200/50 hidden md:block">
           <div 

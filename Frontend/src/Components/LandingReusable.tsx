@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
+import { ArrowRight } from "lucide-react";
 
 // --- TYPE DEFINITIONS (Unchanged) ---
 interface HeroData {
@@ -14,6 +15,7 @@ interface HeroData {
     secondary: string;
   };
   theme: "red" | "blue"; // This will now be used
+  tags?: string[]; // Optional tags array
 }
 
 interface LegacyData {
@@ -135,8 +137,6 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const parallaxOffset = scrollY * 0.3;
-
   const handleButtonClick = (type: string, text: string) => {
     if (onButtonClick) {
       onButtonClick(type, text);
@@ -146,67 +146,100 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative bg-gradient-to-b from-amber-400/10 via-white via-50% to-white h-screen flex items-center justify-center overflow-hidden">
+        
+        {/* Background Image Container */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute bg-fixed bg-cover bg-center 
+                     inset-4 rounded-2xl 
+                     md:inset-auto md:h-160 md:w-360 md:mx-auto md:mt-12 md:rounded-none
+                     shadow-[inset_0_0_40px_rgba(0,0,0,1)]"
           style={{
-            transform: `translateY(${parallaxOffset}px)`,
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('${data.hero.backgroundImage}')`,
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${data.hero.backgroundImage}')`,
           }}
         />
-        <div className="relative z-10 text-center text-white max-w-5xl mx-auto px-6">
-          {data.hero.logo === "/venbro_logo.png" ? <><img src={data.hero.logo} className="mx-auto h-40" alt="" /> <h1 className="text-4xl md:text-6xl font-light mb-4 tracking-wide">
-            {data.hero.title}
-          </h1> </>: <img src={data.hero.logo} className="mx-auto h-25 md:h-50" alt="" />}
-          
-          {/* <h1 className="text-4xl md:text-6xl font-light mb-4 tracking-wide">
-            {data.hero.title}
-          </h1> */}
-          {data.hero.subtitle && (
-            <div className="text-xl md:text-2xl font-light mb-6 opacity-90">
-              {data.hero.subtitle}
-            </div>
-          )}
-          <div className={`w-24 h-px ${currentTheme.bg} mx-auto mb-8`}></div>
-          <p className="text-xl md:text-2xl font-light mb-6">
-            {data.hero.tagline}
-          </p>
-          <p className="text-lg opacity-90 max-w-3xl mx-auto leading-relaxed mb-8">
-            {data.hero.description}
-          </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* --- CORRECTED: Use the specific key for clarity --- */}
-            <button
-              onClick={() => {
-                // Check if the button's text is 'Book Services'
-                if (data.hero.buttons.primary === "BOOK SERVICE") {
-                  navigate("/shri-krishna-automobile-enterprises/services");
-                } else {
-                  navigate("/venbro-polymers/products");
-                }
-              }}
-              className={`bg-white cursor-pointer ${currentTheme.heroButtonText} hover:bg-gray-100 px-8 py-3 transition-colors duration-300 tracking-wider text-sm`}
-            >
-              {data.hero.buttons.primary}
-            </button>
-            <Link to="/contact">
-              <button
-                onClick={() =>
-                  handleButtonClick("secondary", data.hero.buttons.secondary)
-                }
-                className={`border cursor-pointer border-white text-white hover:bg-white ${currentTheme.hoverText} px-8 py-3 transition-colors duration-300 tracking-wider text-sm`}
-              >
-                {data.hero.buttons.secondary}
-              </button>
-            </Link>
+        {/* Hero Content */}
+        <div className="relative z-20 container mx-auto px-6 text-white md:-mt-40">
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-[8.75rem] items-center">
+            
+            {/* Left Column */}
+            <div className="flex flex-col gap-8 text-center md:text-left">
+              {/* Logo */}
+              {data.hero.logo && (
+                <img 
+                  src={data.hero.logo} 
+                  className={`${data.hero.logo === "/venbro_logo.png" ? "h-32 md:h-40" : "h-20 md:h-32"} object-contain self-center md:self-start`} 
+                  alt="Company Logo" 
+                />
+              )}
+              
+              {/* Title */}
+              <h1 className="text-4xl md:text-4xl lg:text-6xl font-thin leading-tight tracking-tight">
+                {data.hero.title}
+              </h1>
+
+              {/* Tags/Badges */}
+              {data.hero.tags && data.hero.tags.length > 0 && (
+                <div className="flex items-center justify-center md:justify-start gap-3 flex-wrap">
+                  {data.hero.tags.map((tag, index) => (
+                    <span 
+                      key={index}
+                      className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-sm font-medium"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Right Column */}
+            <div className="flex flex-col gap-8 items-center md:items-end">
+              {/* Tagline */}
+              {data.hero.tagline && (
+                <p className="md:text-lg text-sm text-white/80 max-w-md leading-relaxed text-center md:text-right">
+                  {data.hero.tagline}
+                </p>
+              )}
+
+              {/* Description */}
+              <p className="md:text-lg text-sm text-white/80 max-w-md leading-relaxed text-center md:text-right">
+                {data.hero.description}
+              </p>
+
+              {/* Buttons */}
+              <div className="flex flex-col w-70 sm:flex-row gap-4 justify-center">
+                <button
+                  onClick={() => {
+                    if (data.hero.buttons.primary === "BOOK SERVICE") {
+                      navigate("/shri-krishna-automobile-enterprises/services");
+                    } else {
+                      navigate("/venbro-polymers/products");
+                    }
+                  }}
+                  className="bg-white group rounded-full text-black cursor-pointer px-8 py-3 hover:bg-white/95 transition-colors duration-300 tracking-wider text-sm"
+                >
+                  {data.hero.buttons.primary}
+                  <ArrowRight className="inline ml-2 w-4 h-4 transition-transform duration-150 group-hover:translate-x-1" />
+                </button>
+                <Link
+                  to="/contact"
+                  className="border group rounded-full border-white cursor-pointer text-white hover:bg-white hover:text-black px-8 py-3 transition-colors duration-300 tracking-wider text-center text-sm"
+                >
+                  {data.hero.buttons.secondary}
+                  <ArrowRight className="inline ml-2 w-4 h-4 transition-transform duration-150 group-hover:translate-x-1" />
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Legacy Section */}
       <section className="py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-360 mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8 leading-tight">
@@ -239,7 +272,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
 
       {/* Philosophy Section */}
       <section className="py-24 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-360 mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
               {data.philosophy.title}
@@ -277,7 +310,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
 
       {/* Services Section */}
       <section className="py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-360 mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             <div className="relative md:sticky">
               <img
@@ -314,7 +347,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
           data.certification.backgroundColor || "bg-black/95"
         } text-white`}
       >
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-360 mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-4xl md:text-5xl font-light mb-8">
@@ -351,7 +384,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
 
       {/* Customer Experience Section */}
       <section className="py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-360 mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-light text-gray-900 mb-8">
               {data.experience.title}
