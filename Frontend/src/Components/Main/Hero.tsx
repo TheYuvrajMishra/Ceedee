@@ -11,8 +11,8 @@ export function HeroSection() {
       {/* 1. BACKGROUND: Your exact desktop dimensions are restored. */}
       <div
         className="absolute bg-fixed bg-cover bg-center 
-                   inset-4 rounded-2xl 
-                   md:inset-auto md:h-160 md:w-360 md:mx-auto md:mt-12 md:rounded-none
+                   inset-4 
+                   md:inset-auto md:h-160 md:w-360 md:mx-auto md:mt-12
                    shadow-[inset_0_0_40px_rgba(0,0,0,1)]"
         style={{
           backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
