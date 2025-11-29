@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CeeDee's Group - Building Trust, Creating Value</title>
+  
+  <!-- FAVICON ADDED HERE -->
+  <link rel="icon" type="image/png" href="./image_70c127.png">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Load only required weights for better performance (Inter: 400, 600, 700; Oswald: 400, 500, 700) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      /* Base Brand Colors (Constant) */
+      --brand-copper: #D97736;
+      --brand-orange-glow: rgba(217, 119, 54, 0.4);
+      --cinematic-filter: contrast(110%) brightness(105%) sepia(5%) saturate(1);
+
+      /* Dark Theme (Default) */
+      --bg-main: #050505;
+      --bg-header: rgba(8, 8, 8, 0.9);
+      --bg-card: #0A0A0A;
+      --bg-hover: #151515;
+      --text-main: #ffffff;
+      --text-muted: #9ca3af; /* gray-400 */
+      --border-main: #1A1A1A;
+      --grid-line: rgba(255, 255, 255, 0.08);
+      --glass-btn-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.15);
+    }
+
+    [data-theme="light"] {
+      /* Light Theme Overrides */
+      --bg-main: #FFFFFF;
+      --bg-header: rgba(255, 255, 255, 0.95);
+      --bg-card: #F3F4F6;
+      --bg-hover: #E5E7EB;
+      --text-main: #111827; /* gray-900 */
+      --text-muted: #4B5563; /* gray-600 */
+      --border-main: #E5E7EB; /* gray-200 */
+      --grid-line: rgba(0, 0, 0, 0.05);
+      --glass-btn-bg: rgba(0, 0, 0, 0.05);
+      --glass-border: rgba(0, 0, 0, 0.1);
+    }
+
+    /* ------------------------------------- */
+    /* CSS: Core Styles */
+    /* ------------------------------------- */
+
+    /* GLOBAL UI/UX FIX: Set cursor pointer for all interactive elements */
+    a, button, [role="button"] {
+        cursor: pointer;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      overflow-x: hidden;
+      min-height: 100dvh;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Helper Classes for Theme Variables */
+    .theme-bg-main { background-color: var(--bg-main); }
+    .theme-bg-header { background-color: var(--bg-header); }
+    .theme-bg-card { background-color: var(--bg-card); }
+    .theme-text-main { color: var(--text-main); }
+    .theme-text-muted { color: var(--text-muted); }
+    .theme-border { border-color: var(--border-main); }
+
+    /* Force text white on dark image overlays regardless of theme */
+    .force-text-white { color: white !important; }
+    .force-border-dark { border-color: #222 !important; }
+
+    .font-tech {
+      font-family: 'Inter', monospace;
+      letter-spacing: 0.15em;
+    }
+    
+    .font-display {
+      font-family: 'Oswald', sans-serif;
+    }
+
+    /* HUD, Hero, Glass, Marquee styles */
+    .hud-grid {
+      position: absolute; inset: 0; pointer-events: none; z-index: 20; border: 1px solid var(--grid-line);
+    }
+    .hud-line-y, .hud-line-x { position: absolute; background: var(--grid-line); }
+    .hud-line-y { top: 0; bottom: 0; width: 1px; }
+    .hud-line-x { left: 0; right: 0; height: 1px; }
+    .crosshair-corner { position: absolute; width: 20px; height: 20px; border-color: var(--text-muted); opacity: 0.4; z-index: 30; }
+    .ch-tl { top: 0; left: 0; border-top: 1px solid; border-left: 1px solid; }
+    .ch-tr { top: 0; right: 0; border-top: 1px solid; border-right: 1px solid; }
+    .ch-bl { bottom: 0; left: 0; border-bottom: 1px solid; border-left: 1px solid; }
+    .ch-br { bottom: 0; right: 0; border-bottom: 1px solid; border-right: 1px solid; }
+    
+    .hero-image-container {
+      position: relative; 
+      background-image: url('./assest/hero_section_pic.jpeg'); 
+      background-size: cover; 
+      background-position: center 35%; 
+      filter: var(--cinematic-filter); 
+      transition: transform 10s ease;
+    }
+    .noise-overlay { position: absolute; inset: 0; z-index: 5; pointer-events: none; opacity: 0.05; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); mix-blend-mode: overlay; }
+    
+    .glass-btn { background: var(--glass-btn-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); transition: all 0.4s ease; color: var(--text-main); }
+    .glass-btn:hover { background: rgba(217, 119, 54, 0.1); border-color: var(--brand-copper); box-shadow: 0 0 20px var(--brand-orange-glow); }
+    
+    /* Specific override for Hero Buttons to stay white in light mode */
+    .hero-btn { color: white !important; border-color: rgba(255,255,255,0.3); }
+    .hero-btn:hover { border-color: var(--brand-copper); }
+
+    .glass-panel { background: rgba(10, 10, 10, 0.6); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.05); }
+
+    /* Nav Link */
+    .nav-link {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted); 
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+    .nav-link:hover { color: var(--brand-copper); }
+
+    /* DROPDOWN HOVER ANIMATION */
+    .dropdown-menu-transition {
+        transition: opacity 300ms 150ms, visibility 300ms 150ms, transform 300ms 150ms;
+    }
+
+    /* Marquee Animation */
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 30s linear infinite;
+    }
+    
+    .section-title {
+        font-family: 'Oswald', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    /* Theme Toggle Button Animation */
+    .theme-toggle-icon {
+        transition: transform 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+    [data-theme="light"] .sun-icon { display: none; }
+    [data-theme="dark"] .moon-icon { display: none; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-[#D97736] selection:text-white">
+
+    <!-- 1. HEADER / NAVIGATION -->
+    <header class="w-full theme-bg-header backdrop-blur-md border-b theme-border z-50 sticky top-0 transition-colors duration-300">
+        <div class="max-w-[1920px] mx-auto h-20 flex items-center justify-between px-6 md:px-12 relative">
+            
+            <!-- Technical Grid Line under nav -->
+            <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[var(--border-main)] to-transparent"></div>
+
+            <!-- Logo Area (UPDATED WITH IMAGE) -->
+            <div class="flex items-center gap-4 cursor-pointer">
+                <!-- Replaced the CSS div with the IMG tag -->
+                <img src="./image_70c127.png" alt="CeeDee's Group Logo" class="w-10 h-10 object-contain shadow-lg rounded-[1px]">
+                
+                <div class="flex flex-col">
+                    <span class="theme-text-main font-semibold text-sm tracking-widest uppercase">CeeDee's Group</span>
+                    <span class="theme-text-muted text-[0.6rem] tracking-[0.2em] uppercase">Est. 1984 • Global</span>
+                </div>
+            </div>
+
+            <!-- Menu (Desktop) -->
+            <nav id="desktop-nav" class="hidden xl:flex items-center gap-8 h-full">
+                <!-- Dropdown 1 -->
+                <div class="relative flex items-center h-full group">
+                    <a href="#" class="nav-link flex items-center gap-2 h-full focus:outline-none" aria-haspopup="true" aria-expanded="false">
+                        Venbro Polymers
+                        <i data-lucide="chevron-down" class="w-3 h-3 transition-transform duration-300 group-hover:rotate-180"></i>
+                    </a>
+                    <div class="absolute top-full mt-2 w-48 theme-bg-main border theme-border rounded-lg shadow-2xl overflow-hidden z-50
+                                opacity-0 invisible transform translate-y-2 dropdown-menu-transition
+                                group-hover:opacity-100 group-hover:visible group-hover:translate-y-0">
+                        <a href="#venbro-overview" class="block px-4 py-3 text-sm theme-text-main hover:bg-[var(--bg-hover)] transition-colors">Overview</a>
+                        <a href="#venbro-products" class="block px-4 py-3 text-sm theme-text-main hover:bg-[var(--bg-hover)] transition-colors">Products</a>
+                    </div>
+                </div>
+
+                <!-- Dropdown 2 -->
+                <div class="relative flex items-center h-full group">
+                    <a href="#" class="nav-link flex items-center gap-2 h-full focus:outline-none" aria-haspopup="true" aria-expanded="false">
+                        Shri Krishna Automobiles
+                        <i data-lucide="chevron-down" class="w-3 h-3 transition-transform duration-300 group-hover:rotate-180"></i>
+                    </a>
+                    <div class="absolute top-full mt-2 w-48 theme-bg-main border theme-border rounded-lg shadow-2xl overflow-hidden z-50
+                                opacity-0 invisible transform translate-y-2 dropdown-menu-transition
+                                group-hover:opacity-100 group-hover:visible group-hover:translate-y-0">
+                        <a href="#skae-overview" class="block px-4 py-3 text-sm theme-text-main hover:bg-[var(--bg-hover)] transition-colors">Overview</a>
+                        <a href="#skae-services" class="block px-4 py-3 text-sm theme-text-main hover:bg-[var(--bg-hover)] transition-colors">Services</a>
+                    </div>
+                </div>
+
+                <span class="w-px h-3 bg-[var(--border-main)]"></span>
+
+                <a href="#" class="nav-link">CSR</a>
+                <a href="#" class="nav-link">News & Events</a>
+                <a href="#" class="nav-link">Careers</a>
+                <a href="#" class="nav-link">About</a>
+            </nav>
+
+            <!-- Right Area: Theme Toggle & Contact -->
+            <div class="flex items-center gap-4">
+                
+                <!-- THEME TOGGLE BUTTON -->
+                <button id="theme-toggle" class="p-2 rounded-full border border-[var(--border-main)] text-[var(--text-muted)] hover:text-[var(--brand-copper)] hover:border-[var(--brand-copper)] transition-all" aria-label="Toggle Theme">
+                    <i data-lucide="sun" class="w-4 h-4 sun-icon theme-toggle-icon"></i>
+                    <i data-lucide="moon" class="w-4 h-4 moon-icon theme-toggle-icon"></i>
+                </button>
+
+                <div class="hidden lg:flex items-center gap-6">
+                    <button class="border border-[var(--border-main)] px-6 py-2 text-[0.7rem] uppercase tracking-widest text-[var(--text-muted)] hover:text-white hover:border-[#D97736] hover:bg-[#D97736]/80 transition-all duration-300">
+                        Contact
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Toggle -->
+                <button id="mobile-menu-btn" aria-label="Toggle menu" class="xl:hidden theme-text-main p-2 z-[60]">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="fixed inset-0 theme-bg-main z-40 transform translate-x-full transition-transform duration-300 xl:hidden flex flex-col pt-24 px-8 space-y-4 border-l theme-border shadow-2xl">
+            <button id="close-menu-btn" class="absolute top-6 right-6 theme-text-main" aria-label="Close menu">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+            <a href="#" class="text-xl font-display theme-text-main uppercase tracking-widest py-2 border-b theme-border">Venbro Polymers</a>
+            <a href="#" class="text-xl font-display theme-text-main uppercase tracking-widest py-2 border-b theme-border">Shri Krishna Automobiles</a>
+            <a href="#" class="text-xl font-display theme-text-main uppercase tracking-widest py-2 border-b theme-border">CSR</a>
+            <a href="#" class="text-xl font-display theme-text-main uppercase tracking-widest py-2 border-b theme-border">News & Events</a>
+            <a href="#" class="text-xl font-display theme-text-main uppercase tracking-widest py-2 border-b theme-border">Careers</a>
+            <a href="#" class="text-xl font-display theme-text-main uppercase tracking-widest py-2 border-b theme-border">About</a>
+            <button class="w-full mt-8 border border-[#D97736] px-6 py-3 text-sm uppercase tracking-widest text-white bg-[#D97736] hover:bg-[#b05d25] transition-all">
+                Contact Us
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow theme-bg-main relative flex flex-col items-center w-full transition-colors duration-300">
+        
+        <!-- 2. HERO SECTION -->
+        <section class="relative w-full h-[85vh] md:h-[90vh] theme-bg-card overflow-hidden border-b theme-border group">
+            
+            <div class="absolute inset-0 hero-image-container group-hover:scale-105 transition-transform duration-[20s]"></div>
+            
+            <!-- Dark Overlay (Always dark to make text readable on image) -->
+            <div class="absolute inset-0 bg-black/60"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-black/40"></div>
+            <div class="noise-overlay"></div>
+
+            <!-- HUD Grid -->
+            <div class="hud-grid p-8 opacity-40">
+                <div class="crosshair-corner ch-tl"></div>
+                <div class="crosshair-corner ch-tr"></div>
+                <div class="crosshair-corner ch-bl"></div>
+                <div class="crosshair-corner ch-br"></div>
+                <div class="hud-line-y left-[15%] opacity-20"></div>
+            </div>
+
+            <!-- Content -->
+            <div class="relative z-30 h-full flex flex-col justify-center items-center text-center px-4 md:px-12">
+                <div class="max-w-5xl space-y-6">
+                    <div class="inline-flex items-center gap-3 px-4 py-1 border border-[#D97736]/30 bg-[#D97736]/10 rounded-full mb-4">
+                        <span class="w-2 h-2 bg-[#D97736] rounded-full animate-pulse"></span>
+                        <span class="text-[#D97736] text-[0.65rem] font-bold tracking-[0.2em] uppercase">Polymers • Automobiles • Solutions</span>
+                    </div>
+
+                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white leading-[1.1] md:leading-[1] tracking-tight">
+                        BUILDING TRUST,<br>
+                        CREATING <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#D97736] to-white">VALUE.</span>
+                    </h1>
+
+                    <p class="max-w-2xl mx-auto text-sm md:text-lg text-gray-300 font-light leading-relaxed">
+                        A legacy of excellence spanning decades, creating opportunities while delivering sustainable solutions across industries.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+                        <button class="glass-btn hero-btn px-8 py-4 text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-3 bg-[#D97736]/20 border-[#D97736]/50">
+                            Explore Opportunities
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                        <button class="glass-btn hero-btn px-8 py-4 text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-3">
+                            Become a Partner
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Moving Trust Strip -->
+            <div class="absolute bottom-0 w-full bg-[#D97736] py-2 overflow-hidden z-40">
+                <div class="animate-marquee text-black font-bold text-xs tracking-[0.3em] uppercase flex gap-12">
+                    <span>Building Trust</span> • <span>Creating Value</span> • <span>Empowering Communities</span> • <span>Excellence in Partnership</span> • <span>Sustainable Growth</span> • 
+                    <span>Building Trust</span> • <span>Creating Value</span> • <span>Empowering Communities</span> • <span>Excellence in Partnership</span> • <span>Sustainable Growth</span> •
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. BRAND STORY / LEGACY -->
+        <section class="w-full max-w-[1600px] mx-auto px-6 py-24 border-x theme-border">
+            <div class="grid lg:grid-cols-2 gap-16 items-start">
+                <div>
+                    <h2 class="section-title text-4xl md:text-5xl theme-text-main font-medium mb-6">A Legacy of <br><span class="text-[#D97736]">Entrepreneurial Excellence</span></h2>
+                    <p class="theme-text-muted leading-relaxed font-light mb-8">
+                        CeeDee's Group represents decades of visionary leadership, building a trusted brand that creates lasting value for all stakeholders. We operate at the intersection of industrial precision and community empowerment.
+                    </p>
+                    <a href="#" class="text-[#D97736] text-xs font-bold tracking-widest uppercase flex items-center gap-2 hover:gap-4 transition-all">
+                        Read Our Story <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+                
+                <div class="grid gap-4">
+                    <div class="glass-panel p-6 border-l-2 border-l-[#D97736]">
+                        <h3 class="text-white font-bold text-lg mb-2">For Our Investors</h3>
+                        <p class="text-xs text-gray-400 uppercase tracking-wider">Sustainable Growth & Governance</p>
+                    </div>
+                    <div class="glass-panel p-6 border-l-2 border-l-white/20">
+                        <h3 class="text-white font-bold text-lg mb-2">For Our Partners</h3>
+                        <p class="text-xs text-gray-400 uppercase tracking-wider">Reliability & Innovation</p>
+                    </div>
+                    <div class="glass-panel p-6 border-l-2 border-l-white/20">
+                        <h3 class="text-white font-bold text-lg mb-2">For Our Community</h3>
+                        <p class="text-xs text-gray-400 uppercase tracking-wider">Empowerment & Employment</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. STRATEGIC PORTFOLIO (Updated to Split Layout) -->
+        <section class="w-full border-y theme-border">
+            <div class="grid md:grid-cols-2">
+                
+                <!-- SKAE Services Side -->
+                <div class="relative group h-[600px] overflow-hidden flex flex-col items-center justify-center text-center px-6 md:px-12 border-r theme-border">
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1486262715619-01b8c247a327?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center grayscale brightness-50 group-hover:scale-105 transition-transform duration-700 ease-out"></div>
+                    <div class="absolute inset-0 bg-black/40"></div>
+
+                    <div class="relative z-10 max-w-lg mx-auto">
+                        <div class="w-12 h-px bg-white/50 mx-auto mb-6"></div>
+                        <h2 class="text-4xl md:text-5xl text-white font-display font-light mb-2">SKAE Services</h2>
+                        <h3 class="text-[#ccc] text-xs uppercase tracking-[0.2em] font-light mb-8">Automotive Excellence</h3>
+                        
+                        <p class="text-gray-300 text-sm leading-relaxed mb-10 font-light">
+                            South India’s oldest and most trusted Maruti Authorized Service Station since 1986. A-Grade MASS providing comprehensive automotive solutions.
+                        </p>
+                        
+                        <button class="bg-white text-black px-8 py-3 rounded-full text-[0.7rem] font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors flex items-center gap-2 mx-auto">
+                            Visit Site <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Venbro Polymers Side -->
+                <div class="relative group h-[600px] overflow-hidden flex flex-col items-center justify-center text-center px-6 md:px-12">
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center grayscale brightness-50 group-hover:scale-105 transition-transform duration-700 ease-out"></div>
+                    <div class="absolute inset-0 bg-black/40"></div>
+                    
+                    <div class="relative z-10 max-w-lg mx-auto">
+                        <div class="w-12 h-px bg-white/50 mx-auto mb-6"></div>
+                        <h2 class="text-4xl md:text-5xl text-white font-display font-light mb-2">Venbro Polymers</h2>
+                        <h3 class="text-[#ccc] text-xs uppercase tracking-[0.2em] font-light mb-8">Industrial Excellence</h3>
+                        
+                        <p class="text-gray-300 text-sm leading-relaxed mb-10 font-light">
+                            Food Grade PP Woven Fabrics, Sacks and Bags for Indian and International markets. 20+ years of manufacturing excellence since 1995.
+                        </p>
+                        
+                        <button class="bg-white text-black px-8 py-3 rounded-full text-[0.7rem] font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors flex items-center gap-2 mx-auto">
+                            Visit Site <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 5. OUR COMPANIES (DETAILED) -->
+        <!-- Venbro Detail -->
+        <section class="w-full max-w-[1600px] mx-auto px-6 py-24 border-x theme-border flex flex-col lg:flex-row gap-16 items-center">
+            <div class="w-full lg:w-1/2">
+                <div class="aspect-video bg-[#111] border theme-border relative flex items-center justify-center overflow-hidden">
+                      <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center opacity-40 grayscale mix-blend-luminosity hover:scale-105 transition-transform duration-700"></div>
+                </div>
+            </div>
+            <div class="w-full lg:w-1/2 space-y-6">
+                <div class="w-12 h-1 bg-[#D97736]"></div>
+                <h2 class="text-3xl md:text-4xl theme-text-main font-display font-bold">Venbro Polymers <br>Manufacturing</h2>
+                <p class="theme-text-muted leading-relaxed">
+                    Serving Indian and International markets since 1995 under the leadership of D. Venkateswaran & D. Shanmugasundaram. ISO 9002 & ZED Certified manufacturing with a vision to become a ₹300 Crore company by 2025.
+                </p>
+                
+                <div class="grid grid-cols-2 gap-8 py-4 border-y theme-border">
+                    <div>
+                        <span class="block text-2xl theme-text-main font-bold">1995</span>
+                        <span class="text-[0.6rem] uppercase tracking-widest theme-text-muted">Established</span>
+                    </div>
+                    <div>
+                        <span class="block text-2xl theme-text-main font-bold">₹300Cr</span>
+                        <span class="text-[0.6rem] uppercase tracking-widest theme-text-muted">Revenue Target</span>
+                    </div>
+                </div>
+
+                <button class="glass-btn px-6 py-3 text-xs font-bold uppercase tracking-widest">
+                    Explore Venbro
+                </button>
+            </div>
+        </section>
+
+        <!-- SKAE Detail -->
+        <section class="w-full max-w-[1600px] mx-auto px-6 py-24 border-x theme-border flex flex-col lg:flex-row-reverse gap-16 items-center theme-bg-header">
+            <div class="w-full lg:w-1/2">
+                <div class="aspect-video bg-[#111] border theme-border relative flex items-center justify-center overflow-hidden">
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1486262715619-01b8c247a327?q=80&w=2670&auto=format&fit=crop')] bg-cover bg-center opacity-40 grayscale mix-blend-luminosity hover:scale-105 transition-transform duration-700"></div>
+                </div>
+            </div>
+            <div class="w-full lg:w-1/2 space-y-6 text-left lg:text-right">
+                <div class="w-12 h-1 bg-[#D97736] lg:ml-auto"></div>
+                <h2 class="text-3xl md:text-4xl theme-text-main font-display font-bold">Oldest Service Centre <br>in South India</h2>
+                <p class="theme-text-muted leading-relaxed">
+                    "A" Grade MASS – Longest serving Maruti Authorized Service Station since 1986. Providing 3Q Service Excellence – Quick & Quality services at competitive pricing, operating 6 days a week with a customer-first approach.
+                </p>
+                
+                <div class="grid grid-cols-2 gap-8 py-4 border-y theme-border lg:justify-items-end">
+                    <div>
+                        <span class="block text-2xl theme-text-main font-bold">1986</span>
+                        <span class="text-[0.6rem] uppercase tracking-widest theme-text-muted">Since</span>
+                    </div>
+                    <div>
+                        <span class="block text-2xl theme-text-main font-bold">A-Grade</span>
+                        <span class="text-[0.6rem] uppercase tracking-widest theme-text-muted">MASS Certified</span>
+                    </div>
+                </div>
+
+                <button class="glass-btn px-6 py-3 text-xs font-bold uppercase tracking-widest">
+                    Explore SKAE
+                </button>
+            </div>
+        </section>
+
+        <!-- 6. OUR PARTNERS -->
+        <section class="w-full py-24 border-t theme-border">
+            <div class="max-w-[1600px] mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                    <div class="max-w-xl">
+                        <h2 class="section-title text-3xl theme-text-main mb-4">Our Partners</h2>
+                        <p class="theme-text-muted text-sm font-light">Collaborating with industry leaders to deliver exceptional solutions and drive innovation across automotive and industrial sectors.</p>
+                    </div>
+                    <div class="flex gap-4 text-[0.65rem] uppercase tracking-widest text-gray-500">
+                        <span class="theme-text-main">Automotive</span> / <span>Industrial</span> / <span>Strategic</span>
+                    </div>
+                </div>
+
+                <!-- Update grid colors for theme -->
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-px force-border-dark bg-[#222]">
+                    <div class="theme-bg-main h-32 flex items-center justify-center p-6 text-center theme-text-muted font-bold hover:text-[#D97736] transition-colors cursor-default">Maruti Suzuki</div>
+                    <div class="theme-bg-main h-32 flex items-center justify-center p-6 text-center theme-text-muted font-bold hover:text-[#D97736] transition-colors cursor-default">Reliance</div>
+                    <div class="theme-bg-main h-32 flex items-center justify-center p-6 text-center theme-text-muted font-bold hover:text-[#D97736] transition-colors cursor-default">Tata Motors</div>
+                    <div class="theme-bg-main h-32 flex items-center justify-center p-6 text-center theme-text-muted font-bold hover:text-[#D97736] transition-colors cursor-default">ITC Limited</div>
+                    <div class="theme-bg-main h-32 flex items-center justify-center p-6 text-center theme-text-muted font-bold hover:text-[#D97736] transition-colors cursor-default">Mahindra</div>
+                    <div class="theme-bg-main h-32 flex items-center justify-center p-6 text-center theme-text-muted font-bold hover:text-[#D97736] transition-colors cursor-default">L&T</div>
+                    <div class="theme-bg-main h-32 flex items-center justify-center p-6 text-center theme-text-muted font-bold hover:text-[#D97736] transition-colors cursor-default">Asian Paints</div>
+                    <div class="theme-bg-main h-32 flex items-center justify-center p-6 text-center theme-text-muted font-bold hover:text-[#D97736] transition-colors cursor-default">Godrej</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TRUST THROUGH NUMBERS -->
+        <section class="w-full bg-[#D97736] py-16 text-[#050505]">
+            <div class="max-w-[1600px] mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+                <div class="border-l border-black/10 pl-6">
+                    <div class="text-4xl md:text-5xl font-display font-bold mb-1">1986</div>
+                    <div class="text-[0.65rem] font-bold uppercase tracking-widest">Oldest Service Centre</div>
+                </div>
+                <div class="border-l border-black/10 pl-6">
+                    <div class="text-4xl md:text-5xl font-display font-bold mb-1">1995</div>
+                    <div class="text-[0.65rem] font-bold uppercase tracking-widest">Polymers Established</div>
+                </div>
+                <div class="border-l border-black/10 pl-6">
+                    <div class="text-4xl md:text-5xl font-display font-bold mb-1">₹300Cr</div>
+                    <div class="text-[0.65rem] font-bold uppercase tracking-widest">Revenue Target</div>
+                </div>
+                <div class="border-l border-black/10 pl-6">
+                    <div class="text-4xl md:text-5xl font-display font-bold mb-1">1000+</div>
+                    <div class="text-[0.65rem] font-bold uppercase tracking-widest">Employment Goal</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. COMMUNITY & CSR -->
+        <section class="w-full max-w-[1600px] mx-auto px-6 py-24 border-x theme-border">
+            <h2 class="section-title text-3xl theme-text-main mb-12 text-center">Community & Social Responsibility</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="theme-bg-card p-8 border theme-border hover:border-[#D97736]/50 transition-colors">
+                    <div class="w-12 h-12 bg-[#151515] flex items-center justify-center mb-6 text-[#D97736]">
+                        <i data-lucide="users" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="theme-text-main text-xl font-bold mb-4">Employment Generation</h3>
+                    <p class="theme-text-muted text-sm mb-6 font-light">Creating direct and indirect employment opportunities across the region.</p>
+                    <span class="text-[#D97736] font-bold text-sm">1000+ Jobs Created</span>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="theme-bg-card p-8 border theme-border hover:border-[#D97736]/50 transition-colors">
+                    <div class="w-12 h-12 bg-[#151515] flex items-center justify-center mb-6 text-[#D97736]">
+                        <i data-lucide="map-pin" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="theme-text-main text-xl font-bold mb-4">Local Sourcing</h3>
+                    <p class="theme-text-muted text-sm mb-6 font-light">Supporting local vendors and suppliers to build a robust regional ecosystem.</p>
+                    <span class="text-[#D97736] font-bold text-sm">70% Sourced Locally</span>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="theme-bg-card p-8 border theme-border hover:border-[#D97736]/50 transition-colors">
+                    <div class="w-12 h-12 bg-[#151515] flex items-center justify-center mb-6 text-[#D97736]">
+                        <i data-lucide="heart-handshake" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="theme-text-main text-xl font-bold mb-4">Community Development</h3>
+                    <p class="theme-text-muted text-sm mb-6 font-light">Investing in education, healthcare, and infrastructure for societal good.</p>
+                    <span class="text-[#D97736] font-bold text-sm">₹5Cr+ Invested</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA -->
+        <section class="w-full relative py-32 text-center border-t theme-border theme-bg-header overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#D97736]/10 to-transparent"></div>
+            <div class="relative z-10 max-w-3xl mx-auto px-6">
+                <h2 class="text-4xl md:text-6xl font-display font-bold theme-text-main mb-6">JOIN OUR GROWTH STORY</h2>
+                <p class="theme-text-muted mb-10 font-light text-lg">
+                    Discover partnership opportunities with CeeDee's Group – where vision meets execution, and success creates lasting impact for businesses, communities, and stakeholders.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="glass-btn px-8 py-4 text-xs font-bold uppercase tracking-widest bg-[#D97736] border-[#D97736] hover:bg-[#b05d25] text-white">
+                        Explore Opportunities
+                    </button>
+                    <button class="glass-btn px-8 py-4 text-xs font-bold uppercase tracking-widest">
+                        Become a Partner
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="theme-bg-main border-t theme-border pt-20 pb-10 transition-colors duration-300">
+        <div class="max-w-[1600px] mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+                <!-- Col 1 -->
+                <div class="space-y-6">
+                    <div class="flex items-center gap-3">
+                        <!-- FOOTER LOGO UPDATED -->
+                        <img src="./image_70c127.png" alt="CeeDee's Group Logo" class="w-8 h-8 object-contain shadow-lg rounded-[1px]">
+                        <span class="theme-text-main font-bold uppercase tracking-widest">CeeDee's Group</span>
+                    </div>
+                    <p class="theme-text-muted text-sm leading-relaxed">
+                        A diversified business group committed to excellence across multiple industries with decades of experience and innovation.
+                    </p>
+                </div>
+
+                <!-- Col 2 -->
+                <div>
+                    <h4 class="theme-text-main font-bold uppercase tracking-widest text-xs mb-6">Our Companies</h4>
+                    <ul class="space-y-3 text-sm theme-text-muted">
+                        <li><a href="#" class="hover:text-[#D97736] transition-colors">Venbro Polymers</a></li>
+                        <li><a href="#" class="hover:text-[#D97736] transition-colors">Shri Krishna Auto Enterprises</a></li>
+                    </ul>
+                    
+                    <h4 class="theme-text-main font-bold uppercase tracking-widest text-xs mt-8 mb-6">Industries</h4>
+                    <ul class="space-y-3 text-sm theme-text-muted">
+                        <li>Food & Beverages</li>
+                        <li>Automotive</li>
+                        <li>Agriculture</li>
+                        <li>Manufacturing</li>
+                    </ul>
+                </div>
+
+                <!-- Col 3 -->
+                <div>
+                    <h4 class="theme-text-main font-bold uppercase tracking-widest text-xs mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-sm theme-text-muted">
+                        <li><a href="#" class="hover:text-[#D97736] transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-[#D97736] transition-colors">CSR</a></li>
+                        <li><a href="#" class="hover:text-[#D97736] transition-colors">News & Events</a></li>
+                        <li><a href="#" class="hover:text-[#D97736] transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-[#D97736] transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4 -->
+                <div>
+                    <h4 class="theme-text-main font-bold uppercase tracking-widest text-xs mb-6">Contact</h4>
+                    <address class="not-italic text-sm theme-text-muted space-y-3">
+                        <p class="theme-text-main">Industrial Area, Tamil Nadu, India</p>
+                        <p>+91 XXX XXX XXXX</p>
+                        <p><a href="mailto:info@ceedeesgroup.com" class="hover:text-[#D97736]">info@ceedeesgroup.com</a></p>
+                        <div class="pt-4">
+                            <p><span class="theme-text-main">Mon–Fri:</span> 9:00 – 18:00</p>
+                            <p><span class="theme-text-main">Sat:</span> 9:00 – 14:00</p>
+                        </div>
+                    </address>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="border-t theme-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[0.65rem] uppercase tracking-widest text-gray-500">
+                <div>&copy; 2024 CeeDee's Group. All rights reserved.</div>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-[var(--text-main)]">Privacy Policy</a>
+                    <a href="#" class="hover:text-[var(--text-main)]">Terms of Service</a>
+                    <a href="#" class="hover:text-[var(--text-main)]">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // -------------------------------------
+        // JAVASCRIPT: Mobile Menu & Theme Logic
+        // -------------------------------------
+
+        // Initialize Lucide Icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+        
+        // --- Mobile Menu Logic ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        function toggleMobileMenu() {
+            if (!mobileMenu) return;
+            mobileMenu.classList.toggle('translate-x-full');
+            document.body.classList.toggle('overflow-hidden'); 
+        }
+
+        if (mobileMenuBtn && closeMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+            closeMenuBtn.addEventListener('click', toggleMobileMenu);
+        }
+
+        // --- Theme Toggle Logic ---
+        const themeBtn = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement;
+
+        // Check local storage or system preference
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme) {
+            htmlElement.setAttribute('data-theme', savedTheme);
+        } else if (!systemPrefersDark) {
+            // Optional: Default to light if system prefers light? 
+            // For now, let's keep default dark as per design unless explicitly switched.
+        }
+
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                const currentTheme = htmlElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                htmlElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                
+                // Re-render icons to ensure correct visibility (though CSS handles it mostly)
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
