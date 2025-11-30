@@ -130,20 +130,9 @@ const Header = () => {
               ))}
             </nav>
 
-            {/* Right: Theme Toggle + Contact + Mobile Menu */}
+            {/* Right:Contact + Mobile Menu */}
             <div className="flex items-center gap-3">
-              {/* Theme Toggle */}
-              <button
-                onClick={toggleDarkMode}
-                className="hidden lg:flex p-2 rounded-full hover:bg-slate-100 transition-colors duration-200"
-                aria-label="Toggle theme"
-              >
-                {isDarkMode ? (
-                  <Sun className="w-4 h-4 text-slate-600" />
-                ) : (
-                  <Moon className="w-4 h-4 text-slate-600" />
-                )}
-              </button>
+
 
               {/* Contact Button */}
               <Link
@@ -236,8 +225,8 @@ const MobileNavItem = ({ item, onNavigate }: { item: any; onNavigate: () => void
                   to={child.to}
                   onClick={onNavigate}
                   className={`block px-3 py-2 text-xs rounded transition-colors ${location.pathname === child.to
-                      ? 'text-amber-600 font-semibold bg-amber-50'
-                      : 'text-slate-600 hover:bg-slate-50'
+                    ? 'text-amber-600 font-semibold bg-amber-50'
+                    : 'text-slate-600 hover:bg-slate-50'
                     }`}
                 >
                   {child.label}
@@ -256,8 +245,8 @@ const MobileNavItem = ({ item, onNavigate }: { item: any; onNavigate: () => void
         to={item.to}
         onClick={onNavigate}
         className={`block px-3 py-2.5 text-xs font-semibold tracking-wide rounded transition-colors ${location.pathname === item.to
-            ? 'bg-slate-100 text-slate-900'
-            : 'text-slate-700 hover:bg-slate-50'
+          ? 'bg-slate-100 text-slate-900'
+          : 'text-slate-700 hover:bg-slate-50'
           }`}
       >
         {item.label}

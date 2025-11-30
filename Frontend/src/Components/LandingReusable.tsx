@@ -147,7 +147,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative bg-gradient-to-b from-amber-400/10 via-white via-50% to-white h-screen flex items-center justify-center overflow-hidden">
-        
+
         {/* Background Image Container */}
         <div
           className="absolute bg-fixed bg-cover bg-center 
@@ -161,20 +161,20 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
 
         {/* Hero Content */}
         <div className="relative z-20 container mx-auto px-6 text-white md:-mt-40">
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-[8.75rem] items-center">
-            
+
             {/* Left Column */}
             <div className="flex flex-col gap-8 text-center md:text-left">
               {/* Logo */}
               {data.hero.logo && (
-                <img 
-                  src={data.hero.logo} 
-                  className={`${data.hero.logo === "/venbro_logo.png" ? "h-32 md:h-40" : "h-20 md:h-32"} object-contain self-center md:self-start`} 
-                  alt="Company Logo" 
+                <img
+                  src={data.hero.logo}
+                  className={`${data.hero.logo === "/venbro_logo.png" ? "h-32 md:h-40" : "h-20 md:h-32"} object-contain self-center md:self-start`}
+                  alt="Company Logo"
                 />
               )}
-              
+
               {/* Title */}
               <h1 className="text-4xl md:text-4xl lg:text-6xl font-thin leading-tight tracking-tight">
                 {data.hero.title}
@@ -184,7 +184,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
               {data.hero.tags && data.hero.tags.length > 0 && (
                 <div className="flex items-center justify-center md:justify-start gap-3 flex-wrap">
                   {data.hero.tags.map((tag, index) => (
-                    <span 
+                    <span
                       key={index}
                       className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-sm font-medium"
                     >
@@ -210,7 +210,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
               </p>
 
               {/* Buttons */}
-              <div className="flex flex-col w-70 sm:flex-row gap-4 justify-center">
+              <div className="flex flex-row gap-2 md:gap-4 justify-center">
                 <button
                   onClick={() => {
                     if (data.hero.buttons.primary === "BOOK SERVICE") {
@@ -219,17 +219,19 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
                       navigate("/venbro-polymers/products");
                     }
                   }}
-                  className="bg-white group rounded-full text-black cursor-pointer px-8 py-3 hover:bg-white/95 transition-colors duration-300 tracking-wider text-sm"
+                  className="bg-white group rounded-full text-black cursor-pointer px-4 py-2 md:px-8 md:py-3 hover:bg-white/95 transition-colors duration-300 tracking-wider text-xs md:text-sm whitespace-nowrap"
                 >
-                  {data.hero.buttons.primary}
-                  <ArrowRight className="inline ml-2 w-4 h-4 transition-transform duration-150 group-hover:translate-x-1" />
+                  <span className="md:hidden">{data.hero.buttons.primary}</span>
+                  <span className="hidden md:inline">{data.hero.buttons.primary}</span>
+                  <ArrowRight className="inline ml-1 md:ml-2 w-3 h-3 md:w-4 md:h-4 transition-transform duration-150 group-hover:translate-x-1" />
                 </button>
                 <Link
                   to="/contact"
-                  className="border group rounded-full border-white cursor-pointer text-white hover:bg-white hover:text-black px-8 py-3 transition-colors duration-300 tracking-wider text-center text-sm"
+                  className="border group rounded-full border-white cursor-pointer text-white hover:bg-white hover:text-black px-4 py-2 md:px-8 md:py-3 transition-colors duration-300 tracking-wider text-center text-xs md:text-sm whitespace-nowrap"
                 >
-                  {data.hero.buttons.secondary}
-                  <ArrowRight className="inline ml-2 w-4 h-4 transition-transform duration-150 group-hover:translate-x-1" />
+                  <span className="md:hidden">CONTACT</span>
+                  <span className="hidden md:inline">{data.hero.buttons.secondary}</span>
+                  <ArrowRight className="inline ml-1 md:ml-2 w-3 h-3 md:w-4 md:h-4 transition-transform duration-150 group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
@@ -343,9 +345,8 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
 
       {/* Certifications & Standards Section */}
       <section
-        className={`py-24 ${
-          data.certification.backgroundColor || "bg-black/95"
-        } text-white`}
+        className={`py-24 ${data.certification.backgroundColor || "bg-black/95"
+          } text-white`}
       >
         <div className="max-w-360 mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -445,23 +446,25 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
           <p className="text-lg text-gray-600 mb-12 leading-relaxed">
             {data.cta.description}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* --- MODIFIED: Using new theme keys --- */}
+          <div className="flex flex-row gap-2 md:gap-4 justify-center">
+            {/* --- MODIFIED: Using new theme keys + responsive sizing --- */}
             <button
               onClick={() =>
                 handleButtonClick("cta-primary", data.cta.buttons.primary)
               }
-              className={`${currentTheme.bg} ${currentTheme.hoverBg} cursor-pointer text-white px-8 py-3 transition-colors duration-300 tracking-wider text-sm`}
+              className={`${currentTheme.bg} ${currentTheme.hoverBg} cursor-pointer text-white px-4 py-2 md:px-8 md:py-3 transition-colors duration-300 tracking-wider text-xs md:text-sm whitespace-nowrap`}
             >
-              {data.cta.buttons.primary}
+              <span className="md:hidden">{data.cta.buttons.primary.split(' ').slice(0, 2).join(' ')}</span>
+              <span className="hidden md:inline">{data.cta.buttons.primary}</span>
             </button>
             <button
               onClick={() =>
                 handleButtonClick("cta-secondary", data.cta.buttons.secondary)
               }
-              className={`border ${currentTheme.border} ${currentTheme.text} ${currentTheme.hoverBg} hover:text-white cursor-pointer px-8 py-3 transition-colors duration-300 tracking-wider text-sm`}
+              className={`border ${currentTheme.border} ${currentTheme.text} ${currentTheme.hoverBg} hover:text-white cursor-pointer px-4 py-2 md:px-8 md:py-3 transition-colors duration-300 tracking-wider text-xs md:text-sm whitespace-nowrap`}
             >
-              {data.cta.buttons.secondary}
+              <span className="md:hidden">{data.cta.buttons.secondary.split(' ').slice(0, 2).join(' ')}</span>
+              <span className="hidden md:inline">{data.cta.buttons.secondary}</span>
             </button>
           </div>
         </div>
