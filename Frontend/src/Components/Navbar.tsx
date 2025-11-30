@@ -130,9 +130,20 @@ const Header = () => {
               ))}
             </nav>
 
-            {/* Right:Contact + Mobile Menu */}
+            {/* Right: Theme Toggle + Contact + Mobile Menu */}
             <div className="flex items-center gap-3">
-
+              {/* Theme Toggle */}
+              <button
+                onClick={toggleDarkMode}
+                className="hidden lg:flex p-2 rounded-full hover:bg-slate-100 transition-colors duration-200"
+                aria-label="Toggle theme"
+              >
+                {isDarkMode ? (
+                  <Sun className="w-4 h-4 text-slate-600" />
+                ) : (
+                  <Moon className="w-4 h-4 text-slate-600" />
+                )}
+              </button>
 
               {/* Contact Button */}
               <Link
