@@ -10,7 +10,7 @@ const COMPANIES = [
     website: "/venbro-polymers",
     buttonText: "Visit Site",
     backgroundImage:
-      "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+      "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
   },
   {
     id: "shrikrishna",
@@ -21,7 +21,7 @@ const COMPANIES = [
     website: "/shri-krishna-automobile-enterprises",
     buttonText: "Visit Site",
     backgroundImage:
-      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
   },
 ];
 
@@ -43,10 +43,10 @@ const CompanyCard = ({ company, isLeft, hoveredSide }: CompanyCardProps) => {
   const flexClass = isOther
     ? "lg:flex-[0.33]"
     : isHovered
-    ? "lg:flex-[0.67]"
-    : isResetting
-    ? "lg:flex-[0.5]"
-    : "lg:flex-1 flex-[unset]";
+      ? "lg:flex-[0.67]"
+      : isResetting
+        ? "lg:flex-[0.5]"
+        : "lg:flex-1 flex-[unset]";
   const bgClass = isHovered
     ? "scale-110 grayscale-none"
     : "scale-100 grayscale";
@@ -75,11 +75,10 @@ const CompanyCard = ({ company, isLeft, hoveredSide }: CompanyCardProps) => {
         <div className="w-16 h-px bg-white mx-auto mb-6 sm:mb-8"></div>
 
         <h1
-          className={`${
-            isLeft
+          className={`${isLeft
               ? "text-4xl sm:text-5xl mb-3 sm:mb-4"
               : "text-3xl sm:text-4xl mb-2 sm:mb-3 leading-tight"
-          } font-light text-white tracking-wide`}
+            } font-light text-white tracking-wide`}
         >
           {name}
         </h1>
@@ -87,9 +86,8 @@ const CompanyCard = ({ company, isLeft, hoveredSide }: CompanyCardProps) => {
           {subtitle}
         </h2>
         <p
-          className={`text-base sm:text-lg text-gray-300 mb-8 sm:mb-10 leading-relaxed font-light transition-all duration-500 ${
-            isOther ? "opacity-0" : "opacity-100"
-          }`}
+          className={`text-base sm:text-lg text-gray-300 mb-8 sm:mb-10 leading-relaxed font-light transition-all duration-500 ${isOther ? "opacity-0" : "opacity-100"
+            }`}
         >
           {description}
         </p>
@@ -146,7 +144,7 @@ const TwoCompany = () => {
 
   return (
     <section
-      
+
       className="h-full max-w-357 mx-auto relative overflow-hidden bg-white"
     >
       <div

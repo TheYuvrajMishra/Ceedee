@@ -8,16 +8,23 @@ export function HeroSection() {
     // Base classes for flex centering are kept, as they are essential
     <section className="relative bg-gradient-to-b from-amber-400/10 via-white via-50% to-white h-screen flex items-center justify-center overflow-hidden">
 
-      {/* 1. BACKGROUND: Your exact desktop dimensions are restored. */}
+      {/* 1. BACKGROUND: Optimized with img tag for LCP */}
       <div
-        className="absolute bg-fixed bg-cover bg-center 
-                   inset-4 
+        className="absolute inset-4 
                    md:inset-auto md:h-160 md:w-360 md:mx-auto md:mt-12
-                   shadow-[inset_0_0_40px_rgba(0,0,0,1)]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')`,
-        }}
-      />
+                   shadow-[inset_0_0_40px_rgba(0,0,0,1)] overflow-hidden"
+      >
+        <img
+          src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+          alt="Hero Background"
+          className="absolute inset-0 w-full h-full object-cover"
+          width="2000"
+          height="1333"
+          // fetchPriority is available in React 19
+          fetchPriority="high"
+        />
+        <div className="absolute inset-0 bg-black/60" />
+      </div>
 
       {/* Hero Content */}
       {/* 2. CONTENT WRAPPER: Your md:-mt-40 is restored. */}
@@ -74,18 +81,6 @@ export function HeroSection() {
             </div>
           </div>
         </div>
-
-        {/* 4. MARQUEE: Your exact margins (mt-50, -mb-60) are restored.
-        <div className="marquee-wrapper md:block hidden border-t border-b border-t-white/20 border-b-white/20 rounded-full py-2 text-sm md:text-2xl bg-white/5 text-white md:mt-50 md:-mb-60">
-          <div className="marquee-content">
-            <div className="marquee-text">
-              Building Trust • Creating Value • Empowering Communities • Excellence in Partnership • Sustainable Growth •
-            </div>
-            <div className="marquee-text" aria-hidden="true">
-              Building Trust • Creating Value • Empowering Communities • Excellence in Partnership • Sustainable Growth •
-            </div>
-          </div>
-        </div> */}
       </div>
     </section>
   );

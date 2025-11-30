@@ -1,9 +1,9 @@
 import { ArrowRight } from "lucide-react";
-import TwoCompany from "../../Components/Main/TwoCompany";
-import PartnerSection from "../../Components/Main/PartnerSection";
+import TwoCompany from "../../components/Main/TwoCompany";
+import PartnerSection from "../../components/Main/PartnerSection";
 import { useNavigate } from "react-router";
-import LegacyBentoGrid from "../../Components/Main/LegacyBento";
-import { HeroSection } from "../../Components/Main/Hero";
+import LegacyBentoGrid from "../../components/Main/LegacyBento";
+import { HeroSection } from "../../components/Main/Hero";
 const CeedeeHomepage = () => {
   const navigate = useNavigate();
   return (
@@ -60,6 +60,9 @@ const CeedeeHomepage = () => {
                   src="https://www.ppilbd.com/wp-content/uploads/2022/07/IMG_20220331_090854_603.jpg"
                   alt="Venbro Polymers manufacturing"
                   className="w-full h-full object-cover  sm:"
+                  loading="lazy"
+                  width={800}
+                  height={600}
                 />
               </div>
 
@@ -186,6 +189,9 @@ const CeedeeHomepage = () => {
                   src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
                   alt="SKAE automobile service"
                   className="w-full h-full object-cover  sm:"
+                  loading="lazy"
+                  width={800}
+                  height={600}
                 />
               </div>
             </div>

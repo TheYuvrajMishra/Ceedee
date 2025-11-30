@@ -15,7 +15,7 @@ const BentoCard: React.FC<BentoCardProps> = ({ children, className = "" }) => {
                  ${className}`}
     >
       <div className="pointer-events-none absolute inset-0 " />
-      
+
       {/* Card Content */}
       <div className="relative z-10 h-full flex flex-col">
         {children}
@@ -33,24 +33,24 @@ interface Stakeholder {
 }
 
 interface TextCardContent {
-    icon: React.ReactNode;
-    title: React.ReactNode;
-    description: string;
-    hasLine: boolean;
+  icon: React.ReactNode;
+  title: React.ReactNode;
+  description: string;
+  hasLine: boolean;
 }
 
 interface TextCardData {
-    id: string;
-    type: 'text';
-    className?: string;
-    content: TextCardContent;
+  id: string;
+  type: 'text';
+  className?: string;
+  content: TextCardContent;
 }
 
 interface ImageCardData {
-    id: string;
-    type: 'image';
-    className?: string;
-    content: Stakeholder;
+  id: string;
+  type: 'image';
+  className?: string;
+  content: Stakeholder;
 }
 
 type Card = TextCardData | ImageCardData;
@@ -66,7 +66,7 @@ const stakeholders: Stakeholder[] = [
       "Transparent governance and robust risk management.",
       "Access to a diversified, resilient portfolio.",
     ],
-    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2832&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: 2,
@@ -76,7 +76,7 @@ const stakeholders: Stakeholder[] = [
       "Reliability and integrity in every transaction.",
       "Shared vision for innovation and market leadership.",
     ],
-    image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2670&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: 3,
@@ -86,7 +86,7 @@ const stakeholders: Stakeholder[] = [
       "Investing in education and social upliftment.",
       "Promoting sustainable and ethical practices.",
     ],
-    image: "https://images.unsplash.com/photo-1531545514256-b1400bc00f31?q=80&w=2574&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1531545514256-b1400bc00f31?q=80&w=800&auto=format&fit=crop",
   },
 ];
 
@@ -97,46 +97,46 @@ const LegacyIcon = () => (
 
 // --- A unified data structure for a balanced grid ---
 const cardData: Card[] = [
-    {
-        id: 'hero',
-        type: 'text',
-        className: 'lg:col-span-2',
-        content: {
-            icon: <LegacyIcon />,
-            title: <>A Legacy of <span className="font-bold text-slate-900">Entrepreneurial Excellence</span></>,
-            description: "Ceedee's Group represents decades of visionary leadership, building a trusted brand that creates lasting value for all stakeholders.",
-            hasLine: true,
-        }
-    },
-    {
-        id: 'investors',
-        type: 'image',
-        className: '',
-        content: stakeholders[0]
-    },
-    {
-        id: 'partners',
-        type: 'image',
-        className: '',
-        content: stakeholders[1]
-    },
-    {
-        id: 'community',
-        type: 'image',
-        className: '',
-        content: stakeholders[2]
-    },
-    {
-        id: 'portfolio',
-        type: 'text',
-        className: '',
-        content: {
-            icon: <div className="w-3 h-3 border border-slate-400 rounded-full mb-4"></div>,
-            title: 'Strategic Portfolio',
-            description: 'Our diversified business model creates resilient growth opportunities.',
-            hasLine: false,
-        }
+  {
+    id: 'hero',
+    type: 'text',
+    className: 'lg:col-span-2',
+    content: {
+      icon: <LegacyIcon />,
+      title: <>A Legacy of <span className="font-bold text-slate-900">Entrepreneurial Excellence</span></>,
+      description: "Ceedee's Group represents decades of visionary leadership, building a trusted brand that creates lasting value for all stakeholders.",
+      hasLine: true,
     }
+  },
+  {
+    id: 'investors',
+    type: 'image',
+    className: '',
+    content: stakeholders[0]
+  },
+  {
+    id: 'partners',
+    type: 'image',
+    className: '',
+    content: stakeholders[1]
+  },
+  {
+    id: 'community',
+    type: 'image',
+    className: '',
+    content: stakeholders[2]
+  },
+  {
+    id: 'portfolio',
+    type: 'text',
+    className: '',
+    content: {
+      icon: <div className="w-3 h-3 border border-slate-400 rounded-full mb-4"></div>,
+      title: 'Strategic Portfolio',
+      description: 'Our diversified business model creates resilient growth opportunities.',
+      hasLine: false,
+    }
+  }
 ];
 
 
@@ -169,10 +169,10 @@ const LegacyBentoGrid = () => {
                 key={stakeholder.id}
                 className={`relative min-h-[350px] md:min-h-[400px]  overflow-hidden ${card.className}`}
               >
-                <img src={stakeholder.image} className="absolute inset-0 w-full h-full object-cover" alt={stakeholder.title} />
+                <img src={stakeholder.image} className="absolute inset-0 w-full h-full object-cover" alt={stakeholder.title} loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent"></div>
                 <div className="absolute inset-0 " />
-                
+
                 <div className="absolute inset-0 flex flex-col justify-end p-8 text-white">
                   <h3 className="text-2xl font-light mb-4 tracking-wide">
                     {stakeholder.title}

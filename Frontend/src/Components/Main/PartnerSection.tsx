@@ -64,6 +64,9 @@ const PartnerSection: React.FC = () => {
           src={partner.logo}
           alt={partner.name}
           className="max-w-32 max-h-16 object-contain  hover:-0 transition-all duration-300"
+          loading="lazy"
+          width={128}
+          height={64}
           onError={(e) => {
             const target = e.currentTarget;
             target.style.display = "none";
@@ -75,9 +78,8 @@ const PartnerSection: React.FC = () => {
         />
       ) : null}
       <span
-        className={`text-gray-900 font-light text-sm tracking-wider ${
-          partner.logo ? "hidden" : ""
-        }`}
+        className={`text-gray-900 font-light text-sm tracking-wider ${partner.logo ? "hidden" : ""
+          }`}
       >
         {partner.name.toUpperCase()}
       </span>

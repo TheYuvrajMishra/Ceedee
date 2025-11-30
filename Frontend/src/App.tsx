@@ -1,15 +1,12 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import Navbar from "./Components/Navbar";
-import Footer from "./Components/Footer";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import AdminLogin from "./Pages/Admin/AdminLogin";
 import AdminDashboard from "./Pages/Admin/AdminDashboard";
-import VenbroProducts from "./Pages/Venbro Polymer/Products";
-import SKAEServices from "./Pages/Shri Krishnan/Services";
-import ScrollToTop from "./Components/Effects/ScrolltoTop";
-import About from "./Pages/About";
-import DotPhilosophyPage from "./Pages/Dotphilosophy";
+import ScrollToTop from "./components/Effects/ScrolltoTop";
 
+// Lazily load page components for better performance
 // Lazily load page components for better performance
 const MainPage = lazy(() => import("./Pages/Main/MainPage"));
 const Career = lazy(() => import("./Pages/Career"));
@@ -18,6 +15,10 @@ const CSR = lazy(() => import("./Pages/CSR"));
 const NewsAndEvents = lazy(() => import("./Pages/News&Events"));
 const Venbro = lazy(() => import("./Pages/Venbro Polymer/Venbro"));
 const SKAELanding = lazy(() => import("./Pages/Shri Krishnan/ShriKrishna"));
+const VenbroProducts = lazy(() => import("./Pages/Venbro Polymer/Products"));
+const SKAEServices = lazy(() => import("./Pages/Shri Krishnan/Services"));
+const About = lazy(() => import("./Pages/About"));
+const DotPhilosophyPage = lazy(() => import("./Pages/Dotphilosophy"));
 // Layout component for public-facing pages
 const PublicLayout = () => (
     <>
