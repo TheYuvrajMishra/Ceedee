@@ -1,4 +1,4 @@
-import { Menu, X, ChevronDown, Mail, Moon, Sun } from 'lucide-react';
+import { Menu, X, ChevronDown, Mail } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -27,7 +27,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  // const [isDarkMode, setIsDarkMode] = useState(false);
   const location = useLocation();
 
   // --- HOOKS ---
@@ -58,10 +58,10 @@ const Header = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
+  // const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
 
   const isHome = location.pathname === '/';
-  const isNotHomeEfx = isHome ? "md:bg-transparent" : "md:bg-white/95";
+  const isNotHomeEfx = isHome ? "md:bg-white/95" : "md:bg-white/95";
 
   const headerClasses = isScrolled
     ? 'bg-white/95 backdrop-blur-lg shadow-sm'
@@ -133,7 +133,7 @@ const Header = () => {
             {/* Right: Theme Toggle + Contact + Mobile Menu */}
             <div className="flex items-center gap-3">
               {/* Theme Toggle */}
-              <button
+              {/* <button
                 onClick={toggleDarkMode}
                 className="hidden lg:flex p-2 rounded-full hover:bg-slate-100 transition-colors duration-200"
                 aria-label="Toggle theme"
@@ -143,7 +143,7 @@ const Header = () => {
                 ) : (
                   <Moon className="w-4 h-4 text-slate-600" />
                 )}
-              </button>
+              </button> */}
 
               {/* Contact Button */}
               <Link

@@ -1,8 +1,19 @@
 import { ArrowRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+// import { useEffect, useState } from "react";
 
 export function HeroSection() {
   const navigate = useNavigate();
+  // const [scrollY, setScrollY] = useState(0);
+
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setScrollY(window.scrollY);
+  //   };
+
+  //   window.addEventListener('scroll', handleScroll, { passive: true });
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
 
   return (
     // Base classes for flex centering are kept, as they are essential
@@ -15,7 +26,7 @@ export function HeroSection() {
                    shadow-[inset_0_0_40px_rgba(0,0,0,1)] overflow-hidden"
       >
         <img
-          src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+          src="/hero_section_pic.jpg"
           alt="Hero Background"
           className="absolute inset-0 w-full h-full object-cover"
           width="2000"

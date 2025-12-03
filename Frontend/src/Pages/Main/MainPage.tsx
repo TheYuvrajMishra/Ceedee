@@ -14,7 +14,7 @@ const CeedeeHomepage = () => {
       <HeroSection />
 
       {/* Marquee Section */}
-      <div className="marquee-wrapper mx-auto md:block hidden border-t border-b border-t-black/20 font-thin border-b-black/20 py-2 text-sm md:text-2xl bg-black/5 text-black mb-2">
+      <div className="marquee-wrapper mx-auto md:block hidden border-t border-b border-t-black/20 font-thin border-b-black/20 py-2 text-sm md:text-2xl bg-yellow-500 text-black mb-2">
         <div className="marquee-content">
           <div className="marquee-text">
             Building Trust • Creating Value • Empowering Communities •
