@@ -130,6 +130,11 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
   };
 
   const currentTheme = themeConfig[data.hero.theme];
+  const isLongTitle =
+    data.hero.title?.trim().toLowerCase() === "sri krishnan automobile enterprises";
+  const titleSizeClass = isLongTitle
+    ? "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"
+    : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl";
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -148,92 +153,101 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
       {/* Hero Section */}
       <section className="relative bg-gradient-to-b from-amber-400/10 via-white via-50% to-white h-screen flex items-center justify-center overflow-hidden">
 
-        {/* Background Image Container */}
+        {/* BACKGROUND: matches Hero parallax implementation for better LCP */}
         <div
-          className="absolute bg-fixed bg-cover bg-center 
-                     inset-4 rounded-2xl 
-                     md:inset-auto md:h-160 md:w-360 md:mx-auto md:mt-12 md:rounded-none
-                     shadow-[inset_0_0_40px_rgba(0,0,0,1)]"
+          className="absolute inset-4 
+                     md:inset-auto md:h-160 md:w-360 md:mx-auto md:mt-12
+                     shadow-[inset_0_0_40px_rgba(0,0,0,1)] overflow-hidden"
+        >
+          <img
+            src={data.hero.backgroundImage}
+            alt="Hero Background"
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-100"
+            style={{
+              transform: `translateY(${scrollY * 0.5}px) scale(1.1)`,
+            }}
+          />
+          <div className="absolute inset-0 bg-black/60" />
+        </div>
+
+        {/* Hero Content: centered with parallax lift */}
+        <div
+          className="relative z-20 container mx-auto px-4 sm:px-6 text-white"
           style={{
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${data.hero.backgroundImage}')`,
+            transform: `translateY(${scrollY * -0.15}px)`,
           }}
-        />
+        >
+          <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-5">
 
-        {/* Hero Content */}
-        <div className="relative z-20 container mx-auto px-6 text-white md:-mt-40">
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-[8.75rem] items-center">
-
-            {/* Left Column */}
-            <div className="flex flex-col gap-8 text-center md:text-left">
-              {/* Logo */}
-              {data.hero.logo && (
-                <img
-                  src={data.hero.logo}
-                  className={`${data.hero.logo === "/venbro_logo.png" ? "h-32 md:h-40" : "h-20 md:h-32"} object-contain self-center md:self-start`}
-                  alt="Company Logo"
-                />
-              )}
-
-              {/* Title */}
-              <h1 className="text-4xl md:text-4xl lg:text-6xl font-thin leading-tight tracking-tight">
-                {data.hero.title}
-              </h1>
-
-              {/* Tags/Badges */}
-              {data.hero.tags && data.hero.tags.length > 0 && (
-                <div className="flex items-center justify-center md:justify-start gap-3 flex-wrap">
-                  {data.hero.tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-sm font-medium"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
+            {/* Top badge */}
+            <div>
+              <span className="inline px-4 py-1 text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] rounded-full border border-white/50 bg-white/10 font-semibold text-white/70">
+                {data.hero.subtitle || "Our Promise"}
+              </span>
             </div>
 
-            {/* Right Column */}
-            <div className="flex flex-col gap-8 items-center md:items-end">
-              {/* Tagline */}
-              {data.hero.tagline && (
-                <p className="md:text-lg text-sm text-white/80 max-w-md leading-relaxed text-center md:text-right">
-                  {data.hero.tagline}
-                </p>
-              )}
+            {/* Main Heading styled like Hero.tsx */}
+            <div className="space-y-6">
+              <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-[5.5rem] xl:text-[6rem] leading-tight tracking-tight text-white text-balance">
+                <span className="mt-3 sm:mt-4 flex w-full flex-col items-center justify-center gap-2 sm:gap-3 text-center md:flex-row md:items-end md:justify-center">
+                  <span className={`font-serif font-light text-white leading-tight md:leading-none ${titleSizeClass} whitespace-normal md:whitespace-nowrap break-words text-balance`}>
+                    {data.hero.title}
+                  </span>
+                  {/* <span className="font-sans whitespace-nowrap font-semibold ml-2 text-amber-200 uppercase tracking-[0.14em] leading-tight text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+                    {data.hero.subtitle || "Creating Value"}
+                  </span> */}
+                </span>
+                <span className="block font-light italic text-white/90 mt-2 text-2xl sm:text-3xl md:text-4xl lg:text-[3.5rem] text-balance">
+                  {data.hero.tagline || "Empowering Communities"}
+                </span>
+              </h1>
+            </div>
 
-              {/* Description */}
-              <p className="md:text-lg text-sm text-white/80 max-w-md leading-relaxed text-center md:text-right">
-                {data.hero.description}
-              </p>
-
-              {/* Buttons */}
-              <div className="flex flex-row gap-2 md:gap-4 justify-center">
-                <button
-                  onClick={() => {
-                    if (data.hero.buttons.primary === "BOOK SERVICE") {
-                      navigate("/shri-krishna-automobile-enterprises/services");
-                    } else {
-                      navigate("/venbro-polymers/products");
-                    }
-                  }}
-                  className="bg-white group rounded-full text-black cursor-pointer px-4 py-2 md:px-8 md:py-3 hover:bg-white/95 transition-colors duration-300 tracking-wider text-xs md:text-sm whitespace-nowrap"
-                >
-                  <span className="md:hidden">{data.hero.buttons.primary}</span>
-                  <span className="hidden md:inline">{data.hero.buttons.primary}</span>
-                  <ArrowRight className="inline ml-1 md:ml-2 w-3 h-3 md:w-4 md:h-4 transition-transform duration-150 group-hover:translate-x-1" />
-                </button>
-                <Link
-                  to="/contact"
-                  className="border group rounded-full border-white cursor-pointer text-white hover:bg-white hover:text-black px-4 py-2 md:px-8 md:py-3 transition-colors duration-300 tracking-wider text-center text-xs md:text-sm whitespace-nowrap"
-                >
-                  <span className="md:hidden">CONTACT</span>
-                  <span className="hidden md:inline">{data.hero.buttons.secondary}</span>
-                  <ArrowRight className="inline ml-1 md:ml-2 w-3 h-3 md:w-4 md:h-4 transition-transform duration-150 group-hover:translate-x-1" />
-                </Link>
+            {/* Optional tags */}
+            {data.hero.tags && data.hero.tags.length > 0 && (
+              <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+                {data.hero.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
+            )}
+
+            {/* Description */}
+            <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed font-sans text-balance">
+              {data.hero.description}
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-4">
+              <button
+                onClick={() => {
+                  if (data.hero.buttons.primary === "BOOK SERVICE") {
+                    navigate("/shri-krishna-automobile-enterprises/services");
+                  } else if (data.hero.buttons.primary === "EXPLORE OPPORTUNITIES") {
+                    const el = document.getElementById("ExploreServices");
+                    if (el) el.scrollIntoView({ behavior: "smooth" });
+                  } else {
+                    navigate("/venbro-polymers/products");
+                  }
+                }}
+                className="bg-white group rounded-full text-slate-900 cursor-pointer px-6 sm:px-8 py-3.5 sm:py-4 hover:bg-white/95 transition-all duration-300 tracking-wide text-sm font-semibold shadow-lg hover:shadow-xl flex items-center justify-center gap-2 w-full sm:w-auto"
+              >
+                <span className="whitespace-nowrap">{data.hero.buttons.primary}</span>
+                <ArrowRight className="w-5 h-5 transition-transform duration-150 group-hover:translate-x-1" />
+              </button>
+              <Link
+                to="/contact"
+                onClick={() => navigate("/contact")}
+                className="border-2 group rounded-full border-white cursor-pointer text-white hover:bg-white hover:text-slate-900 px-6 sm:px-8 py-3.5 sm:py-4 transition-all duration-300 tracking-wide text-sm font-semibold backdrop-blur-sm flex items-center justify-center gap-2 w-full sm:w-auto"
+              >
+                <span className="whitespace-nowrap">{data.hero.buttons.secondary}</span>
+                <ArrowRight className="w-5 h-5 transition-transform duration-150 group-hover:translate-x-1" />
+              </Link>
             </div>
           </div>
         </div>

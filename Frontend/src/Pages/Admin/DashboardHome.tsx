@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowDown, Menu } from 'lucide-react';
 
-import Sidebar from '../../Components/Admin/Sidebar';
+import Sidebar from '../../components/Admin/Sidebar';
 
 // Types
 interface DashboardCard {

@@ -144,8 +144,8 @@ const cardData: Card[] = [
 
 const LegacyBentoGrid = () => {
   return (
-    <section className="py-20 px-4 bg-slate-50/50">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <section className="py-5 px-4 bg-slate-50/50">
+      <div className="max-w-9xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {cardData.map((card) => {
           if (card.type === 'text') {
             return (
