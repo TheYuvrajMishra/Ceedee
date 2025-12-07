@@ -51,7 +51,7 @@ export function HeroSection() {
         {/* Centered content wrapper */}
         <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-5">
           {/* Industry Tags - Centered */}
-          <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+          {/* <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
             <span className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm">
               Polymers
             </span>
@@ -61,19 +61,19 @@ export function HeroSection() {
             <span className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm">
               Solutions
             </span>
-          </div>
+          </div> */}
 
           {/* Main Heading - Centered with mixed font treatments */}
           <div className="space-y-6">
             <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-[5.5rem] xl:text-[6rem] leading-tight tracking-tight text-white">
-              <span className="block text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] font-semibold text-white/70">
+              <span className="inline px-4 py-1 text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] rounded-full border border-white/50 bg-white/10 font-semibold text-white/70">
                 Ceedee Group Promise
               </span>
               <span className="mt-3 sm:mt-4 flex w-full flex-col items-center justify-center gap-2 sm:gap-3 text-center md:flex-row md:items-end md:justify-center">
                 <span className="font-serif font-light text-white whitespace-nowrap leading-tight md:leading-none text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
                   Building Trust
                 </span>
-                <span className="font-sans whitespace-nowrap font-black text-amber-300 uppercase tracking-[0.08em] leading-tight text-3xl sm:text-4xl md:text-5xl lg:text-7xl">
+                <span className="font-sans whitespace-nowrap font-black ml-2 text-amber-300 uppercase tracking-[0.08em] leading-tight text-3xl sm:text-4xl md:text-5xl lg:text-7xl">
                   Creating Value
                 </span>
               </span>
