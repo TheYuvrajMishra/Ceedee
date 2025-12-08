@@ -74,8 +74,8 @@ type LandingPageData = {
 
 export const skaeData: LandingPageData = {
   hero: {
-    logo:"skae_logo.png",
-    title: "Sri Krishna Automobile Enterprises",
+    logo: "skae_logo.png",
+    title: "SKA Enterprises",
     subtitle: "~By Ceedee Group",
     tagline: "The Oldest Service Centre in South India",
     description: "Available 6 days a week for all Maruti Cars since 1986",

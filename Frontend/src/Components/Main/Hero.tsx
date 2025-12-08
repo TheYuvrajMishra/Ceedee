@@ -1,9 +1,9 @@
 import { ArrowRight } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export function HeroSection() {
-  const navigate = useNavigate();
+
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -16,102 +16,67 @@ export function HeroSection() {
   }, []);
 
   return (
-    // Base classes for flex centering are kept, as they are essential
-    <section className="relative bg-gradient-to-b from-amber-400/10 via-white via-50% to-white h-screen flex items-center justify-center overflow-hidden">
-
-      {/* 1. BACKGROUND: Optimized with img tag for LCP with Parallax */}
-      <div
-        className="absolute inset-4 
-                   md:inset-auto md:h-160 md:w-360 md:mx-auto md:mt-12
-                   shadow-[inset_0_0_40px_rgba(0,0,0,1)] overflow-hidden"
-      >
+    <section className="relative h-screen w-full overflow-hidden bg-black text-white">
+      {/* Background Image with Parallax */}
+      <div className="absolute inset-0 z-0">
         <img
           src="/hero_section_pic.jpg"
-          alt="Hero Background"
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-100"
+          alt="Refinery Background"
+          className="h-full w-full object-cover opacity-60 transition-transform duration-100 ease-out"
           style={{
             transform: `translateY(${scrollY * 0.5}px) scale(1.1)`,
           }}
-          width="2000"
-          height="1333"
-          fetchPriority="high"
         />
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80" />
       </div>
 
-      {/* Hero Content */}
-      {/* Content centered with buttons beneath */}
-      <div 
-        className="relative z-20 container mx-auto px-4 sm:px-6 text-white"
-        style={{
-          transform: `translateY(${scrollY * -0.15}px)`,
-        }}
-      >
+      {/* Main Content */}
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center mt-[-4rem] sm:mt-0">
 
-        {/* Centered content wrapper */}
-        <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-5">
-          {/* Industry Tags - Centered */}
-          {/* <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
-            <span className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm">
-              Polymers
-            </span>
-            <span className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm">
-              Automobiles
-            </span>
-            <span className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm">
-              Solutions
-            </span>
-          </div> */}
+        {/* Top Pill - Industry Tags */}
+        <div className="mb-6 sm:mb-8 flex max-w-full flex-wrap items-center justify-center gap-2 sm:gap-3 rounded-full border border-amber-600/30 bg-amber-950/30 px-4 sm:px-6 py-1.5 sm:py-2 backdrop-blur-md">
+          <span className="h-1 sm:h-1.5 w-1 sm:w-1.5 rounded-full bg-amber-500" />
+          <span className="text-[0.6rem] sm:text-xs font-bold tracking-[0.15em] sm:tracking-[0.2em] text-amber-500 uppercase">Polymers</span>
+          <span className="text-amber-500/50 hidden sm:inline">•</span>
+          <span className="text-[0.6rem] sm:text-xs font-bold tracking-[0.15em] sm:tracking-[0.2em] text-amber-500 uppercase">Automobiles</span>
+          <span className="text-amber-500/50 hidden sm:inline">•</span>
+          <span className="text-[0.6rem] sm:text-xs font-bold tracking-[0.15em] sm:tracking-[0.2em] text-amber-500 uppercase">Solutions</span>
+        </div>
 
-          {/* Main Heading - Centered with mixed font treatments */}
-          <div className="space-y-6">
-            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-[5.5rem] xl:text-[6rem] leading-tight tracking-tight text-white">
-              <span className="inline px-4 py-1 text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] rounded-full border border-white/50 bg-white/10 font-semibold text-white/70">
-                Ceedee Group Promise
-              </span>
-              <span className="mt-3 sm:mt-4 flex w-full flex-col items-center justify-center gap-2 sm:gap-3 text-center md:flex-row md:items-end md:justify-center">
-                <span className="font-serif font-light text-white whitespace-nowrap leading-tight md:leading-none text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-                  Building Trust
-                </span>
-                <span className="font-sans whitespace-nowrap font-black ml-2 text-amber-300 uppercase tracking-[0.08em] leading-tight text-3xl sm:text-4xl md:text-5xl lg:text-7xl">
-                  Creating Value
-                </span>
-              </span>
-              <span className="block font-light italic text-white/90 mt-2 text-2xl sm:text-3xl md:text-4xl lg:text-[3.5rem]">
-                Empowering Communities
-              </span>
-            </h1>
-          </div>
+        {/* Heading */}
+        <h1 className="mb-6 sm:mb-8 flex flex-col items-center text-4xl sm:text-6xl md:text-7xl lg:text-[7rem] font-black uppercase leading-tight sm:leading-none tracking-tighter">
+          <span className="text-white drop-shadow-lg">Building Trust,</span>
+          <span className="flex flex-wrap justify-center items-baseline gap-2 sm:gap-4 drop-shadow-lg">
+            <span className="text-white">Creating</span>
+            <span className="text-amber-500">Value.</span>
+          </span>
+        </h1>
 
-          {/* Description - Centered with emphasized typography */}
-          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed font-sans">
-            A <span className="font-semibold font-serif text-white">legacy of excellence</span> spanning decades, creating
-            opportunities while delivering sustainable solutions across industries.
-          </p>
+        {/* Subtitle */}
+        <p className="mb-8 sm:mb-12 max-w-xl sm:max-w-3xl text-sm sm:text-lg md:text-2xl font-medium leading-relaxed text-gray-300 drop-shadow-md px-2">
+          A legacy of excellence spanning decades, creating opportunities while
+          delivering sustainable solutions across industries.
+        </p>
 
-          
+        {/* Buttons */}
+        <div className="flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-6 w-full">
+          <button
+            onClick={() => {
+              const el = document.getElementById("ExploreServices");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="group cursor-pointer flex flex-1 sm:flex-none min-w-[140px] sm:min-w-[240px] items-center justify-center gap-2 sm:gap-3 bg-amber-900/90 px-4 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-bold tracking-[0.1em] sm:tracking-[0.15em] text-white shadow-lg transition-all hover:bg-amber-800 hover:scale-105"
+          >
+            <span className="whitespace-nowrap">EXPLORE</span>
+            <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" />
+          </button>
 
-          {/* Action Buttons - Centered beneath content */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-4">
-            <button
-              onClick={() => {
-                const el = document.getElementById("ExploreServices");
-                if (el) el.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="bg-white group rounded-full text-slate-900 cursor-pointer px-6 sm:px-8 py-3.5 sm:py-4 hover:bg-white/95 transition-all duration-300 tracking-wide text-sm font-semibold shadow-lg hover:shadow-xl flex items-center justify-center gap-2 w-full sm:w-auto"
-            >
-              <span>EXPLORE OPPORTUNITIES</span>
-              <ArrowRight className="w-5 h-5 transition-transform duration-150 group-hover:translate-x-1" />
-            </button>
-            <Link
-              to={"/contact"}
-              onClick={() => navigate("/contact")}
-              className="border-2 group rounded-full border-white cursor-pointer text-white hover:bg-white hover:text-slate-900 px-6 sm:px-8 py-3.5 sm:py-4 transition-all duration-300 tracking-wide text-sm font-semibold backdrop-blur-sm flex items-center justify-center gap-2 w-full sm:w-auto"
-            >
-              <span>BECOME A PARTNER</span>
-              <ArrowRight className="w-5 h-5 transition-transform duration-150 group-hover:translate-x-1" />
-            </Link>
-          </div>
+          <Link
+            to="/contact"
+            className="group cursor-pointer flex flex-1 sm:flex-none min-w-[140px] sm:min-w-[240px] items-center justify-center gap-2 sm:gap-3 border border-white/20 bg-white/5 px-4 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-bold tracking-[0.1em] sm:tracking-[0.15em] text-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/40"
+          >
+            <span className="whitespace-nowrap">BE PARTNER</span>
+          </Link>
         </div>
       </div>
     </section>

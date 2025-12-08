@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router";
 import { ArrowRight } from "lucide-react";
 
@@ -103,7 +103,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
   data,
   onButtonClick,
 }) => {
-  const [scrollY, setScrollY] = useState(0);
+
 
   // --- UPDATED: Refined Theme Configuration Object ---
   // A more robust and reusable theme structure
@@ -130,17 +130,51 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
   };
 
   const currentTheme = themeConfig[data.hero.theme];
-  const isLongTitle =
-    data.hero.title?.trim().toLowerCase() === "sri krishnan automobile enterprises";
-  const titleSizeClass = isLongTitle
-    ? "text-2xl sm:text-3xl md:text-4xl lg:text-5xl"
-    : "text-3xl sm:text-4xl md:text-5xl lg:text-6xl";
+
+
+  // --- OPTIMIZATION: Ref-based Parallax to avoid re-renders ---
+  const heroBgRef = useRef<HTMLImageElement>(null);
+  const heroContentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          if (heroBgRef.current) {
+            heroBgRef.current.style.transform = `translateY(${scrollY * 0.5}px) scale(1.1)`;
+          }
+          if (heroContentRef.current) {
+            heroContentRef.current.style.transform = `translateY(${scrollY * -0.15}px)`;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+
+  const titleLength = data.hero.title.length;
+  const taglineLength = data.hero.tagline.length;
+
+  // Dynamic scaling classes
+  // Dynamic scaling classes
+  const getTitleClass = () => {
+    if (titleLength > 40) return "text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight"; // Very long
+    if (titleLength > 25) return "text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight"; // Medium-Long
+    return "text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] leading-[0.9]"; // Short/Punchy
+  };
+
+  const getTaglineClass = () => {
+    if (taglineLength > 50) return "text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight"; // Very long tagline
+    if (taglineLength > 30) return "text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight"; // Long tagline
+    return "text-3xl sm:text-5xl md:text-6xl lg:text-[5.5rem] leading-[0.95]"; // Short tagline
+  };
 
   const handleButtonClick = (type: string, text: string) => {
     if (onButtonClick) {
@@ -151,105 +185,89 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-amber-400/10 via-white via-50% to-white h-screen flex items-center justify-center overflow-hidden">
-
-        {/* BACKGROUND: matches Hero parallax implementation for better LCP */}
-        <div
-          className="absolute inset-4 
-                     md:inset-auto md:h-160 md:w-360 md:mx-auto md:mt-12
-                     shadow-[inset_0_0_40px_rgba(0,0,0,1)] overflow-hidden"
-        >
+      <section className="relative h-screen w-full overflow-hidden bg-black text-white">
+        {/* Background Image with Parallax */}
+        <div className="absolute inset-0 z-0">
           <img
+            ref={heroBgRef}
             src={data.hero.backgroundImage}
             alt="Hero Background"
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-100"
+            className="h-full w-full object-cover opacity-60 transition-transform duration-100 ease-out will-change-transform"
             style={{
-              transform: `translateY(${scrollY * 0.5}px) scale(1.1)`,
+              transform: `scale(1.1)`, // Initial scale
             }}
+            fetchPriority="high" // Eager load hero image
           />
-          <div className="absolute inset-0 bg-black/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/80" />
         </div>
 
-        {/* Hero Content: centered with parallax lift */}
+        {/* Main Content */}
         <div
-          className="relative z-20 container mx-auto px-4 sm:px-6 text-white"
-          style={{
-            transform: `translateY(${scrollY * -0.15}px)`,
-          }}
+          ref={heroContentRef}
+          className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center mt-[-4rem] sm:mt-0"
         >
-          <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-5">
 
-            {/* Top badge */}
-            <div>
-              <span className="inline px-4 py-1 text-[0.6rem] sm:text-xs uppercase tracking-[0.35em] rounded-full border border-white/50 bg-white/10 font-semibold text-white/70">
-                {data.hero.subtitle || "Our Promise"}
-              </span>
-            </div>
-
-            {/* Main Heading styled like Hero.tsx */}
-            <div className="space-y-6">
-              <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-[5.5rem] xl:text-[6rem] leading-tight tracking-tight text-white text-balance">
-                <span className="mt-3 sm:mt-4 flex w-full flex-col items-center justify-center gap-2 sm:gap-3 text-center md:flex-row md:items-end md:justify-center">
-                  <span className={`font-serif font-light text-white leading-tight md:leading-none ${titleSizeClass} whitespace-normal md:whitespace-nowrap break-words text-balance`}>
-                    {data.hero.title}
-                  </span>
-                  {/* <span className="font-sans whitespace-nowrap font-semibold ml-2 text-amber-200 uppercase tracking-[0.14em] leading-tight text-xl sm:text-2xl md:text-3xl lg:text-4xl">
-                    {data.hero.subtitle || "Creating Value"}
-                  </span> */}
-                </span>
-                <span className="block font-light italic text-white/90 mt-2 text-2xl sm:text-3xl md:text-4xl lg:text-[3.5rem] text-balance">
-                  {data.hero.tagline || "Empowering Communities"}
-                </span>
-              </h1>
-            </div>
-
-            {/* Optional tags */}
-            {data.hero.tags && data.hero.tags.length > 0 && (
-              <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
-                {data.hero.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="border bg-white/20 border-white/30 text-white px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium backdrop-blur-sm"
-                  >
+          {/* Top Pill - Industry Tags */}
+          <div className="mb-6 sm:mb-8 flex max-w-full flex-wrap items-center justify-center gap-2 sm:gap-3 rounded-full border border-amber-600/30 bg-amber-950/30 px-4 sm:px-6 py-1.5 sm:py-2 backdrop-blur-md">
+            <span className="h-1 sm:h-1.5 w-1 sm:w-1.5 rounded-full bg-amber-500" />
+            <span className="text-[0.6rem] sm:text-xs font-bold tracking-[0.15em] sm:tracking-[0.2em] text-amber-500 uppercase">
+              {data.hero.subtitle || "Our Promise"}
+            </span>
+            {/* Optional tags from data if present, otherwise minimal dots */}
+            {data.hero.tags && data.hero.tags.length > 0 &&
+              data.hero.tags.map((tag, i) => (
+                <div key={i} className="flex items-center gap-2 sm:gap-3">
+                  <span className="text-amber-500/50 hidden sm:inline">•</span>
+                  <span className="text-[0.6rem] sm:text-xs font-bold tracking-[0.15em] sm:tracking-[0.2em] text-amber-500 uppercase">
                     {tag}
                   </span>
-                ))}
-              </div>
-            )}
-
-            {/* Description */}
-            <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed font-sans text-balance">
-              {data.hero.description}
-            </p>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-4">
-              <button
-                onClick={() => {
-                  if (data.hero.buttons.primary === "BOOK SERVICE") {
-                    navigate("/shri-krishna-automobile-enterprises/services");
-                  } else if (data.hero.buttons.primary === "EXPLORE OPPORTUNITIES") {
-                    const el = document.getElementById("ExploreServices");
-                    if (el) el.scrollIntoView({ behavior: "smooth" });
-                  } else {
-                    navigate("/venbro-polymers/products");
-                  }
-                }}
-                className="bg-white group rounded-full text-slate-900 cursor-pointer px-6 sm:px-8 py-3.5 sm:py-4 hover:bg-white/95 transition-all duration-300 tracking-wide text-sm font-semibold shadow-lg hover:shadow-xl flex items-center justify-center gap-2 w-full sm:w-auto"
-              >
-                <span className="whitespace-nowrap">{data.hero.buttons.primary}</span>
-                <ArrowRight className="w-5 h-5 transition-transform duration-150 group-hover:translate-x-1" />
-              </button>
-              <Link
-                to="/contact"
-                onClick={() => navigate("/contact")}
-                className="border-2 group rounded-full border-white cursor-pointer text-white hover:bg-white hover:text-slate-900 px-6 sm:px-8 py-3.5 sm:py-4 transition-all duration-300 tracking-wide text-sm font-semibold backdrop-blur-sm flex items-center justify-center gap-2 w-full sm:w-auto"
-              >
-                <span className="whitespace-nowrap">{data.hero.buttons.secondary}</span>
-                <ArrowRight className="w-5 h-5 transition-transform duration-150 group-hover:translate-x-1" />
-              </Link>
-            </div>
+                </div>
+              ))
+            }
           </div>
+
+          {/* Heading */}
+          <h1 className={`mb-8 sm:mb-10 flex flex-col items-center ${getTitleClass()} font-black uppercase w-full max-w-7xl mx-auto`}>
+            <span className="text-white drop-shadow-lg text-balance block max-w-6xl">
+              {data.hero.title}
+            </span>
+            <span className={`block mt-3 ${getTaglineClass()} text-amber-500 drop-shadow-lg text-balance max-w-6xl`}>
+              {data.hero.tagline}
+            </span>
+          </h1>
+
+          {/* Buttons */}
+          <div className="flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-6 w-full">
+            <button
+              onClick={() => {
+                if (data.hero.buttons.primary === "BOOK SERVICE") {
+                  navigate("/shri-krishna-automobile-enterprises/services");
+                } else if (data.hero.buttons.primary === "EXPLORE OPPORTUNITIES") {
+                  const el = document.getElementById("ExploreServices");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                } else {
+                  navigate("/venbro-polymers/products");
+                }
+              }}
+              className="group cursor-pointer flex flex-1 sm:flex-none min-w-[140px] sm:min-w-[240px] items-center justify-center gap-2 sm:gap-3 bg-amber-900/90 px-4 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-bold tracking-[0.1em] sm:tracking-[0.15em] text-white shadow-lg transition-all hover:bg-amber-800 hover:scale-105"
+            >
+              <span className="whitespace-nowrap">{data.hero.buttons.primary}</span>
+              <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" />
+            </button>
+            <Link
+              to="/contact"
+              onClick={() => navigate("/contact")}
+              className="group cursor-pointer flex flex-1 sm:flex-none min-w-[140px] sm:min-w-[240px] items-center justify-center gap-2 sm:gap-3 border border-white/20 bg-white/5 px-4 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-bold tracking-[0.1em] sm:tracking-[0.15em] text-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/40"
+            >
+              <span className="whitespace-nowrap">{data.hero.buttons.secondary}</span>
+            </Link>
+          </div>
+
+          {/* Description - Bottom aligned or just below buttons? usage varies, putting below buttons or above? Hero.tsx had it above buttons. */}
+          <p className="mt-8 sm:mt-12 max-w-xl sm:max-w-3xl text-sm sm:text-lg md:text-2xl font-medium leading-relaxed text-gray-300 drop-shadow-md px-2 text-balance">
+            {data.hero.description}
+          </p>
+
         </div>
       </section>
 

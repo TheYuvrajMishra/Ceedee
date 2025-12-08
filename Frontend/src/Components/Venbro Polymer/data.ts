@@ -74,17 +74,17 @@ type LandingPageData = {
 
 export const venbroData: LandingPageData = {
   hero: {
-    logo:"/venbro_logo.png",
+    logo: "/venbro_logo.png",
     title: "Venbro Polymers",
     subtitle: "~By Ceedee Group",
-    tagline: "20+ Years of Industrial Experience",
+    tagline: "Pack Anything - Delivery Everything",
     description: "Maintaining high standards in Food Grade PP Woven Fabrics, Sacks and Bags for Indian and International markets",
     backgroundImage: "https://www.ppilbd.com/wp-content/uploads/2022/07/IMG_20220331_090854_603.jpg",
     buttons: {
       primary: "VIEW PRODUCTS",
       secondary: "CONTACT US"
     }
-    ,theme: "blue"
+    , theme: "blue"
   },
   legacy: {
     title: "Our Legacy",
