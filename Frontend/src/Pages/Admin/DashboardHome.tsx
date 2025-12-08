@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowDown, Menu } from 'lucide-react';
 
-import Sidebar from '../../components/Admin/Sidebar';
+import Sidebar from '../../Components/Admin/Sidebar';
 
 // Types
 interface DashboardCard {
@@ -63,11 +63,11 @@ const DashboardCard: React.FC<{ card: DashboardCard; index: number }> = ({ card 
         {card.icon}
       </span>
     </div>
-    
+
     <h3 className="text-lg font-semibold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">
       {card.title}
     </h3>
-    
+
     <p className="text-sm text-slate-600 leading-relaxed">
       {card.description}
     </p>
@@ -87,9 +87,9 @@ const MobileHeader: React.FC<{ onMenuClick: () => void }> = ({ onMenuClick }) =>
   </header>
 );
 
-const MobileOverlay: React.FC<{ isVisible: boolean; onClose: () => void }> = ({ 
-  isVisible, 
-  onClose 
+const MobileOverlay: React.FC<{ isVisible: boolean; onClose: () => void }> = ({
+  isVisible,
+  onClose
 }) => {
   if (!isVisible) return null;
 
@@ -118,13 +118,13 @@ const DashboardHome: React.FC = () => {
     <>
       <title>Ceedee's | Dashboard</title>
       <a
-          href="/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="fixed bg-blue-400 text-white p-4 hover:-rotate-135 transition-all ease duration-250 rounded-full bottom-10 right-10 cursor-pointer -rotate-110"
-        >
-          <ArrowDown />
-        </a>
+        href="/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bg-blue-400 text-white p-4 hover:-rotate-135 transition-all ease duration-250 rounded-full bottom-10 right-10 cursor-pointer -rotate-110"
+      >
+        <ArrowDown />
+      </a>
       <div className="flex min-h-screen bg-slate-50">
         {/* Sidebar */}
         <Sidebar
@@ -164,9 +164,9 @@ const DashboardHome: React.FC = () => {
         </div>
 
         {/* Mobile Overlay */}
-        <MobileOverlay 
-          isVisible={isSidebarOpen} 
-          onClose={handleSidebarClose} 
+        <MobileOverlay
+          isVisible={isSidebarOpen}
+          onClose={handleSidebarClose}
         />
       </div>
     </>

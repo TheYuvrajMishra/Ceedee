@@ -1,9 +1,9 @@
 import { ArrowRight } from "lucide-react";
-import TwoCompany from "../../components/Main/TwoCompany";
-import PartnerSection from "../../components/Main/PartnerSection";
+import TwoCompany from "../../Components/Main/TwoCompany";
+import PartnerSection from "../../Components/Main/PartnerSection";
 import { useNavigate } from "react-router";
-import LegacyBentoGrid from "../../components/Main/LegacyBento";
-import { HeroSection } from "../../components/Main/Hero";
+import LegacyBentoGrid from "../../Components/Main/LegacyBento";
+import { HeroSection } from "../../Components/Main/Hero";
 const CeedeeHomepage = () => {
   const navigate = useNavigate();
   return (

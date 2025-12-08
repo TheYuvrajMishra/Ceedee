@@ -1,10 +1,10 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
 import AdminLogin from "./Pages/Admin/AdminLogin";
 import AdminDashboard from "./Pages/Admin/AdminDashboard";
-import ScrollToTop from "./components/Effects/ScrolltoTop";
+import ScrollToTop from "./Components/Effects/ScrolltoTop";
 
 // Lazily load page components for better performance
 // Lazily load page components for better performance
