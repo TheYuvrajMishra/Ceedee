@@ -284,7 +284,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
 
 
         </div>
-          <div className="marquee-wrapper bottom-0 absolute md:block hidden border-t border-b border-t-black/20 font-thin border-b-black/20 py-2 text-sm md:text-2xl min-w-screen bg-yellow-500 text-black">
+          {/* <div className="marquee-wrapper bottom-0 absolute md:block hidden border-t border-b border-t-black/20 font-thin border-b-black/20 py-2 text-sm md:text-2xl min-w-screen bg-yellow-500 text-black">
             <div className="marquee-content">
               <div className="marquee-text">
                 Building Trust • Creating Value • Empowering Communities •
@@ -299,7 +299,7 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
                 Excellence in Partnership • Sustainable Growth •
               </div>
             </div>
-          </div>
+          </div> */}
       </section>
 
       {/* Legacy Section */}
