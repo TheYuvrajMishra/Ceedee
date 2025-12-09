@@ -11,7 +11,7 @@ const BentoCard: React.FC<BentoCardProps> = ({ children, className = "" }) => {
   return (
     <div
       className={`relative flex flex-col bg-white p-8 md:p-10
-                 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500
+                 -3xl shadow-sm hover:shadow-xl transition-all duration-500
                  border border-slate-100 overflow-hidden group
                  ${className}`}
     >
@@ -90,7 +90,7 @@ const stakeholders: Stakeholder[] = [
 
 // --- Icons ---
 const LegacyIcon = () => (
-  <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center mb-6">
+  <div className="w-12 h-12 bg-amber-50 -2xl flex items-center justify-center mb-6">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#d97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       <path d="M2 17L12 22L22 17" stroke="#d97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -134,7 +134,7 @@ const cardData: Card[] = [
     type: 'text',
     className: '',
     content: {
-      icon: <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center mb-4"><div className="w-3 h-3 bg-slate-400 rounded-full"></div></div>,
+      icon: <div className="w-10 h-10 bg-slate-100 -full flex items-center justify-center mb-4"><div className="w-3 h-3 bg-slate-400 -full"></div></div>,
       title: 'Strategic Portfolio',
       description: 'Our diversified business model creates resilient growth opportunities across multiple sectors.',
       hasLine: false,
@@ -145,7 +145,7 @@ const cardData: Card[] = [
 const LegacyBentoGrid = () => {
   return (
     <section className="py-5 px-4 bg-slate-50/50">
-      <div className="max-w-9xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="max-w-[1430px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {cardData.map((card) => {
           if (card.type === 'text') {
             return (
@@ -156,7 +156,7 @@ const LegacyBentoGrid = () => {
                     <h2 className={card.id === 'hero' ? "text-3xl md:text-4xl font-light text-slate-800 mb-6 leading-tight" : "text-xl font-medium text-slate-900 mb-3"}>
                       {card.content.title}
                     </h2>
-                    {card.content.hasLine && <div className="w-16 h-1 bg-amber-400 mb-6 rounded-full"></div>}
+                    {card.content.hasLine && <div className="w-16 h-1 bg-amber-400 mb-6 -full"></div>}
                     <p className={card.id === 'hero' ? "text-lg text-slate-600 max-w-2xl leading-relaxed" : "text-slate-500 leading-relaxed text-sm"}>
                       {card.content.description}
                     </p>
@@ -176,7 +176,7 @@ const LegacyBentoGrid = () => {
             return (
               <div
                 key={stakeholder.id}
-                className={`relative min-h-[300px] md:min-h-[350px] rounded-3xl overflow-hidden group cursor-pointer shadow-sm hover:shadow-xl transition-all duration-500 ${card.className}`}
+                className={`relative min-h-[300px] md:min-h-[350px] -3xl overflow-hidden group cursor-pointer shadow-sm hover:shadow-xl transition-all duration-500 ${card.className}`}
               >
                 <img 
                   src={stakeholder.image} 
