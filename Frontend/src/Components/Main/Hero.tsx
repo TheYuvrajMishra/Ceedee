@@ -31,7 +31,7 @@ export function HeroSection() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center mt-[-4rem] sm:mt-0">
+      <div className="relative z-10 flex h-full flex-col items-center justify-center min-w-full px-4 text-center mt-[-4rem] sm:mt-0">
 
         {/* Top Pill - Industry Tags */}
         <div className="mb-6 sm:mb-8 flex max-w-full flex-wrap items-center justify-center gap-2 sm:gap-3 rounded-full border border-amber-600/30 bg-amber-950/30 px-4 sm:px-6 py-1.5 sm:py-2 backdrop-blur-md">
@@ -59,7 +59,7 @@ export function HeroSection() {
         </p>
 
         {/* Buttons */}
-        <div className="flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-6 w-full">
+        <div className="flex flex-row flex-wrap items-center justify-center gap-3 sm:gap-6 min-w-screen">
           <button
             onClick={() => {
               const el = document.getElementById("ExploreServices");
@@ -78,6 +78,24 @@ export function HeroSection() {
             <span className="whitespace-nowrap">BE PARTNER</span>
           </Link>
         </div>
+
+
+        <div className="marquee-wrapper bottom-0 absolute md:block hidden border-t border-b border-t-black/20 font-thin border-b-black/20 py-2 text-sm md:text-2xl min-w-screen bg-yellow-500 text-black">
+        <div className="marquee-content">
+          <div className="marquee-text">
+            Building Trust • Creating Value • Empowering Communities •
+            Excellence in Partnership • Sustainable Growth •
+          </div>
+          <div className="marquee-text" aria-hidden="true">
+            Building Trust • Creating Value • Empowering Communities •
+            Excellence in Partnership • Sustainable Growth •
+          </div>
+          <div className="marquee-text" aria-hidden="true">
+            Building Trust • Creating Value • Empowering Communities •
+            Excellence in Partnership • Sustainable Growth •
+          </div>
+        </div>
+      </div>
       </div>
     </section>
   );

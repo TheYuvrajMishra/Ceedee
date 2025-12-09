@@ -103,8 +103,6 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
   data,
   onButtonClick,
 }) => {
-
-
   // --- UPDATED: Refined Theme Configuration Object ---
   // A more robust and reusable theme structure
   const themeConfig = {
@@ -131,7 +129,6 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
 
   const currentTheme = themeConfig[data.hero.theme];
 
-
   // --- OPTIMIZATION: Ref-based Parallax to avoid re-renders ---
   const heroBgRef = useRef<HTMLImageElement>(null);
   const heroContentRef = useRef<HTMLDivElement>(null);
@@ -143,10 +140,14 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
         window.requestAnimationFrame(() => {
           const scrollY = window.scrollY;
           if (heroBgRef.current) {
-            heroBgRef.current.style.transform = `translateY(${scrollY * 0.5}px) scale(1.1)`;
+            heroBgRef.current.style.transform = `translateY(${
+              scrollY * 0.5
+            }px) scale(1.1)`;
           }
           if (heroContentRef.current) {
-            heroContentRef.current.style.transform = `translateY(${scrollY * -0.15}px)`;
+            heroContentRef.current.style.transform = `translateY(${
+              scrollY * -0.15
+            }px)`;
           }
           ticking = false;
         });
@@ -158,21 +159,24 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-
   const titleLength = data.hero.title.length;
   const taglineLength = data.hero.tagline.length;
 
   // Dynamic scaling classes
   // Dynamic scaling classes
   const getTitleClass = () => {
-    if (titleLength > 40) return "text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight"; // Very long
-    if (titleLength > 25) return "text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight"; // Medium-Long
+    if (titleLength > 40)
+      return "text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight"; // Very long
+    if (titleLength > 25)
+      return "text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight"; // Medium-Long
     return "text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] leading-[0.9]"; // Short/Punchy
   };
 
   const getTaglineClass = () => {
-    if (taglineLength > 50) return "text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight"; // Very long tagline
-    if (taglineLength > 30) return "text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight"; // Long tagline
+    if (taglineLength > 50)
+      return "text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight"; // Very long tagline
+    if (taglineLength > 30)
+      return "text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight"; // Long tagline
     return "text-3xl sm:text-5xl md:text-6xl lg:text-[5.5rem] leading-[0.95]"; // Short tagline
   };
 
@@ -206,7 +210,6 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
           ref={heroContentRef}
           className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center mt-[-4rem] sm:mt-0"
         >
-
           {/* Top Pill - Industry Tags */}
           <div className="mb-6 sm:mb-8 flex max-w-full flex-wrap items-center justify-center gap-2 sm:gap-3 rounded-full border border-amber-600/30 bg-amber-950/30 px-4 sm:px-6 py-1.5 sm:py-2 backdrop-blur-md">
             <span className="h-1 sm:h-1.5 w-1 sm:w-1.5 rounded-full bg-amber-500" />
@@ -214,7 +217,8 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
               {data.hero.subtitle || "Our Promise"}
             </span>
             {/* Optional tags from data if present, otherwise minimal dots */}
-            {data.hero.tags && data.hero.tags.length > 0 &&
+            {data.hero.tags &&
+              data.hero.tags.length > 0 &&
               data.hero.tags.map((tag, i) => (
                 <div key={i} className="flex items-center gap-2 sm:gap-3">
                   <span className="text-amber-500/50 hidden sm:inline">•</span>
@@ -222,16 +226,19 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
                     {tag}
                   </span>
                 </div>
-              ))
-            }
+              ))}
           </div>
 
           {/* Heading */}
-          <h1 className={`mb-8 sm:mb-10 flex flex-col items-center ${getTitleClass()} font-black uppercase w-full max-w-7xl mx-auto`}>
+          <h1
+            className={`mb-8 sm:mb-10 flex flex-col items-center ${getTitleClass()} font-black uppercase w-full max-w-7xl mx-auto`}
+          >
             <span className="text-white drop-shadow-lg text-balance block max-w-6xl">
               {data.hero.title}
             </span>
-            <span className={`block mt-3 ${getTaglineClass()} text-amber-500 drop-shadow-lg text-balance max-w-6xl`}>
+            <span
+              className={`block mt-3 ${getTaglineClass()} text-amber-500 drop-shadow-lg text-balance max-w-6xl`}
+            >
               {data.hero.tagline}
             </span>
           </h1>
@@ -242,16 +249,20 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
               onClick={() => {
                 if (data.hero.buttons.primary === "BOOK SERVICE") {
                   navigate("/shri-krishna-automobile-enterprises/services");
-                } else if (data.hero.buttons.primary === "EXPLORE OPPORTUNITIES") {
+                } else if (
+                  data.hero.buttons.primary === "EXPLORE OPPORTUNITIES"
+                ) {
                   const el = document.getElementById("ExploreServices");
                   if (el) el.scrollIntoView({ behavior: "smooth" });
                 } else {
                   navigate("/venbro-polymers/products");
                 }
               }}
-              className="group cursor-pointer flex flex-1 sm:flex-none min-w-[140px] sm:min-w-[240px] items-center justify-center gap-2 sm:gap-3 bg-amber-900/90 px-4 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-bold tracking-[0.1em] sm:tracking-[0.15em] text-white shadow-lg transition-all hover:bg-amber-800 hover:scale-105"
+              className="group cursor-pointer flex flex-1 sm:flex-none min-w-[140px] sm:min-w-[240px] items-center justify-center gap-2 sm:gap-3 bg-amber-900/80 px-4 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-bold tracking-[0.1em] sm:tracking-[0.15em] text-white shadow-lg transition-all hover:bg-amber-800"
             >
-              <span className="whitespace-nowrap">{data.hero.buttons.primary}</span>
+              <span className="whitespace-nowrap">
+                {data.hero.buttons.primary}
+              </span>
               <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:translate-x-1" />
             </button>
             <Link
@@ -259,7 +270,9 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
               onClick={() => navigate("/contact")}
               className="group cursor-pointer flex flex-1 sm:flex-none min-w-[140px] sm:min-w-[240px] items-center justify-center gap-2 sm:gap-3 border border-white/20 bg-white/5 px-4 sm:px-8 py-3 sm:py-4 text-xs sm:text-sm font-bold tracking-[0.1em] sm:tracking-[0.15em] text-white shadow-lg backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/40"
             >
-              <span className="whitespace-nowrap">{data.hero.buttons.secondary}</span>
+              <span className="whitespace-nowrap">
+                {data.hero.buttons.secondary}
+              </span>
             </Link>
           </div>
 
@@ -268,7 +281,25 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
             {data.hero.description}
           </p>
 
+
+
         </div>
+          <div className="marquee-wrapper bottom-0 absolute md:block hidden border-t border-b border-t-black/20 font-thin border-b-black/20 py-2 text-sm md:text-2xl min-w-screen bg-yellow-500 text-black">
+            <div className="marquee-content">
+              <div className="marquee-text">
+                Building Trust • Creating Value • Empowering Communities •
+                Excellence in Partnership • Sustainable Growth •
+              </div>
+              <div className="marquee-text" aria-hidden="true">
+                Building Trust • Creating Value • Empowering Communities •
+                Excellence in Partnership • Sustainable Growth •
+              </div>
+              <div className="marquee-text" aria-hidden="true">
+                Building Trust • Creating Value • Empowering Communities •
+                Excellence in Partnership • Sustainable Growth •
+              </div>
+            </div>
+          </div>
       </section>
 
       {/* Legacy Section */}
@@ -377,8 +408,9 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
 
       {/* Certifications & Standards Section */}
       <section
-        className={`py-24 ${data.certification.backgroundColor || "bg-black/95"
-          } text-white`}
+        className={`py-24 ${
+          data.certification.backgroundColor || "bg-black/95"
+        } text-white`}
       >
         <div className="max-w-360 mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -486,8 +518,12 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
               }
               className={`${currentTheme.bg} ${currentTheme.hoverBg} cursor-pointer text-white px-4 py-2 md:px-8 md:py-3 transition-colors duration-300 tracking-wider text-xs md:text-sm whitespace-nowrap`}
             >
-              <span className="md:hidden">{data.cta.buttons.primary.split(' ').slice(0, 2).join(' ')}</span>
-              <span className="hidden md:inline">{data.cta.buttons.primary}</span>
+              <span className="md:hidden">
+                {data.cta.buttons.primary.split(" ").slice(0, 2).join(" ")}
+              </span>
+              <span className="hidden md:inline">
+                {data.cta.buttons.primary}
+              </span>
             </button>
             <button
               onClick={() =>
@@ -495,8 +531,12 @@ const ReusableLanding: React.FC<ReusableLandingProps> = ({
               }
               className={`border ${currentTheme.border} ${currentTheme.text} ${currentTheme.hoverBg} hover:text-white cursor-pointer px-4 py-2 md:px-8 md:py-3 transition-colors duration-300 tracking-wider text-xs md:text-sm whitespace-nowrap`}
             >
-              <span className="md:hidden">{data.cta.buttons.secondary.split(' ').slice(0, 2).join(' ')}</span>
-              <span className="hidden md:inline">{data.cta.buttons.secondary}</span>
+              <span className="md:hidden">
+                {data.cta.buttons.secondary.split(" ").slice(0, 2).join(" ")}
+              </span>
+              <span className="hidden md:inline">
+                {data.cta.buttons.secondary}
+              </span>
             </button>
           </div>
         </div>
