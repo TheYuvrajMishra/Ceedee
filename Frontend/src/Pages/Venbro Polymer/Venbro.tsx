@@ -8,11 +8,11 @@ const Venbro = () => {
   };
   return (
     <>
-      <title>Ceedee's | Venbro Polymer</title>
-      <ReusableLanding
-        data={venbroData}
-        onButtonClick={handleButtonClick}
-      />
+    <title>Ceedee's | Venbro Polymer</title>
+    <ReusableLanding 
+      data={venbroData} 
+      onButtonClick={handleButtonClick}
+    />
     </>
   );
 };
